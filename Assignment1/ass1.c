@@ -11,6 +11,7 @@
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
 void compute_sum();
+float kahan_summation(int lower_bound, int upper_bound);
 
 int main(void)
 {
@@ -93,7 +94,7 @@ void compute_sum()
 
     // low N with floats backwards
     for (int i = low_N; i > 0; --i) {
-        f_sum_high += 1.0/i;
+        f_sum_low += 1.0/i;
     }
     
     // high N with floats backwards
@@ -115,6 +116,10 @@ void compute_sum()
     for (int i = 1; i < high_N; ++i) {
         d_sum_high += 1.0/i;
     }
+
+    printf("Sum with floats using Kahan summation:\t\t%f", kahan_summation(1, low_N));
+
+    printf("\n");
 
     printf("\n");
     printf(ANSI_COLOR_GREEN "Doubles:\n" ANSI_COLOR_RESET);
@@ -138,4 +143,21 @@ void compute_sum()
     printf(ANSI_COLOR_CYAN "Backwards:\n" ANSI_COLOR_RESET);
     printf("Sum of 1/i for i from 1 to 10^8:\t\t%f\n", d_sum_low);
     printf("Sum of 1/i for i from 1 to 2 * 10^8:\t\t%f\n", d_sum_high);
+}
+
+// sums a range of numbers' reciprocals using Kahan summation
+float kahan_summation(int lower_bound, int upper_bound)
+{
+    float sum= 0;
+    float c = 0;
+
+    for (int i = lower_bound; i < upper_bound; ++i) {
+        float j = 1.0/i;
+        float y = j - c;
+        float t = sum + y;
+        c = (t - sum) - y;
+        sum = t;
+    }
+
+    return sum;
 }
