@@ -61,14 +61,14 @@ long double find_long_double_max()
 
 void print_ranges()
 {
-    printf("Real float max:\t\t\t%.20e\n", FLT_MAX);
-    printf("Approximated float max:\t\t%.20e\n", find_float_max());
+    printf("Real float max:\t\t\t\t%.20e\n", FLT_MAX);
+    printf("Approximated float max:\t\t\t%.20e\n", find_float_max());
 
-    printf("Real double max:\t\t%.20e\n", DBL_MAX);
-    printf("Approximated double max:\t%.20e\n", find_double_max());
+    printf("Real double max:\t\t\t%.20e\n", DBL_MAX);
+    printf("Approximated double max:\t\t%.20e\n", find_double_max());
 
-    printf("Real long double max:\t\t%.20Le\n", LDBL_MAX);
-    printf("Approximated long double max:\t%.20Le\n", find_long_double_max());
+    printf("Real long double max:\t\t\t%.20Le\n", LDBL_MAX);
+    printf("Approximated long double max:\t\t%.20Le\n", find_long_double_max());
 }
 
 #endif

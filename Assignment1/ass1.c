@@ -20,21 +20,20 @@ void ass1();
 void ass2();
 float kahan_summation(int lower_bound, int upper_bound);
 void ass3();
-void float_speedtest();
-void double_speedtest();
-void float_power();
-void float_addition();
-void float_substraction();
-void float_multiplication();
-void float_division();
-void float_squareroot();
+void speedtest();
+void power();
+void addition();
+void substraction();
+void multiplication();
+void division();
+void squareroot();
 
 int main(void)
 {
     
     ass1();
     ass2();
-    ass3();
+    speedtest();
     compute_sum(); // ass4
 
     return 0;
@@ -47,11 +46,11 @@ void ass1()
 
     // determining size in bytes of the datatypes
     float f;
-    printf("The size of a float:\t\t%d bytes\n", sizeof(f));
+    printf("The size of a float:\t\t\t%d bytes\n", sizeof(f));
     double d;
-    printf("The size of a double:\t\t%d bytes\n", sizeof(d));
+    printf("The size of a double:\t\t\t%d bytes\n", sizeof(d));
     long double ld;
-    printf("The size of a long double:\t%d bytes\n", sizeof(ld));
+    printf("The size of a long double:\t\t%d bytes\n", sizeof(ld));
 
     printf("\n\n");
     // machine precision case of the float
@@ -92,7 +91,7 @@ void ass1()
 
     printf("Machine precision for long doubles:\t%LG\n", l);
     printf("Machine precision for long doubles:\t%LG\n", LDBL_EPSILON);
-    printf("\n");
+    printf("\n\n");
 
     print_ranges();
     printf("\n");
@@ -105,20 +104,20 @@ void ass2(){
 
     // Some experimentations 
     printf("The different operations we tried and their outcome:\n\n");
-    printf("Division of 1.0 by zero: %f\n", 1.0f/0.0f);
-    printf("Division of -1.0 by zero: %f\n", -1.0f/0.0f);
-    printf("Division of 0.0 by 0.0: %f\n", 0.0/0.0);
-    printf("Overflowing a float by calculating 10^100000000000: %f\n", pow(10.0f,100000000000.0f));
-    printf("Underflowing a float by calculating -10^100000000000: %f\n", pow(-10.0f,100000000000.0f));
-    printf("Infinity - infinity : %f\n",  pow(10.0f,100000000000.0f) - pow(10.0f,100000000000.0f));
-    printf("Square root of -1: %f\n", sqrt(-1));
+    printf("Division of 1.0 by zero:\t\t\t\t%f\n", 1.0f/0.0f);
+    printf("Division of -1.0 by zero:\t\t\t\t%f\n", -1.0f/0.0f);
+    printf("Division of 0.0 by 0.0:\t\t\t\t\t%f\n", 0.0/0.0);
+    printf("Overflowing a float by making it too big:\t\t%f\n", pow(10.0f,100000000000.0f));
+    printf("Overflowing a float by making it too small:\t\t%f\n", pow(-10.0f,100000000000.0f));
+    printf("Infinity - infinity :\t\t\t\t\t%f\n",  pow(10.0f,100000000000.0f) - pow(10.0f,100000000000.0f));
+    printf("Square root of -1:\t\t\t\t\t%f\n", sqrt(-1));
+    printf("Underflowing a float by creating a too small number:\t%f\n",pow(10, -10000000000));
     printf("\n");
 }
 
 
 // assignment 3
-// speedtest for strings
-void float_addition()
+void addition()
 {
     
     float k = 100;
@@ -129,7 +128,7 @@ void float_addition()
     begin_time = clock();
 
     // 1000 power operations
-    for(int i = 0; i < 999999; i ++) {
+    for(int i = 0; i < 9999999; i ++) {
         j = k + k;
 
     }
@@ -142,7 +141,7 @@ void float_addition()
     begin_time = clock();
 
     // some loop unrolling
-    for(int i = 0; i < 99999; i ++) {
+    for(int i = 0; i < 999999; i ++) {
         j = k + k;
         j = k + k;
         j = k + k;
@@ -157,16 +156,14 @@ void float_addition()
     end_time = clock();
 
     time_taken3 = (double)(end_time - begin_time) / (double) CLOCKS_PER_SEC;
-    printf("Elapsed time of 10000 addition operations that uses loop unrolling: %f seconds \n", time_taken3);
+    printf("Elapsed time of 1,000,000 addition operations that uses loop unrolling: %G seconds \n", time_taken3);
 
-    printf("If we take the time of a single operation by taking the mean of these 100,000 \n "
-            "operations we get %g seconds or %g ms\n", time_taken3 / 100000.0,
-            time_taken3 / 100000.0 * 1000);
-
+    printf("The mean of these 1,000,000 "
+           "operations is %g ms\n", time_taken3 / 1000000.0 * 1000);
 
 }
 
-void float_substraction()
+void substraction()
 {
     float k = 100;
 
@@ -179,43 +176,42 @@ void float_substraction()
 
     // 1000 power operations
     for(int i = 0; i < 999999; i ++) {
-        j = k - k;
+        j = k - i;
 
     }
     end_time = clock();
     
     time_taken2 = (end_time - begin_time) / (double) CLOCKS_PER_SEC;
 
-    printf("Elapsed time of 100,000 multiplication operations: %f seconds \n", time_taken2);
+    printf("Elapsed time of 1,000,000 substraction operations: %f seconds \n", time_taken2);
 
     begin_time = clock();
 
     // some loop unrolling
     for(int i = 0; i < 99999; i ++) {
-        j = k - k; 
-        j = k - k; 
-        j = k - k; 
-        j = k - k; 
-        j = k - k; 
-        j = k - k; 
-        j = k - k; 
-        j = k - k; 
-        j = k - k; 
-        j = k - k; 
+        j = 50 -100; 
+        j = 18 - 17; 
+        j = 1423 - 1346; 
+        j = 1346 - 3145; 
+        j = 6345 - 1345; 
+        j = 34 - 12; 
+        j = 3234 - 45; 
+        j = 64 - 135; 
+        j = 3456 - 345; 
+        j = 63 - 3879; 
     }
     end_time = clock();
 
     time_taken3 = (double)(end_time - begin_time) / (double) CLOCKS_PER_SEC;
-    printf("Elapsed time of 100,000 multiplication operations that use loop unrolling: %f seconds \n", time_taken3);
+    printf("Elapsed time of 1,000,000 substraction operations that use loop unrolling: %f seconds \n", time_taken3);
 
-    printf("If we take the time of a single operation by taking the mean of these 100,000\n"\
-            "operations we get %g seconds or %g ms\n", time_taken3 / 100000.0,
-            time_taken3 / 100000.0 * 1000);
+    printf("The mean of these 1,000,000 "
+           "operations is %g ms\n", time_taken3 / 1000000.0 * 1000);
 
 
 }
 
-void float_multiplication()
+void multiplication()
 {
     
     float k = 100;
@@ -229,44 +225,42 @@ void float_multiplication()
 
     // 1000 power operations
     for(int i = 0; i < 999999; i ++) {
-        j = k * k;
+        j = k * i;
 
     }
     end_time = clock();
     
     time_taken2 = (end_time - begin_time) / (double) CLOCKS_PER_SEC;
 
-    printf("Elapsed time of 100,000 multiplication operations: %f seconds \n", time_taken2);
+    printf("Elapsed time of 1,000,000 multiplication operations: %f seconds \n", time_taken2);
 
     begin_time = clock();
 
     // some loop unrolling
     for(int i = 0; i < 99999; i ++) {
-        j = k * k;
-        j = k * k;
-        j = k * k;
-        j = k * k;
-        j = k * k;
-        j = k * k;
-        j = k * k;
-        j = k * k;
-        j = k * k;
-        j = k * k;
+        j = 50 *100; 
+        j = 18 * 17; 
+        j = 1423 * 1346; 
+        j = 1346 * 3145; 
+        j = 6345 * 1345; 
+        j = 34 * 12; 
+        j = 3234 * 45; 
+        j = 64 * 135; 
+        j = 3456 * 345; 
+        j = 63 * 3879; 
     }
     end_time = clock();
 
     time_taken3 = (double)(end_time - begin_time) / (double) CLOCKS_PER_SEC;
-    printf("Elapsed time of 10000 pow operations that use loop unrolling: %f seconds \n", time_taken3);
+    printf("Elapsed time of 1,000,000 multiplication operations that use loop unrolling: %f seconds \n", time_taken3);
 
-    printf("If we take the time of a single operation by taking the mean of these 100,000\n"\
-            "operations we get %g seconds or %g ms\n", time_taken3 / 100000.0, 
-            time_taken3 / 100000.0 * 1000);
-
+    printf("The mean of these 1,000,000 "
+           "operations is %g ms\n", time_taken3 / 1000000.0 * 1000);
 
 
 }
 
-void float_division()
+void division()
 {
     
     float k = 100;
@@ -279,42 +273,42 @@ void float_division()
 
     // 1000 power operations
     for(int i = 0; i < 999999; i ++) {
-        j = k / k;
+        j = k / (i+1);
 
     }
     end_time = clock();
     
     time_taken2 = (end_time - begin_time) / (double) CLOCKS_PER_SEC;
 
-    printf("Elapsed time of 100000 division operations: %f seconds \n", time_taken2);
+    printf("Elapsed time of 1,000,000 division operations: %f seconds \n", time_taken2);
 
     begin_time = clock();
 
     // some loop unrolling
     for(int i = 0; i < 99999; i ++) {
-        j = k / k;
-        j = k / k;
-        j = k / k;
-        j = k / k;
-        j = k / k;
-        j = k / k;
-        j = k / k;
-        j = k / k;
-        j = k / k;
-        j = k / k;
+        j = 50 /100; 
+        j = 18 / 17; 
+        j = 1423 / 1346; 
+        j = 1346 / 3145; 
+        j = 6345 / 1345; 
+        j = 34 / 12; 
+        j = 3234 / 45; 
+        j = 64 / 135; 
+        j = 3456 / 345; 
+        j = 63 / 3879; 
     }
     end_time = clock();
 
     time_taken3 = (double)(end_time - begin_time) / (double) CLOCKS_PER_SEC;
-    printf("Elapsed time of 100,000 division operations that uses loop unrolling: %f seconds \n", time_taken3);
+    printf("Elapsed time of 1,000,000 division operations that uses loop unrolling: %G seconds \n", time_taken3);
 
-    printf("The mean of these 100,000\n"
-           "operations is %g ms\n", time_taken3 / 100000.0 * 1000);
+    printf("The mean of these 1,000,000 "
+           "operations is %G ms\n", time_taken3 / 1000000.0 * 1000);
 
 }
 
 
-void float_power()
+void power()
 {
     float k = 100;
     double j;
@@ -326,42 +320,42 @@ void float_power()
 
     // 1000 power operations
     for(int i = 0; i < 999999; i ++) {
-        j = pow(k, 50);
+        j = pow(i, k);
 
     }
     end_time = clock();
     
     time_taken2 = (end_time - begin_time) / (double) CLOCKS_PER_SEC;
 
-    printf("Elapsed time of 100000 power operations: %f seconds \n", time_taken2);
+    printf("Elapsed time of 1,000,000 power operations: %f seconds \n", time_taken2);
 
     begin_time = clock();
 
     // some loop unrolling
-    for(int i = 0; i < 99999; i ++) {
-        j = pow(k, 50);
-        j = pow(k, 50);
-        j = pow(k, 50);
-        j = pow(k, 50);
-        j = pow(k, 50);
-        j = pow(k, 50);
-        j = pow(k, 50);
-        j = pow(k, 50);
-        j = pow(k, 50);
-        j = pow(k, 50);
+    for(int i = 0; i < 999999; i += 10) {
+        j = pow(i, -1);
+        j = pow(i, 1);
+        j = pow(i, 2);
+        j = pow(i, 3);
+        j = pow(i, 4);
+        j = pow(i, 5);
+        j = pow(i, 6);
+        j = pow(i, 7);
+        j = pow(i, 8);
+        j = pow(i, 9);
     }
     end_time = clock();
 
     time_taken3 = (double)(end_time - begin_time) / (double) CLOCKS_PER_SEC;
-    printf("Elapsed time of 100000 pow operations that uses loop unrolling: %f seconds \n", time_taken3);
+    printf("Elapsed time of 1,000,000 power operations that uses loop unrolling: %f seconds \n", time_taken3);
 
-    printf("The mean of these 100,000\n"\
-           "operations is %g ms\n",time_taken3 / 100000.0 * 1000);
+    printf("The mean of these 1,000,000 "
+           "operations is %g ms\n",time_taken3 / 1000000.0 * 1000);
 
 
 }
 
-void float_squareroot(){
+void squareroot(){
 
     float k = 100;
 
@@ -374,71 +368,59 @@ void float_squareroot(){
 
     // 1000 power operations
     for(int i = 0; i < 999999; i ++) {
-        j = sqrt(k);
+        j = sqrt(i);
 
     }
     end_time = clock();
     
     time_taken2 = (end_time - begin_time) / (double) CLOCKS_PER_SEC;
 
-    printf("Elapsed time of 100000 pow operations: %f seconds \n", time_taken2);
+    printf("Elapsed time of 1,000,000 pow operations: %f seconds \n", time_taken2);
 
     begin_time = clock();
 
     // some loop unrolling
-    for(int i = 0; i < 99999; i ++) {
-        j = sqrt(k);
-        j = sqrt(k);
-        j = sqrt(k);
-        j = sqrt(k);
-        j = sqrt(k);
-        j = sqrt(k);
-        j = sqrt(k);
-        j = sqrt(k);
-        j = sqrt(k);
-        j = sqrt(k);
+    for(int i = 0; i < 999999; i += 10) {
+        j = sqrt(i);
+        j = sqrt(i + 1);
+        j = sqrt(i + 2);
+        j = sqrt(i + 3);
+        j = sqrt(i + 4);
+        j = sqrt(i + 5);
+        j = sqrt(i + 6);
+        j = sqrt(i + 7);
+        j = sqrt(i + 8);
+        j = sqrt(i + 9);
     }
     end_time = clock();
 
     time_taken3 = (double)(end_time - begin_time) / (double) CLOCKS_PER_SEC;
-    printf("Elapsed time of 10000 pow operations that use loop unrolling: %f seconds \n", time_taken3);
+    printf("Elapsed time of 1,000,000 pow operations that use loop unrolling: %f seconds \n", time_taken3);
 
-    printf("If we take the time of a single operation by taking the mean of these 100,000\n"\
-            "operations we get %g seconds or %g ms\n", time_taken3 / 100000.0,
-            time_taken3 / 100000.0 * 1000);
+    printf("The mean of these 1,000,000 "
+           "operations is %g ms\n",time_taken3 / 10000000.0 * 1000);
 
 
 }
 
 
-void float_speedtest(){
-    float_addition();
-    float_substraction();
-    float_division();
-    float_multiplication();
-    float_power();
-    float_squareroot();
-}
-
-
-void double_speedtest(){
-}
-
-//Calculate the time of different operations
-void ass3()
-{
-
+void speedtest(){
     printf(ANSI_COLOR_RED "Exercise 3\n" ANSI_COLOR_RESET);
-    // Speedtest for all datatypes
-
-    printf(ANSI_COLOR_GREEN "Speedtest for floats:\n" ANSI_COLOR_RESET);
-    float_speedtest();
-    
-    printf(ANSI_COLOR_GREEN "Speedtest for doubles:\n" ANSI_COLOR_RESET);
-    double_speedtest();
-
-    printf(ANSI_COLOR_GREEN "Speedtest for long doubles:\n" ANSI_COLOR_RESET);
+    addition();
+    printf("\n");
+    substraction();
+    printf("\n");
+    division();
+    printf("\n");
+    multiplication();
+    printf("\n");
+    power();
+    printf("\n");
+    squareroot();
+    printf("\n");
 }
+
+
 
 
 // assignment 4
