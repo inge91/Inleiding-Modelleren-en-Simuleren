@@ -105,6 +105,7 @@ void ass2(){
     
     printf(ANSI_COLOR_RED "Exercise 2\n" ANSI_COLOR_RESET);
 
+    // Some experimentations 
     printf("The different operations we tried and their outcome:\n\n");
     printf("Division of 1.0 by zero: %f\n", 1.0f/0.0f);
     printf("Division of -1.0 by zero: %f\n", -1.0f/0.0f);
@@ -113,7 +114,6 @@ void ass2(){
     printf("Underflowing a float by calculating -10^100000000000: %f\n", pow(-10.0f,100000000000.0f));
     printf("Infinity - infinity : %f\n",  pow(10.0f,100000000000.0f) - pow(10.0f,100000000000.0f));
     printf("Square root of -1: %f\n", sqrt(-1));
-
     printf("\n");
 }
 
