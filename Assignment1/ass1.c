@@ -4,6 +4,7 @@
 #include <time.h>
 #include <string.h>
 
+#include "ranges.h"
 
 // colors are nice
 #define ANSI_COLOR_RED     "\x1b[31m"
@@ -28,19 +29,13 @@ void float_multiplication();
 void float_division();
 void float_squareroot();
 
-
-typedef union {
-    int derp;
-    float herp;
-} herpderp;
-
 int main(void)
 {
     
     ass1();
     ass2();
     ass3();
-    compute_sum();
+    compute_sum(); // ass4
 
     return 0;
 }
@@ -97,6 +92,9 @@ void ass1()
 
     printf("Machine precision for long doubles:\t%LG\n", l);
     printf("Machine precision for long doubles:\t%LG\n", LDBL_EPSILON);
+    printf("\n");
+
+    print_ranges();
     printf("\n");
 }   
 
