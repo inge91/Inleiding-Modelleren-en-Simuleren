@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <math.h>
+#include <float.h>
 
 // colors are nice
 #define ANSI_COLOR_RED     "\x1b[31m"
@@ -11,63 +12,78 @@
 #define ANSI_COLOR_RESET   "\x1b[0m"
 
 void compute_sum();
+void ass1();
 float kahan_summation(int lower_bound, int upper_bound);
 
 int main(void)
 {
     
-    // Unsigned char byte is the size of a byte?
-    float f;
-    printf("The size of a float: %d\n", sizeof(f));
-    double d;
-    printf("The size of a double: %d\n", sizeof(d));
-    long double ld;
-    printf("The size of a long double: %d\n", sizeof(ld));
-
-    //Calculating the smalles possible precision between any two numbers
-    float i = 1.0;
-    //printf("%f\n", i/2.0);
-    float j;
-
-    // is only an approximation of the machine precision
-    while( i != 0.0 ) {
-        j = i;
-        //printf("%f\n", j);
-        i /= 2.0;
-    }
-
-    printf("Machine precision for floats: %f\n", j);
-    d = 1.0;
-    //printf("%f\n", i/2.0);
-    double k;
-
-    // is only an approximation of the machine precision
-    while( d != 0.0 ){
-        k = d;
-        //printf("%f\n", j);
-        d /= 2.0;
-    }
-
-    printf("Machine precision for doubles: %f\n" , k);
-    ld = 1.0;
-    //printf("%Lf\n", ld/2.0);
-    long double l;
-    // is only an approximation of the machine precision
-    while( ld != 0.0 ){
-        l = ld;
-        ld /= 2.0;
-    }
-    printf("Machine precision for long doubles: %Lf\n", l);
-    
-
+    ass1();
     compute_sum();
 
     return 0;
 }
 
+// assignment 1
+void ass1() 
+{
+    printf(ANSI_COLOR_RED "Exercise 1\n" ANSI_COLOR_RESET);
+
+    // determining size in bytes of the datatypes
+    float f;
+    printf("The size of a float: %d bytes\n", sizeof(f));
+    double d;
+    printf("The size of a double: %d bytes\n", sizeof(d));
+    long double ld;
+    printf("The size of a long double: %d bytes\n", sizeof(ld));
+
+    printf("\n\n");
+    // machine precision case of the float
+    f = 1.0;
+    float j;
+
+    // look for smallest f that makes f + 1 > 1
+    while( (f + 1) != 1.0) {
+        j = f;
+        f /= 2.0;
+    }
+
+    printf("Machine precision for floats: %G\n", j);
+    printf("Float.h machine precision for floats: %G\n", FLT_EPSILON);
+    printf("\n");
+    
+    // machine precision case of the double 
+    d = 1.0 ;
+    double k;
+
+    while( (d + 1) != 1.0) {
+        k = d;
+        d /= 2.0;
+    }
+
+    printf("Machine precision for doubles: %G\n" , k);
+    printf ("Float.h machine precision for doubles: %G\n", DBL_EPSILON);
+    printf("\n");
+
+    // machine precision case of the long double
+    ld = 1.0;
+    long double l;
+
+    while((ld + 1.0) != 1.0) {
+        l = ld;
+        ld /= 2.0;
+    }
+
+    printf("Machine precision for long doubles: %LG\n", l);
+    printf("Machine precision for long doubles: %LG\n", LDBL_EPSILON);
+    printf("\n");
+}   
+
 // assignment 4
 void compute_sum()
 {
+
+    printf(ANSI_COLOR_RED "Exercise 4\n" ANSI_COLOR_RESET);
     int low_N = pow(10, 8);
     int high_N = 2 * pow(10, 8);
 
