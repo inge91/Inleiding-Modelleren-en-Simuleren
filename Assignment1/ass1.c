@@ -1,3 +1,7 @@
+// Exercise 1 Inlieding Modelleren en Simuleren
+// By: Maarten de Jonge #6286658
+//     Inge Becht       #6093906
+
 #include <stdio.h>
 #include <math.h>
 #include <float.h>
@@ -111,7 +115,7 @@ void ass2(){
     printf("Overflowing a float by making it too small:\t\t%f\n", pow(-10.0f,100000000000.0f));
     printf("Infinity - infinity :\t\t\t\t\t%f\n",  pow(10.0f,100000000000.0f) - pow(10.0f,100000000000.0f));
     printf("Square root of -1:\t\t\t\t\t%f\n", sqrt(-1));
-    printf("Underflowing a float by creating a too small number:\t%f\n",pow(10, -10000000000));
+    printf("Underflowing a float by creating a very small number:\t%f\n",pow(10, -10000000000));
     printf("\n");
 }
 
@@ -136,7 +140,7 @@ void addition()
     
     time_taken2 = (end_time - begin_time) / (double) CLOCKS_PER_SEC;
 
-    printf("Elapsed time after 100,000 addition operations: %f seconds \n", time_taken2);
+    printf("Elapsed time after 1,000,000 addition operations: %f seconds \n", time_taken2);
 
     begin_time = clock();
 
