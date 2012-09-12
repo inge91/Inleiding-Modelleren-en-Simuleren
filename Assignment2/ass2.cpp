@@ -29,7 +29,7 @@ void print_map(map<string, map<double, approx_slope> > mappie);
 
 
 
-int main()
+int calculate_rightside()
 {
     std::cout<<"Calculating the right hand numerical derivative"<<endl;
     // different values for x to try
