@@ -42,6 +42,35 @@ double bisection(double (*f)(double), double a, double b)
     return midpoint;
 }
 
+// finds the intersection of function f with the x-axis between values a and b
+// uses the false position method
+double false_position(double (*f)(double), double a, double b)
+{
+    double threshold = 0.00000000001; // used to approximate zero
+    double secant_root;
+
+    ofstream data_file("falseposition.txt", ios::trunc | ios::out);
+
+    // limit the number of iterations
+    for (int max_iter = 0; max_iter < 1000; ++max_iter) {
+        // calculate the root of the secant
+        secant_root = ( (*f)(b) * a - (*f)(a) * b) / ( (*f)(b) - (*f)(a) );
+
+        // log data for plotting purposes
+        log_data(data_file, max_iter, (*f)(secant_root));
+
+        if ((*f)(secant_root) > -threshold && (*f)(secant_root) < threshold) {
+            data_file.close();
+            return secant_root;
+        }
+
+        if (same_sign((*f)(a), (*f)(secant_root)))
+            a = secant_root;
+        else
+            b = secant_root;
+    }
+}
+
 // simple function to pass to other functions
 double x_squared_minus_two(double x)
 {
