@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <cmath>
 
 #include "x_intersection.h"
 
@@ -13,7 +14,7 @@ using namespace std;
 double bisection(double (*f)(double), double a, double b)
 {
     double midpoint = 0;
-    double threshold = 0.00000000001; // used to approximate zero
+    double threshold = 0.00000000000001; // used to approximate zero
 
     ofstream data_file("bisection.txt", ios::trunc | ios::out);
 
@@ -22,7 +23,7 @@ double bisection(double (*f)(double), double a, double b)
         midpoint = (a + b) / 2.0;
 
         // log data for plotting purposes
-        log_data(data_file, max_iter, (*f)(midpoint));
+        log_data(data_file, max_iter, abs( (*f)(midpoint) ));
 
         if ((*f)(midpoint) > -threshold && (*f)(midpoint) < threshold) {
             data_file.close();
@@ -46,7 +47,7 @@ double bisection(double (*f)(double), double a, double b)
 // uses the false position method
 double false_position(double (*f)(double), double a, double b)
 {
-    double threshold = 0.00000000001; // used to approximate zero
+    double threshold = 0.00000000000001; // used to approximate zero
     double secant_root;
 
     ofstream data_file("falseposition.txt", ios::trunc | ios::out);
@@ -57,7 +58,7 @@ double false_position(double (*f)(double), double a, double b)
         secant_root = ( (*f)(b) * a - (*f)(a) * b) / ( (*f)(b) - (*f)(a) );
 
         // log data for plotting purposes
-        log_data(data_file, max_iter, (*f)(secant_root));
+        log_data(data_file, max_iter, abs( (*f)(secant_root) ));
 
         if ((*f)(secant_root) > -threshold && (*f)(secant_root) < threshold) {
             data_file.close();
@@ -69,12 +70,60 @@ double false_position(double (*f)(double), double a, double b)
         else
             b = secant_root;
     }
+
+    // if no solution has been found in the maximum number of iteration, return
+    // the latest value and hope for the best
+    data_file.close();
+    return secant_root;
+}
+
+// finds the intersection of function f with the x-axis between values a and b
+// uses Newton's method
+// 
+// f = function to find the root of
+// f_deriv = the derivative of f
+// x = the starting point for the algorithm
+double newtons_method(double (*f)(double), double (*f_deriv)(double), double x)
+{
+    double threshold = 0.00000000000001; // used to approximate zero
+
+    ofstream data_file("newtonsmethod.txt", ios::trunc | ios::out);
+
+    // limit the number of iterations
+    for (int max_iter = 0; max_iter < 1000; ++max_iter) {
+        // log data for plotting purposes
+        log_data(data_file, max_iter, abs( (*f)(x) ));
+
+        if ((*f)(x) > -threshold && (*f)(x) < threshold) {
+            data_file.close();
+            return x;
+        }
+
+        // make sure we don't divide by zero
+        if ((*f_deriv)(x) == 0) {
+            x += 1;
+            continue;
+        }
+
+        x -= (*f)(x) / (*f_deriv)(x);
+    }
+
+    // if no solution has been found in the maximum number of iteration, return
+    // the latest value and hope for the best
+    data_file.close();
+    return x;
 }
 
 // simple function to pass to other functions
 double x_squared_minus_two(double x)
 {
     return (x * x) - 2;
+}
+
+// derivative of x_squared_minus_two
+double two_x(double x)
+{
+    return 2 * x;
 }
 
 // returns true if both x and y have the same sign (i.e. both positive, both
