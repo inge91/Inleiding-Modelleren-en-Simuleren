@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <map>
 
+#include "x_intersection.h"
+
 using namespace std;
 
 struct approx_slope{
@@ -143,4 +145,35 @@ double square( double x)
 // The sin function that is needed for the first example
 double sin_function(double x){
     return sin(x);
+}
+
+void question2()
+{
+    cout << "Sqrt(2) by interpolation:\t" << bisection(&x_squared_minus_two, 0, 2, true) << endl;
+    cout << "Sqrt(2) by regula falsi:\t" << false_position(&x_squared_minus_two, 0, 2, true) << endl;
+    cout << "Sqrt(2) by Newton's method:\t" << newtons_method(&x_squared_minus_two, &two_x, 0, true) << endl;
+    cout << "To see a graph of each method's convergence, run plot_convergence.py" << endl << endl;
+}
+
+void question3()
+{
+    cout << "x^3 - 3x - 2 with x0 = 0: " <<
+        newtons_method(&question3_eq1, &question3_eq1_deriv, 0) << endl;
+
+    cout << "x^3 - 3x - 2 with x0 = 5: " <<
+        newtons_method(&question3_eq1, &question3_eq1_deriv, 5) << endl;
+
+    cout << "(x^2 + 1)(x − 4) with x0 = -2" <<
+        newtons_method(&question3_eq2, &question3_eq2_deriv, -2) << endl;
+
+    cout << "(x^2 + 1)(x − 4) with x0 = 0" <<
+        newtons_method(&question3_eq2, &question3_eq2_deriv, 0) << endl;
+}
+
+int main(int argc, const char *argv[])
+{
+    question2();
+    question3();
+    
+    return 0;
 }

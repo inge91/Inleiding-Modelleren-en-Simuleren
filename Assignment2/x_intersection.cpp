@@ -11,7 +11,7 @@ using namespace std;
 
 // finds the intersection of function f with the x-axis between values a and b
 // uses the bisection method
-double bisection(double (*f)(double), double a, double b)
+double bisection(double (*f)(double), double a, double b, bool logging_enabled)
 {
     double midpoint = 0;
     double threshold = 0.00000000000001; // used to approximate zero
@@ -23,7 +23,7 @@ double bisection(double (*f)(double), double a, double b)
         midpoint = (a + b) / 2.0;
 
         // log data for plotting purposes
-        log_data(data_file, max_iter, abs( (*f)(midpoint) ));
+        log_data(data_file, max_iter, abs( (*f)(midpoint) ), logging_enabled);
 
         if ((*f)(midpoint) > -threshold && (*f)(midpoint) < threshold) {
             data_file.close();
@@ -45,7 +45,7 @@ double bisection(double (*f)(double), double a, double b)
 
 // finds the intersection of function f with the x-axis between values a and b
 // uses the false position method
-double false_position(double (*f)(double), double a, double b)
+double false_position(double (*f)(double), double a, double b, bool logging_enabled)
 {
     double threshold = 0.00000000000001; // used to approximate zero
     double secant_root;
@@ -58,7 +58,7 @@ double false_position(double (*f)(double), double a, double b)
         secant_root = ( (*f)(b) * a - (*f)(a) * b) / ( (*f)(b) - (*f)(a) );
 
         // log data for plotting purposes
-        log_data(data_file, max_iter, abs( (*f)(secant_root) ));
+        log_data(data_file, max_iter, abs( (*f)(secant_root) ), logging_enabled);
 
         if ((*f)(secant_root) > -threshold && (*f)(secant_root) < threshold) {
             data_file.close();
@@ -83,7 +83,7 @@ double false_position(double (*f)(double), double a, double b)
 // f = function to find the root of
 // f_deriv = the derivative of f
 // x = the starting point for the algorithm
-double newtons_method(double (*f)(double), double (*f_deriv)(double), double x)
+double newtons_method(double (*f)(double), double (*f_deriv)(double), double x, bool logging_enabled)
 {
     double threshold = 0.00000000000001; // used to approximate zero
 
@@ -92,7 +92,7 @@ double newtons_method(double (*f)(double), double (*f_deriv)(double), double x)
     // limit the number of iterations
     for (int max_iter = 0; max_iter < 1000; ++max_iter) {
         // log data for plotting purposes
-        log_data(data_file, max_iter, abs( (*f)(x) ));
+        log_data(data_file, max_iter, abs( (*f)(x) ), logging_enabled);
 
         if ((*f)(x) > -threshold && (*f)(x) < threshold) {
             data_file.close();
@@ -126,6 +126,28 @@ double two_x(double x)
     return 2 * x;
 }
 
+// first equation of question 3
+double question3_eq1(double x)
+{
+    return (x * x * x) - 3 * x - 2;
+}
+
+double question3_eq1_deriv(double x)
+{
+    return 3 * (x * x) - 3;
+}
+
+// second equation of question 3
+double question3_eq2(double x)
+{
+    return ( (x*x) + 1) * (x - 4);
+}
+
+double question3_eq2_deriv(double x)
+{
+    return ( (2 * x) * (x - 4) ) + (x*x  + 1);
+}
+
 // returns true if both x and y have the same sign (i.e. both positive, both
 // negative, or both zero)
 bool same_sign(double x, double y)
@@ -141,9 +163,10 @@ bool same_sign(double x, double y)
 }
 
 // logs datapoints into a file using a CSV format
-void log_data(ofstream &file, double x, double y)
+void log_data(ofstream &file, double x, double y, bool logging_enabled)
 {
-    file << x << ", " << y << endl;
+    if (logging_enabled)
+        file << x << ", " << y << endl;
 }
 
 #endif
