@@ -11,12 +11,6 @@ double trapezoidal_rule(double interval_min, double interval_max,
 double two_point_gauss(double interval_min, double interval_max,
                 int subsection_amount, double (*f)(double));
 
-int main(){
-    double result = trapezoidal_rule(0, 1, 999, first_int);
-    printf("%f", result);
-}
-
-
 // Integration using the rectangle rule with topleft corner approcimation
 double rectangle_rule(double interval_min, double interval_max,
                       int subsection_amount, double (*f)(double))

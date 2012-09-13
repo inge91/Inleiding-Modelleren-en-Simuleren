@@ -150,6 +150,13 @@ double sin_function(double x){
     return sin(x);
 }
 
+void question1()
+{
+    cout << "===== Question 1 =====" << endl;
+    calculate_rightside();
+    cout << endl;
+}
+
 void question2()
 {
     cout << "===== Question 2 =====" << endl;
@@ -236,6 +243,7 @@ void question5()
 
 int main(int argc, const char *argv[])
 {
+    question1();
     question2();
     question3();
     question5();
