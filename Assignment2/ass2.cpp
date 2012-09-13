@@ -169,7 +169,7 @@ void question3()
     cout << "(x^2 + 1)(x − 4) with x0 = 0" <<
         newtons_method(&question3_eq2, &question3_eq2_deriv, 0) << endl;
 }
-
+/*
 int main(int argc, const char *argv[])
 {
     question2();
@@ -177,3 +177,4 @@ int main(int argc, const char *argv[])
     
     return 0;
 }
+*/
