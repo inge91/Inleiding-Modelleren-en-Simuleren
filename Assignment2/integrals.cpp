@@ -4,26 +4,8 @@
 #include <stdio.h>
 #include <vector>
 
-typedef double (*fptr)(double);
+#include "integrals.h"
 
-double rectangle_rule(double interval_min, double interval_max,int subsection_amount,
-               double (*f)(double));
-double int1(double);
-double int2(double);
-double int3(double);
-double int4(double);
-double int5(double);
-double int6(double);
-double int7(double);
-double int8(double);
-void ass4();
-
-double trapezoidal_rule(double interval_min, double interval_max,
-                        int subsection_amount, double(*f)(double));
-double simpsons_rule(double interval_min, double interval_max,
-            int subsection_amount, double (*f)(double));
-double two_point_gauss(double interval_min, double interval_max,
-                int subsection_amount, double (*f)(double));
 
 // Integration using the rectangle rule with topleft corner approcimation
 double rectangle_rule(double interval_min, double interval_max,
@@ -119,13 +101,6 @@ double two_point_gauss(double interval_min, double interval_max,
     }
 
     return ((interval_max - interval_min) / 2) * quadrature;
-}
-
-int main(){
-    std::cout<<trapezoidal_rule(0,1,8, int1)<<std::endl;
-    std::cout<<simpsons_rule(0,1,8, int1)<<std::endl;
-    //ass4();
-    return 0;
 }
 
 void ass4(){

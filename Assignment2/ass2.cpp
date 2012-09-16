@@ -10,6 +10,7 @@
 
 #include "x_intersection.h"
 #include "integration_functions.h"
+#include "integrals.h"
 
 using namespace std;
 
@@ -240,14 +241,15 @@ void question5()
     gsl_integration_workspace_free (w);
     cout << endl;
 }
-/*
+
 int main(int argc, const char *argv[])
 {
     question1();
     question2();
     question3();
+    ass4();
     question5();
     
     return 0;
 }
-*/
+
