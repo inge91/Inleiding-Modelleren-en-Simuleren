@@ -159,8 +159,9 @@ void ass4(){
                      intervals = 2;
                      break;
                  }
-                 else if((std::abs(answers[i]) - two_point_gauss(interval[i][0],interval[i][1], intervals, function_vector.at(i))) < 0.0001)
+                 else if((std::abs(answers[i] - two_point_gauss(interval[i][0],interval[i][1], intervals, function_vector.at(i)))) < 0.0001)
                  {
+
                      printf("two-point Gauss rule, using %d intervals\n", intervals);
                      printf("outcome: %f\n\n", two_point_gauss(interval[i][0],interval[i][1], intervals, function_vector.at(i)));
                      intervals = 2;
