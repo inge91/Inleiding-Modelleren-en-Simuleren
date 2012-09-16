@@ -107,7 +107,9 @@ double two_point_gauss(double interval_min, double interval_max,
         quadrature += (*f)(0.5 * min_max_diff * sample_2 + 0.5 * min_max_sum);
     }
 
-    return ((interval_max - interval_min) / 2) * quadrature;
+    // when multiplying by 0.5, the answer is off by a factor 2
+    // thus, multiply by 0.25!
+    return 0.25 * min_max_diff * quadrature;
 }
 
 void ass4(){
