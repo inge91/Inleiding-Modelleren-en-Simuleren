@@ -104,6 +104,7 @@ double two_point_gauss(double interval_min, double interval_max,
 }
 
 void ass4(){
+    std::cout << "===== Question 4 =====" << std::endl;
     std::cout<< "Starting the accuracy test for numerical integration"<<std::endl;
 
     // Vector that contains all functions
@@ -164,6 +165,7 @@ void ass4(){
 
     }
 
+    std::cout << std::endl;
 }
 
 //All integrals are given as functions
