@@ -9,6 +9,7 @@
 #include <gsl_integration.h>
 
 #include "x_intersection.h"
+#include "integrals.h"
 #include "integration_functions.h"
 
 using namespace std;
@@ -27,14 +28,17 @@ struct approx_slope{
 
 
 double righthand_side_differentiation(double (*f)(double), double x, double h);
+double center_differentiation(double (*f)(double), double x, double h);
 double square( double x);
 double get_h_value(double *sin_x, int i, int j);
 double sin_function(double x);
 void print_map(map<string, map<double, approx_slope> > mappie);
+void calculate_centre();
+void calculate_rightside();
 
 
 
-int calculate_rightside()
+void calculate_rightside()
 {
     std::cout<<"Calculating the right hand numerical derivative"<<endl;
     // different values for x to try
@@ -45,7 +49,7 @@ int calculate_rightside()
     string str_array[] = {"pi / 3", "100 * pi + pi / 3",
                                 "10^12 * pi + pi / 3"};
 
-    double values_h[] = {1, 0.1, 0.000001, DBL_EPSILON};
+    double values_h[] = {1, 0.1, 0.000001, 0.0000001};
 
     // Derivative made by solving h goint to 0
     double actual_derivative[] = {0.5, cos(sin_x[1]), cos(sin_x[2])};
@@ -87,12 +91,66 @@ int calculate_rightside()
     print_map(map_x_h_slope);
 }
 
+void calculate_centre()
+{
+    std::cout<<"Calculating the center derivative"<<endl;
+    // different values for x to try
+    double sin_x[] = {M_PI / 3, 100 * M_PI + M_PI/3,
+                      pow(10, 12) * M_PI + M_PI / 3};
+
+
+    string str_array[] = {"pi / 3", "100 * pi + pi / 3",
+                                "10^12 * pi + pi / 3"};
+
+    double values_h[] = {1, 0.1, 0.000001, 0.000001};
+
+    // Derivative made by solving h goint to 0
+    double actual_derivative[] = {0.5, cos(sin_x[1]), cos(sin_x[2])};
+
+    int x_size = sizeof sin_x / sizeof(double);
+    int h_size = sizeof values_h / sizeof(double);
+
+    // Making a map with first key x, second key h
+    map<string, map<double, approx_slope> > map_x_h_slope;
+
+
+    double approx_deriv;
+
+    // Calculate all slopes using the vector values aboven
+    for(int i = 0; i < x_size; i++){
+
+        // Try all values of h to differentiate
+        for(int j = 0; j < h_size; j ++ ){
+
+            // Calculate slope
+            approx_deriv = center_differentiation(sin_function, sin_x[i],
+                                                   values_h[j]);
+            map_x_h_slope[str_array[i]][values_h[j]].set_value(approx_deriv,
+                                                                actual_derivative[i]);
+
+        }
+    }
+
+    // Add special case for the Wikpedia suggestion of sqrt(epsilon) * x
+    for(int i = 0; i < x_size; i++){
+        double h_value = sqrt(DBL_EPSILON) * sin_x[i];
+        approx_deriv = center_differentiation(sin_function, sin_x[i], h_value);
+        map_x_h_slope[str_array[i]][h_value].set_value(approx_deriv,
+                                                            actual_derivative[i]);
+
+    }
+
+
+    print_map(map_x_h_slope);
+}
+
+
 
 // Print the table
 void print_map(map<string, map<double, approx_slope> > mappie)
 {
     printf("-----differentiating for different values of f(x) = sin(x)------\n");
-    printf("%*s, %*s, %*s, %*s, %*s\n", 20, "value h", 16, "value x", 16, "outcome", 16,
+    printf("%*s, %*s, %*s, %*s, %*s\n", 20, "value x", 16, "value h", 16, "outcome", 16,
            "actual outcome", 16, "error");
     map<string, map<double, approx_slope> >::iterator it;
     map<double, approx_slope>::iterator it2;
@@ -154,6 +212,7 @@ void question1()
 {
     cout << "===== Question 1 =====" << endl;
     calculate_rightside();
+    calculate_centre();
     cout << endl;
 }
 
@@ -185,6 +244,14 @@ void question3()
 
     cout << endl;
 }
+
+void question4()
+{
+    cout << "===== Question 4 =====" << endl;
+    ass4();
+
+}
+
 
 void question5()
 {
@@ -240,14 +307,15 @@ void question5()
     gsl_integration_workspace_free (w);
     cout << endl;
 }
-/*
+
 int main(int argc, const char *argv[])
 {
     question1();
     question2();
     question3();
+    question4();
     question5();
     
     return 0;
 }
-*/
+

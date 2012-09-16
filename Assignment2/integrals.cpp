@@ -1,31 +1,5 @@
-#define _USE_MATH_DEFINES // for C++
-#include <cmath>
-#include <iostream>
-#include <stdio.h>
-#include <vector>
-
-typedef double (*fptr)(double);
-
-double rectangle_rule(double interval_min, double interval_max,int subsection_amount,
-               double (*f)(double));
-double int1(double);
-double int2(double);
-double int3(double);
-double int4(double);
-double int5(double);
-double int6(double);
-double int7(double);
-double int8(double);
-void ass4();
-
-double trapezoidal_rule(double interval_min, double interval_max,
-                        int subsection_amount, double(*f)(double));
-double simpsons_rule(double interval_min, double interval_max,
-            int subsection_amount, double (*f)(double));
-double two_point_gauss(double interval_min, double interval_max,
-                int subsection_amount, double (*f)(double));
-
-// Integration using the rectangle rule with topleft corner approcimation
+#include "integrals.h"
+// Integration using the rectangle rule with topleft corner approximation
 double rectangle_rule(double interval_min, double interval_max,
                       int subsection_amount, double (*f)(double))
 {
@@ -38,6 +12,15 @@ double rectangle_rule(double interval_min, double interval_max,
         add += f(interval_min + (i * interval_size));
     }
     return interval_size * add;
+
+}
+
+// Integrating using the rectangle rule with midpoint rule
+double midpoint_rule(double a, double b, double (*f)(double))
+{
+
+    return (b-a) * f((a + b) / 2);
+
 
 }
 
@@ -84,7 +67,7 @@ double simpsons_rule(double interval_min, double interval_max,
          n = ( interval_min + (i * interval_size));
          np1 = ( interval_min + ((i+1) * interval_size));
 
-        rect = rectangle_rule(n, np1, 1, f);
+        rect = midpoint_rule(n, np1, f);
 
         trap = trapezoidal_rule(n, np1, 1, f);
 
@@ -93,7 +76,6 @@ double simpsons_rule(double interval_min, double interval_max,
     }
 
     return add;
-
 
 }
 
@@ -104,13 +86,6 @@ double two_point_gauss(double interval_min, double interval_max,
 
     return 0;
 
-}
-
-int main(){
-    std::cout<<trapezoidal_rule(0,1,8, int1)<<std::endl;
-    std::cout<<simpsons_rule(0,1,8, int1)<<std::endl;
-    //ass4();
-    return 0;
 }
 
 void ass4(){
@@ -137,37 +112,47 @@ void ass4(){
     {
         printf("Found the solution to integral problem #%d with the ", i+1);
 
-        while(1)
+        while(intervals < 99999)
         {
 
-            if((std::abs(answers[i] - rectangle_rule(interval[i][0],interval[i][1], intervals, function_vector.at(i)))) < 0.01)
+            if((std::abs(answers[i] - rectangle_rule(interval[i][0],interval[i][1], intervals, function_vector.at(i)))) < 0.0001)
                  {
                      printf("rectangle rule, using %d intervals\n", intervals);
+                     printf("outcome: %f\n\n", rectangle_rule(interval[i][0],interval[i][1], intervals, function_vector.at(i)));
                      intervals = 2;
                      break;
                  }
-                 else if((std::abs(answers[i] - trapezoidal_rule(interval[i][0],interval[i][1], intervals, function_vector.at(i)))) < 0.01)
-                 {
-                std::cout<< std::abs(answers[i]) - trapezoidal_rule(interval[i][0],interval[i][1], intervals, function_vector.at(i));
+                 else if((std::abs(answers[i] - trapezoidal_rule(interval[i][0],interval[i][1], intervals, function_vector.at(i)))) < 0.0001)
+                 {                
                      printf("trapezoidal rule, using %d intervals\n", intervals);
+                     printf("outcome: %f\n\n", trapezoidal_rule(interval[i][0],interval[i][1], intervals, function_vector.at(i)));
                      intervals = 2;
                      break;
                  }
-                 else if((std::abs(answers[i] - simpsons_rule(interval[i][0],interval[i][1], intervals, function_vector.at(i)))) < 0.01)
+                 else if((std::abs(answers[i] - simpsons_rule(interval[i][0],interval[i][1], intervals, function_vector.at(i)))) < 0.0001)
                  {
                      printf("Simpsons rule, using %d intervals\n", intervals);
+                     printf("outcome: %f\n\n", simpsons_rule(interval[i][0],interval[i][1], intervals, function_vector.at(i)));
                      intervals = 2;
                      break;
                  }
-                 else if((std::abs(answers[i]) - two_point_gauss(interval[i][0],interval[i][1], intervals, function_vector.at(i))) < 0.01)
+                 else if((std::abs(answers[i]) - two_point_gauss(interval[i][0],interval[i][1], intervals, function_vector.at(i))) < 0.0001)
                  {
                      printf("two-point Gauss rule, using %d intervals\n", intervals);
+                     printf("outcome: %f\n\n", two_point_gauss(interval[i][0],interval[i][1], intervals, function_vector.at(i)));
                      intervals = 2;
                      break;
                  }
 
                 // Not yet right answer found, multiplying the amount of intervals
                  intervals *= 2;
+        }
+
+        if(intervals > 99999)
+        {
+            printf(" ERROR: A good approximation could not be found\n\n");
+            intervals = 2;
+
         }
 
 
