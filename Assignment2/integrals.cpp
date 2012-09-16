@@ -101,9 +101,24 @@ double simpsons_rule(double interval_min, double interval_max,
 double two_point_gauss(double interval_min, double interval_max,
                 int subsection_amount, double (*f)(double))
 {
+    double interval_size = (1 - (-1)) / subsection_amount;
+    double quadrature;
+    double min_max_diff = interval_max - interval_min,
+           min_max_sum = interval_max + interval_min;
 
-    return 0;
+    // the function needs to be shifted to a [-1, 1] interval
+    for (int i = 0; i < subsection_amount; i++) {
+        double x0 = -1 + (i * interval_size);
+        double x1 = -1 + ((i+1) * interval_size);
 
+        double  sample_1 = x0 + 0.5 * interval_size * (1 + 1/sqrt(3));
+        double  sample_2 = x0 + 0.5 * interval_size * (1 - 1/sqrt(3));
+
+        quadrature += (*f)(0.5 * min_max_diff * sample_1 + 0.5 * min_max_sum);
+        quadrature += (*f)(0.5 * min_max_diff * sample_2 + 0.5 * min_max_sum);
+    }
+
+    return ((interval_max - interval_min) / 2) * quadrature;
 }
 
 int main(){
