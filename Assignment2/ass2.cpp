@@ -193,7 +193,7 @@ double center_differentiation(double (*f)(double), double x, double h)
      dx = xph - x;
 
 
-     double slope = ((*f)(xph) -  (*f)(x)) / dx ;
+     double slope = ((*f)(xph) -  (*f)(xmh)) / (2*dx) ;
      return slope;
 
 }
