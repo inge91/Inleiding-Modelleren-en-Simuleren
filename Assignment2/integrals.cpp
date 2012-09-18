@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "integrals.h"
-// Integration using the rectangle rule with topleft corner approximation
+// Integration using the rectangle rule with centre approximation
 double rectangle_rule(double interval_min, double interval_max,
                       int subsection_amount, double (*f)(double))
 {
@@ -15,7 +15,7 @@ double rectangle_rule(double interval_min, double interval_max,
     double add;
     add = 0;
     for(int i = 0; i < subsection_amount; i++) {
-        add += f(interval_min + (i * interval_size));
+        add += f(((interval_min + (i * interval_size)) + interval_min * ((i + 1)* interval_size))/2);
     }
     return interval_size * add;
 
