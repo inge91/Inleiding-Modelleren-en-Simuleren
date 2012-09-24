@@ -26,6 +26,11 @@ int main(int argc, const char *argv[])
     ps->N = 1;
 
     Euler(0, 10, 1, y0, y1, 1, &f, (void*) ps);
+    printf("%f\n", y1[0]);
 
+    RungeKutta2(0, 10, 1, y0, y1, 1, &f, (void*) ps);
+    printf("%f\n", y1[0]);
+    
+    RungeKutta4(0, 10, 1, y0, y1, 1, &f, (void*) ps);
     printf("%f\n", y1[0]);
 }
