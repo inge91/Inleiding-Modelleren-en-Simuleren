@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "differentials.h"
@@ -40,6 +41,7 @@ int Euler(double t0, double t1, double dt, double * y0, double * y1, int N,
         for (int i = 0; i < N; i++) {
             yt[i] = yt_previous[i] + (dt * yt_prev_deriv[i]);
         }
+        printf("yt = %f\n", yt[0]);
 
         for (int i = 0; i < N; i++) {
             yt_previous[i] = yt[i];
@@ -103,6 +105,8 @@ int RungeKutta4(double t0, double t1, double dt, double * y0, double * y1,
     for (int i = 0; i < N; i++) {
         yt[i] = y0[i];
     }
+    printf("\nyt %f and y0 %f\n", yt[0], y0[0]);
+    printf("\nyt %f and y0 %f\n", yt[1], y0[1]);
 
     // iterate from t0 to t1 in steps of dt
     for (double t = t0 + dt; t <= t1; t += dt) {
@@ -126,7 +130,7 @@ int RungeKutta4(double t0, double t1, double dt, double * y0, double * y1,
         // k3 = dt * f(tn + 0.5dt, yn + 0.5k2)
         double k3[N];
         copy_array(yt_midway, yt, N);
-        add_array(yt_midway, k3, 0.5, N);
+        add_array(yt_midway, k2, 0.5, N);
         (*f)(t + (0.5*dt), yt_midway, yt_midway_deriv, params);
 
         multiply_array(k3, yt_midway_deriv, dt, N);
@@ -137,12 +141,15 @@ int RungeKutta4(double t0, double t1, double dt, double * y0, double * y1,
         add_array(yt_fullstep, k3, 1, N);
         (*f)(t + dt, yt_fullstep, yt_fullstep_deriv, params);
 
+
+        printf("yt = %f\n", yt[0]);
         multiply_array(k4, yt_fullstep_deriv, dt, N);
 
         // copy the values back to yt for the next iteration
         for (int i = 0; i < N; ++i) {
             // yn+1 = yn + 1/6 (k1 + 2k2 + 2k3 + k4)
-            yt[i] += (k1[i] + 2*k2[i] + 2*k3[i] + k4[i]) / 6;
+            yt[i] += ((k1[i] + 2*k2[i] + 2*k3[i] + k4[i]) / 6);
+
         }
     }
 
