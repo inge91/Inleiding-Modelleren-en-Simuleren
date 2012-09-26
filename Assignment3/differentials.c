@@ -29,7 +29,7 @@ int Euler(double t0, double t1, double dt, double * y0, double * y1, int N,
     }
 
     // start at t0 + dt, since the values at t0 are already known
-    for (int t = t0 + dt; t <= t1; t += dt) {
+    for (double t = t0 + dt; t <= t1; t += dt) {
         // make arrays for the values of y at t, and the derivatives of y at t-1
         double yt[N];
         double yt_prev_deriv[N];
@@ -64,7 +64,7 @@ int RungeKutta2(double t0, double t1, double dt, double * y0, double * y1,
     }
 
     // iterate from t0 to t1 in steps of dt
-    for (int t = t0 + dt; t <= t1; ++t) {
+    for (double t = t0 + dt; t <= t1; t += dt) {
         // yn+1 = yn + 1/6 (k1 + 2k2 + 2k3 + k4)
         double yt_deriv[N];
 
@@ -105,7 +105,7 @@ int RungeKutta4(double t0, double t1, double dt, double * y0, double * y1,
     }
 
     // iterate from t0 to t1 in steps of dt
-    for (int t = t0 + dt; t <= t1; ++t) {
+    for (double t = t0 + dt; t <= t1; t += dt) {
         // yn+1 = yn + 1/6 (k1 + 2k2 + 2k3 + k4)
         double yt_deriv[N];
 
