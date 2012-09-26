@@ -17,37 +17,34 @@
  
 FILE *output;              /* internal filename */
  
-void runge4(double x, double dt, double y[] , int N, double f(double, double *) );   /* Runge-Kutta function */
-double f4(double x, double y[]);            /* function for derivatives */
+void runge4(double t, double dt, double y[] , int N, double f(double, double *) );   /* Runge-Kutta function */
+double f4(double t, double y[]);            /* function for derivatives */
  
 void main()
 {
   int N =1;
   double t, y[N];
-  int j;
  
  
-  t   = 0.0;
   y[0]= 1.0;                                      /* initial position */
  
  
-  for (j=1; j*dist<=MAX ;j++)                     /* time loop */
+  for (t = 0.0; t<=MAX ; t += dist)                     /* time loop */
      {
-       t=j*dist;
        runge4(t,  dist, y, N, f4);
      }
  
 }
-void runge4(double x, double dt, double y[], int N, double f(double, double *) )
+void runge4(double t, double dt, double y[], int N, double f(double, double *) )
 {
   double h=dt/2.0,            /* the midpoint */
   t1[N], t2[N], t3[N],          /* temporary storage arrays */
   k1[N], k2[N], k3[N],k4[N];    /* for Runge-Kutta */
   int i;
- 
+  
   for(i=0;i<N;i++) 
   {
-      k1[i]=dt*f(x, y);
+      k1[i]=dt*f(t, y);
   }
   for(i=0;i<N;i++) 
   {
@@ -56,7 +53,7 @@ void runge4(double x, double dt, double y[], int N, double f(double, double *) )
 
   for (i=0;i<N;i++) 
   {
-    k2[i]=dt*f(x+(dt * 0.5), t1);
+    k2[i]=dt*f(t+(dt * 0.5), t1);
   }
   
   for (i=0;i<N;i++) 
@@ -65,7 +62,7 @@ void runge4(double x, double dt, double y[], int N, double f(double, double *) )
   }
 
   for (i=0;i<N;i++) {
-    k3[i]=dt*f(x+ (dt * 0.5), t2);
+    k3[i]=dt*f(t + (dt * 0.5), t2);
   }
   
   for (i=0;i<N;i++) {
@@ -73,7 +70,7 @@ void runge4(double x, double dt, double y[], int N, double f(double, double *) )
   }
   for (i=0;i<N;i++) 
   {
-    k4[i]= dt*f(x+dt, t3);
+    k4[i]= dt*f(t + dt, t3);
   }
  
   for (i=0;i<N;i++) 
@@ -83,7 +80,7 @@ void runge4(double x, double dt, double y[], int N, double f(double, double *) )
   printf("%f\n",y[0]);
 }
  
-double f4(double x, double y[])
+double f4(double t, double y[])
 {
   return(y[0]);     /* derivative of first equation */
 }
