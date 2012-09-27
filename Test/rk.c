@@ -4,8 +4,9 @@
 
 FILE *output;              /* internal filename */
 
-void runge4(double t0, double t1, double dt, double y0[], double y1[], int N, double f(double, double *) );   /* Runge-Kutta function */
+void runge4(double t0, double t1, double dt, double y0[], double y1[], int N, int f(double, double *, double*, int) );   /* Runge-Kutta function */
 double f4(double t, double y[]);            /* function for derivatives */
+int f42(double t, double * y, double * dy, int N);
 
 void main()
 {
@@ -15,12 +16,12 @@ void main()
     y0[0]= 1.0;                                      /* initial position */
 
 
-    runge4(0.0, 5.0,  0.01, y0, y1,  N, f4);
+    runge4(0.0, 5.0,  0.01, y0, y1,  N, f42);
 
     printf("y1L %f \n ", y1[0]);
 
 }
-void runge4(double t0, double t1, double dt, double * y0, double * y1, int N, double f(double, double *) )
+void runge4(double t0, double t1, double dt, double * y0, double * y1, int N, int f(double, double *, double *, int) )
 {
 
     // because the loop starts at y_n+1, use the values of y0 as initial values
@@ -38,18 +39,22 @@ void runge4(double t0, double t1, double dt, double * y0, double * y1, int N, do
 
     for (double t = t0 + dt; t<=t1 ; t += dt)                     
     {
+        f(t, yt, k1, N);
         for(i=0;i<N;i++) 
         {
-            k1[i]=dt*f(t, yt);
+            k1[i]*=dt;
         }
+
         for(i=0;i<N;i++) 
         {
             temp1[i]=yt[i]+0.5*k1[i];
         }
 
+        f(t+(dt * 0.5), temp1, k2, N);
+
         for (i=0;i<N;i++) 
         {
-            k2[i]=dt*f(t+(dt * 0.5), temp1);
+            k2[i]*=dt;
         }
 
         for (i=0;i<N;i++) 
@@ -57,16 +62,21 @@ void runge4(double t0, double t1, double dt, double * y0, double * y1, int N, do
             temp2[i]=yt[i]+0.5*k2[i];
         }
 
+        f(t + (dt * 0.5), temp2, k3, N);
+
         for (i=0;i<N;i++) {
-            k3[i]=dt*f(t + (dt * 0.5), temp2);
+            k3[i]*=dt;
         }
 
         for (i=0;i<N;i++) {
             temp3[i]=yt[i]+ k3[i];
         }
+
+        f(t + dt, temp3, k4, N);
+        
         for (i=0;i<N;i++) 
         {
-            k4[i]= dt*f(t + dt, temp3);
+            k4[i]*=dt;
         }
 
         for (i=0;i<N;i++) 
@@ -83,6 +93,13 @@ void runge4(double t0, double t1, double dt, double * y0, double * y1, int N, do
         }
 }
 
+int f42(double t, double * y, double * dy, int N)
+{
+    for(int i = 0; i < N; i++){
+        dy[i] = y[i];
+    }
+    return 0;
+}
 double f4(double t, double y[])
 {
     return(y[0]);     /* derivative of first equation */
