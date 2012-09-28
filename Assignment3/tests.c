@@ -9,10 +9,6 @@
 
 void print_error(char *method, double result, double expected);
 
-typedef struct
-{
-    int N;
-} param_struct;
 
 int f(double t, double *y, double *dy, void *params)
 {
