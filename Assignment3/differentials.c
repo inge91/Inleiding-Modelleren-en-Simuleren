@@ -41,7 +41,7 @@ int Euler(double t0, double t1, double dt, double * y0, double * y1, int N,
         for (int i = 0; i < N; i++) {
             yt[i] = yt_previous[i] + (dt * yt_prev_deriv[i]);
         }
-        printf("yt = %f\n", yt[0]);
+        //printf("yt = %f\n", yt[0]);
 
         for (int i = 0; i < N; i++) {
             yt_previous[i] = yt[i];
@@ -105,8 +105,8 @@ int RungeKutta4(double t0, double t1, double dt, double * y0, double * y1,
     for (int i = 0; i < N; i++) {
         yt[i] = y0[i];
     }
-    printf("\nyt %f and y0 %f\n", yt[0], y0[0]);
-    printf("\nyt %f and y0 %f\n", yt[1], y0[1]);
+    //printf("\nyt %f and y0 %f\n", yt[0], y0[0]);
+    //printf("\nyt %f and y0 %f\n", yt[1], y0[1]);
 
     // iterate from t0 to t1 in steps of dt
     for (double t = t0 + dt; t <= t1; t += dt) {
@@ -142,7 +142,7 @@ int RungeKutta4(double t0, double t1, double dt, double * y0, double * y1,
         (*f)(t + dt, yt_fullstep, yt_fullstep_deriv, params);
 
 
-        printf("yt = %f\n", yt[0]);
+        //printf("yt = %f\n", yt[0]);
         multiply_array(k4, yt_fullstep_deriv, dt, N);
 
         // copy the values back to yt for the next iteration
