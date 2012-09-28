@@ -148,7 +148,7 @@ int RungeKutta4(double t0, double t1, double dt, double * y0, double * y1,
         // copy the values back to yt for the next iteration
         for (int i = 0; i < N; ++i) {
             // yn+1 = yn + 1/6 (k1 + 2k2 + 2k3 + k4)
-            yt[i] += ((k1[i] + 2*k2[i] + 2*k3[i] + k4[i]) / 6);
+            yt[i] += (k1[i] + 2*k2[i] + 2*k3[i] + k4[i]) / 6.0;
 
         }
     }
@@ -161,17 +161,17 @@ int RungeKutta4(double t0, double t1, double dt, double * y0, double * y1,
 
 // Add the values of the source array, multiplied by the multiplyer, to the dest
 // array. N holds the size of the arrays.
-void add_array(double *dest, double *source, double multiplyer, int N)
+void add_array(double *dest, const double *source, double multiplyer, int N)
 {
     for (int i = 0; i < N; ++i)
     {
-        dest[i] = source[i] * multiplyer;
+        dest[i] += source[i] * multiplyer;
     }
 }
 
 // Divide each element of the source array by x.
 // N holds the size of the array
-void divide_array(double *dest, double *source, double x, int N)
+void divide_array(double *dest, const double *source, double x, int N)
 {
     for (int i = 0; i < N; ++i) {
         dest[i] = source[i] / x;
@@ -180,14 +180,14 @@ void divide_array(double *dest, double *source, double x, int N)
 
 // Multiply each element of the source array by x.
 // N holds the size of the array
-void multiply_array(double *dest, double *source, double x, int N)
+void multiply_array(double *dest, const double *source, double x, int N)
 {
     for (int i = 0; i < N; ++i) {
         dest[i] = source[i] * x;
     }
 }
 
-void copy_array(double *dest, double *source, int N)
+void copy_array(double *dest, const double *source, int N)
 {
     for (int i = 0; i < N; ++i) {
         dest[i] = source[i];
