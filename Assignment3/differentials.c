@@ -275,5 +275,13 @@ int RungeKutta4_plot(double t0, double t1, double dt, double * y0, double * y1,
     gnuplot_set_ylabel(plot, "f(t)");
     gnuplot_plot_xy(plot, xs, ys, point_count, "Function approximation");
 
+    // pause for a while so the user can see the plot
+    printf("Press any key to continue...\n");
+    char blackhole[64];
+    gets(blackhole);
+
+    // close the gnuplot workspace and delete temp variables
+    gnuplot_close(plot);
+
     return 0;
 }

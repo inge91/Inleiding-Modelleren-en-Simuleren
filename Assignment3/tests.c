@@ -175,7 +175,6 @@ int main(int argc, char const *argv[])
     double y0[1] = {-1};
     double y1[1];
     RungeKutta4_plot(1, 10, 0.1, y0, y1, 1, &f4, (void*) ps);
-    sleep(60);
 
     return 0;
 }
