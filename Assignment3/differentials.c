@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "differentials.h"
+#include "gnuplot_i.h"
 
 /*
 t0 – the start value t0 of t (input)
@@ -192,4 +193,87 @@ void copy_array(double *dest, const double *source, int N)
     for (int i = 0; i < N; ++i) {
         dest[i] = source[i];
     }
+}
+
+int RungeKutta4_plot(double t0, double t1, double dt, double * y0, double * y1,
+                     int N, int f(double, double *, double *, void *), void * params)
+{
+    // create a gnuplot handle, along with 2 arrays to store the datapoints
+    gnuplot_ctrl *plot = gnuplot_init();
+
+    int point_count = (t1 - t0) / dt;
+    double xs[point_count],
+           ys[point_count];
+    int xs_counter = 0,
+        ys_counter = 0;
+
+    // because the loop starts at y_n+1, use the values of y0 as initial values
+    // for y_n
+    double yt[N];
+    for (int i = 0; i < N; i++) {
+        yt[i] = y0[i];
+    }
+    //printf("\nyt %f and y0 %f\n", yt[0], y0[0]);
+    //printf("\nyt %f and y0 %f\n", yt[1], y0[1]);
+
+    // iterate from t0 to t1 in steps of dt
+    for (double t = t0 + dt; t <= t1; t += dt) {
+        xs[xs_counter++] = t - dt;
+        ys[ys_counter++] = yt[0];
+
+        // yn+1 = yn + 1/6 (k1 + 2k2 + 2k3 + k4)
+        double yt_deriv[N];
+
+        // k1 = dt * f(tn, yn)
+        double k1[N];
+        (*f)(t, yt, yt_deriv, params);
+
+        multiply_array(k1, yt_deriv, dt, N);
+
+        // k2 = dt * f(tn + 0.5dt, yn + 0.5k1)
+        double k2[N], yt_midway[N], yt_midway_deriv[N];
+        copy_array(yt_midway, yt, N);
+        add_array(yt_midway, k1, 0.5, N);
+        (*f)(t + (0.5*dt), yt_midway, yt_midway_deriv, params);
+
+        multiply_array(k2, yt_midway_deriv, dt, N);
+
+        // k3 = dt * f(tn + 0.5dt, yn + 0.5k2)
+        double k3[N];
+        copy_array(yt_midway, yt, N);
+        add_array(yt_midway, k2, 0.5, N);
+        (*f)(t + (0.5*dt), yt_midway, yt_midway_deriv, params);
+
+        multiply_array(k3, yt_midway_deriv, dt, N);
+
+        // k4 = dt * f(tn + dt, yn + k3)
+        double k4[N], yt_fullstep[N], yt_fullstep_deriv[N];
+        copy_array(yt_fullstep, yt, N);
+        add_array(yt_fullstep, k3, 1, N);
+        (*f)(t + dt, yt_fullstep, yt_fullstep_deriv, params);
+
+
+        //printf("yt = %f\n", yt[0]);
+        multiply_array(k4, yt_fullstep_deriv, dt, N);
+
+        // copy the values back to yt for the next iteration
+        for (int i = 0; i < N; ++i) {
+            // yn+1 = yn + 1/6 (k1 + 2k2 + 2k3 + k4)
+            yt[i] += (k1[i] + 2*k2[i] + 2*k3[i] + k4[i]) / 6.0;
+
+        }
+    }
+
+    xs[xs_counter++] = t1;
+    ys[ys_counter++] = yt[0];
+
+    // copy yt to y1
+    copy_array(y1, yt, N);
+
+    // plot the datapoints
+    gnuplot_set_xlabel(plot, "t");
+    gnuplot_set_ylabel(plot, "f(t)");
+    gnuplot_plot_xy(plot, xs, ys, point_count, "Function approximation");
+
+    return 0;
 }

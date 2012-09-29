@@ -39,9 +39,18 @@ int f3(double t, double *y, double *dy, void *params)
     return 0;
 }
 
+int f4(double t, double *y, double *dy, void *params)
+{
+    for (int i = 0; i < ((param_struct *)params)->N; ++i)
+    {
+        dy[i] = y[i] * y[i];
+    }
+
+    return 0;
+}
 
 
-int main(int argc, const char *argv[])
+void test_functions()
 {
     double y0[1] = {0};
     double y1[1];
@@ -112,10 +121,61 @@ int main(int argc, const char *argv[])
         RungeKutta4(0, 5, iter[i], y0, y1, 1, &f3, (void*) ps);
         print_error("RungeKutta4", y1[0], outcome);
     }
+
+    // f = y * y, with t0 starting at ‐1 and y0 at 1, integrating to t = 1 
+    printf("\n");
+
+    y0[0] = 1;
+    outcome = -0.1;
+    for(int i = 0; i < iter_size; i++) {
+        printf("Experimentation with dt = %f\n", iter[i] );
+        Euler(-1, 1, iter[i], y0, y1, 1, &f4, (void*) ps);
+        print_error("Euler", y1[0], outcome);
+
+        RungeKutta2(-1, 1, iter[i], y0, y1, 1, &f4, (void*) ps);
+        print_error("RungeKutta2", y1[0], outcome);
+
+        RungeKutta4(-1, 1, iter[i], y0, y1, 1, &f4, (void*) ps);
+        print_error("RungeKutta4", y1[0], outcome);
+    }
+
+    printf("\n");
+
+    // f = y * y, with t0 starting at 1 and y0 at -1, integrating to t = 10
+    y0[0] = -1;
+    outcome = -0.1;
+    for(int i = 0; i < iter_size; i++) {
+        printf("Experimentation with dt = %f\n", iter[i] );
+        Euler(1, 10, iter[i], y0, y1, 1, &f4, (void*) ps);
+        print_error("Euler", y1[0], outcome);
+
+        RungeKutta2(1, 10, iter[i], y0, y1, 1, &f4, (void*) ps);
+        print_error("RungeKutta2", y1[0], outcome);
+
+        RungeKutta4(1, 10, iter[i], y0, y1, 1, &f4, (void*) ps);
+        print_error("RungeKutta4", y1[0], outcome);
+    }
 }
 
 void print_error(char *method, double result, double expected)
 {
     printf("%-11s gives: %f\t\t" RED "(Error: %f)" RESET "\n", method, result,
            fabs(result - expected));
+}
+
+int main(int argc, char const *argv[])
+{
+    test_functions();
+
+    // testing gnuplot
+    // f = y * y, with t0 starting at 1 and y0 at -1, integrating to t = 10
+    param_struct *ps = (param_struct *) malloc( sizeof(param_struct) );
+    ps->N = 1;
+
+    double y0[1] = {-1};
+    double y1[1];
+    RungeKutta4_plot(1, 10, 0.1, y0, y1, 1, &f4, (void*) ps);
+    sleep(60);
+
+    return 0;
 }
