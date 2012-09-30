@@ -183,13 +183,49 @@ int harmonic_oscillator(double k, double *y, double *dy, void *params)
     return 0;
 }
 
+void test_oscillator()
+{
+    printf("\n");
+    printf("===================\n");
+    printf("Harmonic oscillator\n");
+    printf("===================\n");
+    double y0[2] = {1, 0};
+    double y1[2];
+
+    Euler(0, 10, 0.1, y0, y1, 2, &harmonic_oscillator, 0);
+    printf("Euler, 10%% timesteps:\t\t\ts(t1) = %f, v(t1) = %f\n", y1[0], y1[1]);
+
+    Euler(0, 10, 0.05, y0, y1, 2, &harmonic_oscillator, 0);
+    printf("Euler, 5\%% timesteps:\t\t\ts(t1) = %f, v(t1) = %f\n", y1[0], y1[1]);
+
+    printf("\n");
+
+    RungeKutta2(0, 10, 0.1, y0, y1, 2, &harmonic_oscillator, 0);
+    printf("RungeKutta2, 10\%% timesteps:\t\ts(t1) = %f, v(t1) = %f\n", y1[0], y1[1]);
+
+    RungeKutta2(0, 10, 0.05, y0, y1, 2, &harmonic_oscillator, 0);
+    printf("RungeKutta2, 5\%% timesteps:\t\ts(t1) = %f, v(t1) = %f\n", y1[0], y1[1]);
+
+    printf("\n");
+
+    RungeKutta4(0, 10, 0.1, y0, y1, 2, &harmonic_oscillator, 0);
+    printf("RungeKutta4, 10\%% timesteps:\t\ts(t1) = %f, v(t1) = %f\n", y1[0], y1[1]);
+
+    RungeKutta4(0, 10, 0.05, y0, y1, 2, &harmonic_oscillator, 0);
+    printf("RungeKutta4, 5\%% timesteps:\t\ts(t1) = %f, v(t1) = %f\n", y1[0], y1[1]);
+
+    RungeKutta4(0, 10, 0.005, y0, y1, 2, &harmonic_oscillator, 0);
+    printf("RungeKutta4, 0.5\%% timesteps:\t\ts(t1) = %f, v(t1) = %f\n", y1[0], y1[1]);
+
+    printf("\n");
+    printf("Please enjoy these lovely plots.\n");
+    RungeKutta4_plot(0, 20, 0.01, y0, y1, 2, &harmonic_oscillator, 0);
+}
+
 int main(int argc, char const *argv[])
 {
     test_functions();
-
-    double y0[2] = {1, 0};
-    double y1[2];
-    RungeKutta4_plot(0, 10, 0.1, y0, y1, 2, &harmonic_oscillator, 0);
+    test_oscillator();
 
     return 0;
 }
