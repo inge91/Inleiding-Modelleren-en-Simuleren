@@ -163,18 +163,33 @@ void print_error(char *method, double result, double expected)
            fabs(result - expected));
 }
 
+
+// ------------------------------------
+// Coupled ODEs
+// ------------------------------------
+
+// the function used for the harmonic oscillator
+int harmonic_oscillator(double k, double *y, double *dy, void *params)
+{
+    // y[0]  = s(k)
+    // y[1]  = v(k)
+    //
+    // dy[0] = s'(k) = v(k)
+    // dy[1] = v'(k) = -ks
+    
+    dy[0] = y[1];
+    dy[1] = -k * y[0];
+
+    return 0;
+}
+
 int main(int argc, char const *argv[])
 {
     test_functions();
 
-    // testing gnuplot
-    // f = y * y, with t0 starting at 1 and y0 at -1, integrating to t = 10
-    param_struct *ps = (param_struct *) malloc( sizeof(param_struct) );
-    ps->N = 1;
-
-    double y0[1] = {-1};
-    double y1[1];
-    RungeKutta4_plot(1, 10, 0.1, y0, y1, 1, &f4, (void*) ps);
+    double y0[2] = {1, 0};
+    double y1[2];
+    RungeKutta4_plot(0, 10, 0.1, y0, y1, 2, &harmonic_oscillator, 0);
 
     return 0;
 }

@@ -198,14 +198,18 @@ void copy_array(double *dest, const double *source, int N)
 int RungeKutta4_plot(double t0, double t1, double dt, double * y0, double * y1,
                      int N, int f(double, double *, double *, void *), void * params)
 {
-    // create a gnuplot handle, along with 2 arrays to store the datapoints
-    gnuplot_ctrl *plot = gnuplot_init();
 
+    // make arrays to hold the datapoints and initialize them to zero
     int point_count = (t1 - t0) / dt;
-    double xs[point_count],
-           ys[point_count];
-    int xs_counter = 0,
-        ys_counter = 0;
+    double xs[N][point_count],
+           ys[N][point_count];
+    int xs_counter[N],
+        ys_counter[N];
+
+    for (int i = 0; i < N; i++) {
+        xs_counter[i] = 0;
+        ys_counter[i] = 0;
+    }
 
     // because the loop starts at y_n+1, use the values of y0 as initial values
     // for y_n
@@ -218,8 +222,10 @@ int RungeKutta4_plot(double t0, double t1, double dt, double * y0, double * y1,
 
     // iterate from t0 to t1 in steps of dt
     for (double t = t0 + dt; t <= t1; t += dt) {
-        xs[xs_counter++] = t - dt;
-        ys[ys_counter++] = yt[0];
+        for (int i = 0; i < N; i++) {
+            xs[i][xs_counter[i]++] = t - dt;
+            ys[i][ys_counter[i]++] = yt[i];
+        }
 
         // yn+1 = yn + 1/6 (k1 + 2k2 + 2k3 + k4)
         double yt_deriv[N];
@@ -264,24 +270,38 @@ int RungeKutta4_plot(double t0, double t1, double dt, double * y0, double * y1,
         }
     }
 
-    xs[xs_counter++] = t1;
-    ys[ys_counter++] = yt[0];
+    for (int i = 0; i < N; i++) {
+        xs[i][xs_counter[i]++] = t1 - dt;
+        ys[i][ys_counter[i]++] = yt[i];
+    }
 
     // copy yt to y1
     copy_array(y1, yt, N);
 
-    // plot the datapoints
-    gnuplot_set_xlabel(plot, "t");
-    gnuplot_set_ylabel(plot, "f(t)");
-    gnuplot_plot_xy(plot, xs, ys, point_count, "Function approximation");
+    // create gnuplot handles for each plot
+    gnuplot_ctrl *plot[N];
+
+    for (int i = 0; i < N; i++) {
+        plot[i] = gnuplot_init();
+
+        gnuplot_set_xlabel(plot[i], "t");
+        gnuplot_set_ylabel(plot[i], "f(t)");
+
+        char plot_label[32];
+        sprintf(plot_label, "Function approximation %d", i);
+        
+        gnuplot_plot_xy(plot[i], xs[i], ys[i], point_count, plot_label);
+    }
 
     // pause for a while so the user can see the plot
     printf("Press any key to continue...\n");
     char blackhole[64];
     gets(blackhole);
 
-    // close the gnuplot workspace and delete temp variables
-    gnuplot_close(plot);
+    // close the gnuplot workspaces and delete temp variables
+    for (int i = 0; i < N; i++) {
+        gnuplot_close(plot[i]);
+    }
 
     return 0;
 }
