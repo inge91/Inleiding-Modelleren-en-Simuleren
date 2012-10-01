@@ -313,12 +313,54 @@ void test_verhulst()
     RungeKutta4_plot(0, 20, 0.005, y0, y1, 2, &verhulst, 0);
 }
 
+// ------------------------------------
+// Gilpin model
+// ------------------------------------
+//
+// x' = x(1 - 0.001x - 0.001y - 0.01z)
+// y' = y(1 - 0.001y - 0.0015x - 0.001z)
+// z' = z(0.005x + 0.0005y - 1)
+int gilpin(double t, double *y, double *dy, void *params)
+{
+    // y[0] = x(t)
+    // y[1] = y(t)
+    // y[2] = z(t)
+    //
+    // dy[0] = x'(t) = x(t) * (1 - 0.001x(t) - 0.001y(t) - 0.01z(t)
+    // dy[1] = y'(t) = y(t) * (1 - 0.001y(t) - 0.0015x(t) - 0.001z(t)
+    // dy[2] = z'(t) = z(t) * (0.005x(t) + 0.0005y(t) - 1)
+
+    dy[0] = y[0] * (1 - 0.001*y[0] - 0.001*y[1] - 0.01*y[2]);
+    dy[1] = y[1] * (1 - 0.001*y[1] - 0.0015*y[0] - 0.001*y[2]);
+    dy[2] = y[2] * (0.005*y[0] + 0.0005*y[1] - 1);
+
+    return 0;
+}
+
+void test_gilpin()
+{
+    printf("\n");
+    printf("======\n");
+    printf("Gilpin\n");
+    printf("======\n");
+
+    printf("Starting at x0 = 50, y0 = 50, and z0 = 50\n");
+    double y0[3] = {50, 50, 50};
+    double y1[3];
+    RungeKutta4_plot(0, 50, 0.005, y0, y1, 3, &gilpin, 0);
+
+    printf("Starting at x0 = 100, y0 = 100, and z0 = 500\n");
+    y0[0] = 100; y0[1] = 100; y0[2] = 500;
+    RungeKutta4_plot(0, 50, 0.005, y0, y1, 3, &gilpin, 0);
+}
+
 int main(int argc, char const *argv[])
 {
     test_functions();
     test_oscillator();
     test_lotka();
     test_verhulst();
+    test_gilpin();
 
     return 0;
 }
