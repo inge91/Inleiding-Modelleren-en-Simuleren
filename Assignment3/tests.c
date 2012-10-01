@@ -272,11 +272,53 @@ void test_lotka()
     RungeKutta4_plot(0, 20, 0.005, y0, y1, 2, &lotka_volterra, 0);
 }
 
+// ------------------------------------
+// Verhulst model
+// ------------------------------------
+//
+// x' = -0.5x + 0.01xy
+// y' = (1 - y/100)y - 0.1xy
+int verhulst(double t, double *y, double *dy, void *params)
+{
+    // y[0] = x(t)
+    // y[1] = y(t)
+    //
+    // dy[0] = x'(t) = -0.5x(t) + 0.01x(t)y(t)
+    // dy[1] = y'(t) = (1 - y(t)/100)y(t) - 0.1x(t)y(t)
+
+    dy[0] = -0.5 * y[0] + 0.01 * y[0] * y[1];
+    dy[1] = (1 - y[1]/100.0) * y[1] - 0.1 * y[0] * y[1];
+
+    return 0;
+}
+
+void test_verhulst()
+{
+    printf("\n");
+    printf("========\n");
+    printf("Verhulst\n");
+    printf("========\n");
+
+    printf("Starting at the previous equilibrium with x0 = 10 and y0 = 50\n");
+    double y0[2] = {10, 50};
+    double y1[2];
+    RungeKutta4_plot(0, 20, 0.005, y0, y1, 2, &verhulst, 0);
+
+    printf("Starting close to the previous equilibrium with x0 = 8 and y0 = 52\n");
+    y0[0] = 8; y0[1] = 52;
+    RungeKutta4_plot(0, 20, 0.005, y0, y1, 2, &verhulst, 0);
+
+    printf("Starting further from the previous equilibrium with x0 = 40 and y0 = 20\n");
+    y0[0] = 40; y0[1] = 20;
+    RungeKutta4_plot(0, 20, 0.005, y0, y1, 2, &verhulst, 0);
+}
+
 int main(int argc, char const *argv[])
 {
     test_functions();
     test_oscillator();
     test_lotka();
+    test_verhulst();
 
     return 0;
 }
