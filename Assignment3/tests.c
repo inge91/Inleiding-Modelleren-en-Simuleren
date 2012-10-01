@@ -167,6 +167,11 @@ void print_error(char *method, double result, double expected)
 // ------------------------------------
 // Coupled ODEs
 // ------------------------------------
+//
+
+// ------------------------------------
+// Harmonic Oscillator
+// ------------------------------------
 
 // the function used for the harmonic oscillator
 int harmonic_oscillator(double k, double *y, double *dy, void *params)
@@ -222,10 +227,56 @@ void test_oscillator()
     RungeKutta4_plot(0, 20, 0.01, y0, y1, 2, &harmonic_oscillator, 0);
 }
 
+// ------------------------------------
+// Lotka-Volterra
+// ------------------------------------
+//
+// x' = -0.5x + 0.01xy
+// y' = y - 0.1xy
+// 
+// Stable populations are found at:
+// x = 0, y = 0
+// x = 10, y = 50
+int lotka_volterra(double t, double *y, double *dy, void *params)
+{
+    // y[0] = x(t)
+    // y[1] = y(t)
+    //
+    // dy[0] = x'(t) = -0.5x(t) + 0.01x(t)y(t)
+    // dy[1] = y'(t) = y(t) - 0.1x(t)y(t)
+
+    dy[0] = -0.5 * y[0] + 0.01 * y[0] * y[1];
+    dy[1] = y[1] - 0.1 * y[0] * y[1];
+
+    return 0;
+}
+
+void test_lotka()
+{
+    printf("\n");
+    printf("==============\n");
+    printf("Lotka-Volterra\n");
+    printf("==============\n");
+
+    printf("Starting at the equilibrium with x0 = 10 and y0 = 50\n");
+    double y0[2] = {10, 50};
+    double y1[2];
+    RungeKutta4_plot(0, 20, 0.005, y0, y1, 2, &lotka_volterra, 0);
+
+    printf("Starting close to the equilibrium with x0 = 8 and y0 = 52\n");
+    y0[0] = 8; y0[1] = 52;
+    RungeKutta4_plot(0, 20, 0.005, y0, y1, 2, &lotka_volterra, 0);
+
+    printf("Starting further from the equilibrium with x0 = 40 and y0 = 20\n");
+    y0[0] = 40; y0[1] = 20;
+    RungeKutta4_plot(0, 20, 0.005, y0, y1, 2, &lotka_volterra, 0);
+}
+
 int main(int argc, char const *argv[])
 {
     test_functions();
     test_oscillator();
+    test_lotka();
 
     return 0;
 }
