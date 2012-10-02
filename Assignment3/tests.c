@@ -261,15 +261,15 @@ void test_lotka()
     printf("Starting at the equilibrium with x0 = 10 and y0 = 50\n");
     double y0[2] = {10, 50};
     double y1[2];
-    RungeKutta4_plot(0, 20, 0.005, y0, y1, 2, &lotka_volterra, 0);
+    RungeKutta4_plot(0, 50, 0.005, y0, y1, 2, &lotka_volterra, 0);
 
     printf("Starting close to the equilibrium with x0 = 8 and y0 = 52\n");
     y0[0] = 8; y0[1] = 52;
-    RungeKutta4_plot(0, 20, 0.005, y0, y1, 2, &lotka_volterra, 0);
+    RungeKutta4_plot(0, 50, 0.005, y0, y1, 2, &lotka_volterra, 0);
 
     printf("Starting further from the equilibrium with x0 = 40 and y0 = 20\n");
     y0[0] = 40; y0[1] = 20;
-    RungeKutta4_plot(0, 20, 0.005, y0, y1, 2, &lotka_volterra, 0);
+    RungeKutta4_plot(0, 50, 0.005, y0, y1, 2, &lotka_volterra, 0);
 }
 
 // ------------------------------------
@@ -302,15 +302,15 @@ void test_verhulst()
     printf("Starting at the previous equilibrium with x0 = 10 and y0 = 50\n");
     double y0[2] = {10, 50};
     double y1[2];
-    RungeKutta4_plot(0, 20, 0.005, y0, y1, 2, &verhulst, 0);
+    RungeKutta4_plot(0, 50, 0.005, y0, y1, 2, &verhulst, 0);
 
     printf("Starting close to the previous equilibrium with x0 = 8 and y0 = 52\n");
     y0[0] = 8; y0[1] = 52;
-    RungeKutta4_plot(0, 20, 0.005, y0, y1, 2, &verhulst, 0);
+    RungeKutta4_plot(0, 50, 0.005, y0, y1, 2, &verhulst, 0);
 
     printf("Starting further from the previous equilibrium with x0 = 40 and y0 = 20\n");
     y0[0] = 40; y0[1] = 20;
-    RungeKutta4_plot(0, 20, 0.005, y0, y1, 2, &verhulst, 0);
+    RungeKutta4_plot(0, 50, 0.005, y0, y1, 2, &verhulst, 0);
 }
 
 // ------------------------------------
@@ -349,8 +349,12 @@ void test_gilpin()
     double y1[3];
     RungeKutta4_plot(0, 50, 0.005, y0, y1, 3, &gilpin, 0);
 
-    printf("Starting at x0 = 100, y0 = 100, and z0 = 500\n");
-    y0[0] = 100; y0[1] = 100; y0[2] = 500;
+    printf("Starting at x0 = 200, y0 = 200, and z0 = 800\n");
+    y0[0] = 200; y0[1] = 200; y0[2] = 800;
+    RungeKutta4_plot(0, 50, 0.005, y0, y1, 3, &gilpin, 0);
+
+    printf("Starting at x0 = 1, y0 = 1, and z0 = 1\n");
+    y0[0] = 1; y0[1] = 1; y0[2] = 1;
     RungeKutta4_plot(0, 50, 0.005, y0, y1, 3, &gilpin, 0);
 }
 
