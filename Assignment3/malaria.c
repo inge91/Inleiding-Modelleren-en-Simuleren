@@ -92,7 +92,7 @@ int malaria(double t, double *y, double *dy, void *params)
     // recovery_rate_susceptible - fatality_rate * Hi
     //
     // //TODO: Should we add deathrate?
-    dy[Hi] = nb * (y[Mi] / y[Mi] + y[Mu]) * (y[Hu] / ( human_count))  - recov_imm_rate * y[Hi] -
+    dy[Hi] = nb * (y[Mi] / mosquito_count) * (y[Hu] / human_count)  - recov_imm_rate * y[Hi] -
              recov_susc_rate * y[Hi] - fatality_rate * y[Hi];
 
     // immune (resistant) humans
