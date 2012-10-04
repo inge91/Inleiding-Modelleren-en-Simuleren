@@ -32,6 +32,11 @@ malaria_params make_params(double birthrate, double deathrate,
 
 int malaria(double t, double *y, double *dy, void *params)
 {
+    // Hu humans uninfected
+    // Hi humans infected
+    // Hr humans resistent
+    // Mu musquito uninfected
+    // Mi musquito infected
     int Hu = 0,
         Hi = 1,
         Hr = 2,
@@ -71,21 +76,23 @@ int malaria(double t, double *y, double *dy, void *params)
     // susceptible humans
     // dHu = new humans + recovered infecteds + immunes who lost their immunity -
     // deaths - people that get infected (number of mosquito bites * the ratio
-    // of infected mosquitos)
+    // of infected mosquitos) * ratio of suceptible humans to total humans )
     //
     // dHu = birthrate * Hu + recovery rate * Hi + immunity_loss_rate * Hr
-    // - deathrate * Hu - nb * (Mi/Mi+Mu)
+    // - deathrate * Hu - nb * (Mi/(Mi+Mu)) * (Hu/(Hu+Hi+Hr)) 
     dy[Hu] = birthrate * y[Hu] + recov_susc_rate * y[Hi] +
              imm_loss_rate * y[Hr] - deathrate * y[Hu] -
-             nb * (y[Mi] / (y[Mi] + y[Mu]));
+             nb * (y[Mi] / (y[Mi] + y[Mu])) * (y[Hu] / (y[Hu] + y[Hi] + y[Hr]));
 
 
     // infected humans
     // dHi = new infecteds - recovered infecteds - dead infecteds
     //
-    // dHi = nb * (Mi/Mi+Mu) - recovery_rate_immune * Hi -
+    // dHi = nb * (Mi/Mi+Mu) * (Hu/(Hu+Hi+Hr)) - recovery_rate_immune * Hi -
     // recovery_rate_susceptible - fatality_rate * Hi
-    dy[Hi] = nb * (y[Mi] / y[Mi] + y[Mu]) - recov_imm_rate * y[Hi] -
+    //
+    // //TODO: Should we add deathrate?
+    dy[Hi] = nb * (y[Mi] / y[Mi] + y[Mu]) * (y[Hu] / ( y[Hu] + y[Hi] + y[Hr]))  - recov_imm_rate * y[Hi] -
              recov_susc_rate * y[Hi] - fatality_rate * y[Hi];
 
     // immune (resistant) humans
