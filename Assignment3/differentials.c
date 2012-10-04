@@ -195,8 +195,18 @@ void copy_array(double *dest, const double *source, int N)
     }
 }
 
+
 int RungeKutta4_plot(double t0, double t1, double dt, double * y0, double * y1,
-                     int N, int f(double, double *, double *, void *), void * params)
+                     int N, int f(double, double *, double *, void *),
+                     void * params)
+{
+    return RungeKutta4_plot_labels(t0, t1, dt, y0, y1, N, f, params, 0);
+}
+
+int RungeKutta4_plot_labels(double t0, double t1, double dt, double * y0,
+                            double * y1, int N,
+                            int f(double, double *, double *, void *),
+                            void * params, char *labels[])
 {
 
     // make arrays to hold the datapoints and initialize them to zero
@@ -287,8 +297,12 @@ int RungeKutta4_plot(double t0, double t1, double dt, double * y0, double * y1,
         gnuplot_set_xlabel(plot[i], "t");
         gnuplot_set_ylabel(plot[i], "f(t)");
 
-        char plot_label[32];
-        sprintf(plot_label, "Function approximation %d", i);
+        char plot_label[128];
+
+        if (labels != 0)
+            sprintf(plot_label, labels[i]);
+        else
+            sprintf(plot_label, "Function approximation %d", i);
         
         gnuplot_plot_xy(plot[i], xs[i], ys[i], point_count, plot_label);
     }

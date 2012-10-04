@@ -130,8 +130,11 @@ int main(int argc, const char *argv[])
     // mosquitos, infected mosquitos
     double y0[ARRAY_SIZE] = {1000, 0, 0, 1000, 500};
     double y1[ARRAY_SIZE];
+    char *labels[ARRAY_SIZE] = {"Susceptible humans", "Infected humans",
+        "Resistant humans", "Uninfected mosquitos", "Infected mosquitos"};
 
-    RungeKutta4_plot(0, 500, 1, y0, y1, ARRAY_SIZE, &malaria, (void *)(&params));
+    RungeKutta4_plot_labels(0, 500, 1, y0, y1, ARRAY_SIZE, &malaria,
+                            (void *)(&params), labels);
 
     return 0;
 }
