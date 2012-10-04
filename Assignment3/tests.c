@@ -174,16 +174,16 @@ void print_error(char *method, double result, double expected)
 // ------------------------------------
 
 // the function used for the harmonic oscillator
-int harmonic_oscillator(double k, double *y, double *dy, void *params)
+int harmonic_oscillator(double t, double *y, double *dy, void *params)
 {
-    // y[0]  = s(k)
-    // y[1]  = v(k)
+    // y[0]  = s(t)
+    // y[1]  = v(t)
     //
-    // dy[0] = s'(k) = v(k)
-    // dy[1] = v'(k) = -ks
+    // dy[0] = s'(t) = v(t)
+    // dy[1] = v'(t) = -ks
     
     dy[0] = y[1];
-    dy[1] = -k * y[0];
+    dy[1] = -1 * y[0];
 
     return 0;
 }
