@@ -126,19 +126,19 @@ int malaria(double t, double *y, double *dy, void *params)
 // parses the command-line input into a a parameter struct
 void parse_params(const char *argv[], double param_array[])
 {
-    param_array[0] = atof(argv[0]);
-    param_array[1] = atof(argv[1]);
-    param_array[2] = atof(argv[2]);
-    param_array[3] = atof(argv[3]);
-    param_array[4] = atof(argv[4]);
-    param_array[5] = atof(argv[5]);
+    param_array[0] = atof(argv[1]);
+    param_array[1] = atof(argv[2]);
+    param_array[2] = atof(argv[3]);
+    param_array[3] = atof(argv[4]);
+    param_array[4] = atof(argv[5]);
+    param_array[5] = atof(argv[6]);
 
     // initial values
-    param_array[6] = atof(argv[6]);
-    param_array[7] = atof(argv[7]);
-    param_array[8] = atof(argv[8]);
-    param_array[9] = atof(argv[9]);
-    param_array[10] = atof(argv[10]);
+    param_array[6] = atof(argv[7]);
+    param_array[7] = atof(argv[8]);
+    param_array[8] = atof(argv[9]);
+    param_array[9] = atof(argv[10]);
+    param_array[10] = atof(argv[11]);
 }
 
 int main(int argc, const char *argv[])
@@ -161,7 +161,7 @@ int main(int argc, const char *argv[])
 
     // Susceptible humans, infected humans, resistant humans, uninfected
     // mosquitos, infected mosquitos
-    double y0[ARRAY_SIZE] = {param_array[6], param_array[7], param_array[8], param_array[9]};
+    double y0[ARRAY_SIZE] = {param_array[6], param_array[7], param_array[8], param_array[9], param_array[10]};
     double y1[ARRAY_SIZE];
     char *labels[ARRAY_SIZE] = {"Susceptible humans", "Infected humans",
         "Resistant humans", "Uninfected mosquitos", "Infected mosquitos"};
