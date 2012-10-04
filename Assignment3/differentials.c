@@ -296,7 +296,7 @@ int RungeKutta4_plot(double t0, double t1, double dt, double * y0, double * y1,
     // pause for a while so the user can see the plot
     printf("Press any key to continue...\n");
     char blackhole[64];
-    gets(blackhole);
+    fgets(blackhole, 63, stdin);
 
     // close the gnuplot workspaces and delete temp variables
     for (int i = 0; i < N; i++) {
