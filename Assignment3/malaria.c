@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "differentials.h"
 
@@ -122,9 +123,33 @@ int malaria(double t, double *y, double *dy, void *params)
     return 0;
 }
 
+// parses the command-line input into a a parameter struct
+void parse_params(const char *argv[], double param_array[])
+{
+    param_array[0] = atof(argv[0]);
+    param_array[1] = atof(argv[1]);
+    param_array[2] = atof(argv[2]);
+    param_array[3] = atof(argv[3]);
+    param_array[4] = atof(argv[4]);
+    param_array[5] = atof(argv[5]);
+}
+
 int main(int argc, const char *argv[])
 {
-    malaria_params params = make_params(0.1, 0.1, 0.1, 0.1, 0.1, 0.1);
+    if (argc < 6) {
+        printf("Usage: ./malaria birthrate deathrate fatality_rate imm_loss_rate recov_imm_rate recov_susc_rate\n");
+        exit(1);
+    }
+
+    double param_array[ARRAY_SIZE];
+    parse_params(argv, param_array);
+
+    malaria_params params = make_params(param_array[0],
+                                        param_array[1],
+                                        param_array[2],
+                                        param_array[3],
+                                        param_array[4],
+                                        param_array[5]);
 
     // Susceptible humans, infected humans, resistant humans, uninfected
     // mosquitos, infected mosquitos
