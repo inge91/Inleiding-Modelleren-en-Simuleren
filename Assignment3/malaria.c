@@ -143,7 +143,7 @@ void parse_params(const char *argv[], double param_array[])
 
 int main(int argc, const char *argv[])
 {
-    if (argc < 6) {
+    if (argc < 11) {
         printf("Usage: ./malaria birthrate deathrate fatality_rate imm_loss_rate recov_imm_rate recov_susc_rate ...\n\
     initial susceptible_humans infected_humans resistant_humans uninfected_mosquitos infected_mosquitos\n");
         exit(1);
