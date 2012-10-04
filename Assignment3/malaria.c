@@ -80,7 +80,7 @@ int malaria(double t, double *y, double *dy, void *params)
     //
     // dHu = birthrate * Hu + recovery rate * Hi + immunity_loss_rate * Hr
     // - deathrate * Hu - nb * (Mi/(Mi+Mu)) * (Hu/(Hu+Hi+Hr)) 
-    dy[Hu] = birthrate * y[Hu] + recov_susc_rate * y[Hi] +
+    dy[Hu] = birthrate * human_count + recov_susc_rate * y[Hi] +
              imm_loss_rate * y[Hr] - deathrate * y[Hu] -
              nb * (y[Mi] / (y[Mi] + y[Mu])) * (y[Hu] / (human_count));
 
@@ -173,7 +173,7 @@ int main(int argc, const char *argv[])
     char *labels[ARRAY_SIZE] = {"Susceptible humans", "Infected humans",
         "Resistant humans", "Uninfected mosquitos", "Infected mosquitos"};
 
-    RungeKutta4_plot_labels(0, 100, 1, y0, y1, ARRAY_SIZE, &malaria,
+    RungeKutta4_plot_labels(0, 500, 1, y0, y1, ARRAY_SIZE, &malaria,
                             (void *)(&params), labels);
 
     return 0;
