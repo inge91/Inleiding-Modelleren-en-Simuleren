@@ -132,16 +132,24 @@ void parse_params(const char *argv[], double param_array[])
     param_array[3] = atof(argv[3]);
     param_array[4] = atof(argv[4]);
     param_array[5] = atof(argv[5]);
+
+    // initial values
+    param_array[6] = atof(argv[6]);
+    param_array[7] = atof(argv[7]);
+    param_array[8] = atof(argv[8]);
+    param_array[9] = atof(argv[9]);
+    param_array[10] = atof(argv[10]);
 }
 
 int main(int argc, const char *argv[])
 {
     if (argc < 6) {
-        printf("Usage: ./malaria birthrate deathrate fatality_rate imm_loss_rate recov_imm_rate recov_susc_rate\n");
+        printf("Usage: ./malaria birthrate deathrate fatality_rate imm_loss_rate recov_imm_rate recov_susc_rate ...\n\
+    initial susceptible_humans infected_humans resistant_humans uninfected_mosquitos infected_mosquitos\n");
         exit(1);
     }
 
-    double param_array[ARRAY_SIZE];
+    double param_array[ARRAY_SIZE + 6];
     parse_params(argv, param_array);
 
     malaria_params params = make_params(param_array[0],
@@ -153,12 +161,12 @@ int main(int argc, const char *argv[])
 
     // Susceptible humans, infected humans, resistant humans, uninfected
     // mosquitos, infected mosquitos
-    double y0[ARRAY_SIZE] = {1000, 0, 0, 1000, 500};
+    double y0[ARRAY_SIZE] = {param_array[6], param_array[7], param_array[8], param_array[9]};
     double y1[ARRAY_SIZE];
     char *labels[ARRAY_SIZE] = {"Susceptible humans", "Infected humans",
         "Resistant humans", "Uninfected mosquitos", "Infected mosquitos"};
 
-    RungeKutta4_plot_labels(0, 500, 1, y0, y1, ARRAY_SIZE, &malaria,
+    RungeKutta4_plot_labels(0, 100, 1, y0, y1, ARRAY_SIZE, &malaria,
                             (void *)(&params), labels);
 
     return 0;
