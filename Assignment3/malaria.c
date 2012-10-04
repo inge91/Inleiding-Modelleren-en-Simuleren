@@ -2,6 +2,8 @@
 
 #include "differentials.h"
 
+#define ARRAY_SIZE 5
+
 typedef struct {
     double birthrate,
            deathrate,
@@ -11,14 +13,29 @@ typedef struct {
            recov_susc_rate;
 } malaria_params;
 
+malaria_params make_params(double birthrate, double deathrate,
+                           double fatality_rate, double imm_loss_rate,
+                           double recov_imm_rate, double recov_susc_rate)
+{
+    malaria_params params;
+
+    params.birthrate = birthrate;
+    params.deathrate = deathrate;
+    params.fatality_rate = fatality_rate;
+    params.imm_loss_rate = imm_loss_rate;
+    params.recov_imm_rate = recov_imm_rate;
+    params.recov_susc_rate = recov_susc_rate;
+
+    return params;
+}
+
 int malaria(double t, double *y, double *dy, void *params)
 {
     int Hu = 0,
         Hi = 1,
         Hr = 2,
         Mu = 3,
-        Mi = 4,
-        nb = 5;
+        Mi = 4;
 
     double birthrate       = ((malaria_params *) params)->birthrate,
            deathrate       = ((malaria_params *) params)->deathrate,
@@ -31,6 +48,23 @@ int malaria(double t, double *y, double *dy, void *params)
            // chance of going from infected to susceptible
            recov_susc_rate = ((malaria_params *) params)->recov_susc_rate;
 
+    // number of bites
+    // a mosquito bites once every two days, so every day 50% of the mosquitos
+    // could potentially bite (if there are enough humans)
+
+    // if amount of humans >= 0.5 * amount of mosquitos:
+    // nb = 0.5 * amount of mosquitos 
+    // else:
+    // nb = 0.5 * amount of mosquitos * (humans/0.5*mosquitos)
+    double nb             = 0,
+           human_count    = y[Hu] + y[Hi] + y[Hr],
+           mosquito_count = y[Mu] + y[Mi];
+
+    if (human_count >= (0.5 * mosquito_count))
+        nb = 0.5 * mosquito_count;
+    else
+        nb = 0.5 * mosquito_count * (human_count / (0.5 * mosquito_count));
+
     /* humans */
 
     // susceptible humans
@@ -42,7 +76,7 @@ int malaria(double t, double *y, double *dy, void *params)
     // - deathrate * Hu - nb * (Mi/Mi+Mu)
     dy[Hu] = birthrate * y[Hu] + recov_susc_rate * y[Hi] +
              imm_loss_rate * y[Hr] - deathrate * y[Hu] -
-             y[nb] * (y[Mi] / (y[Mi] + y[Mu]));
+             nb * (y[Mi] / (y[Mi] + y[Mu]));
 
 
     // infected humans
@@ -50,7 +84,7 @@ int malaria(double t, double *y, double *dy, void *params)
     //
     // dHi = nb * (Mi/Mi+Mu) - recovery_rate_immune * Hi -
     // recovery_rate_susceptible - fatality_rate * Hi
-    dy[Hi] = y[nb] * (y[Mi] / y[Mi] + y[Mu]) - recov_imm_rate * y[Hi] -
+    dy[Hi] = nb * (y[Mi] / y[Mi] + y[Mu]) - recov_imm_rate * y[Hi] -
              recov_susc_rate * y[Hi] - fatality_rate * y[Hi];
 
     // immune (resistant) humans
@@ -73,7 +107,7 @@ int malaria(double t, double *y, double *dy, void *params)
     // bitten by uninfected mosquitos
     //
     // dMu = 0.1 * Mi - nb * (Mu / (Mi+Mu)) * (Hi / (Hi+Hu+Hr))
-    dy[Mu] = 0.1 * y[Mi] - y[nb] * (y[Mu] / (y[Mi] + y[Mu])) *
+    dy[Mu] = 0.1 * y[Mi] - nb * (y[Mu] / (y[Mi] + y[Mu])) *
         (y[Hi] / (y[Hi] + y[Hu] + y[Hr]));
 
     // infected mosquitos
@@ -82,16 +116,22 @@ int malaria(double t, double *y, double *dy, void *params)
     //
     // dMi = nb * (Mu / (Mi+Mu)) * (Hi / (Hi+Hu+Hr)) - 0.1 * Mi 
     
-    dy[Mi] = y[nb] * (y[Mu] / (y[Mi] + y[Mu])) * (y[Hi] / (y[Hi] + y[Hu] + y[Hr]))
+    dy[Mi] = nb * (y[Mu] / (y[Mi] + y[Mu])) * (y[Hi] / (y[Hi] + y[Hu] + y[Hr]))
         - 0.1 * y[Mi];
-
-    // number of bites
 
     return 0;
 }
 
 int main(int argc, const char *argv[])
 {
-    printf("Hello\n");
+    malaria_params params = make_params(0.1, 0.1, 0.1, 0.1, 0.1, 0.1);
+
+    // Susceptible humans, infected humans, resistant humans, uninfected
+    // mosquitos, infected mosquitos
+    double y0[ARRAY_SIZE] = {1000, 0, 0, 1000, 500};
+    double y1[ARRAY_SIZE];
+
+    RungeKutta4_plot(0, 500, 1, y0, y1, ARRAY_SIZE, &malaria, (void *)(&params));
+
     return 0;
 }
