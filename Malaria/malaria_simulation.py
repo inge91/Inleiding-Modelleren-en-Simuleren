@@ -1,22 +1,21 @@
 import random
+
+
+SUSHU = 1
+INFHU = 2
+IMMHU = 3
+SUSMU = 4
+INFMU = 5
+
 class board:
 
-    # All possible cell values
-    EMPTY = 0
-    SUSHU = 1
-    INFHU = 2
-    IMMHU = 3
-    SUSMU = 4
-    INFMU = 5
     world = []
-    size_x
-    size_y
 
     def __init__(self, size_x, size_y, n_susceptible_humans, n_infected_humans,
             n_immune_humans, n_uninfected_musquitoes,  n_infected_musquitoes):
 
         # Create an empty 2D list that creates all elements
-        self.world = [[self.EMPTY] * size_x for _ in xrange(size_y)]
+        self.world = [[Cell() for _ in xrange(size_x)] for _ in xrange(size_y)]
         self.size_x = size_x
         self.size_y = size_y
 
@@ -27,15 +26,21 @@ class board:
                 available_positions.append((i,j))
 
         # Choose a random initial position for the susceptible humans  
-        coords = self.__fill_elements(n_susceptible_humans, self.SUSHU, available_positions)
-        coords = self.__fill_elements(n_infected_humans, self.INFHU, available_positions)
-        coords = self.__fill_elements(n_immune_humans, self.IMMHU, available_positions)
-        coords = self.__fill_elements(n_uninfected_musquitoes, self.SUSMU, available_positions)
-        coords = self.__fill_elements(n_infected_musquitoes, self.INFMU, available_positions)
+        coords = self.__fill_elements(n_susceptible_humans, SUSHU, available_positions)
+        coords = self.__fill_elements(n_infected_humans, INFHU, available_positions)
+        coords = self.__fill_elements(n_immune_humans, IMMHU, available_positions)
+        coords = self.__fill_elements(n_uninfected_musquitoes, SUSMU, available_positions)
+        coords = self.__fill_elements(n_infected_musquitoes, INFMU, available_positions)
 
     def print_world(self):
-        for i in self.world:
-            print i
+        for i in xrange(0,self.size_x ):
+            for j in xrange(0, self.size_y):
+                if (len(self.world[i][j].get_elements()) == 0):
+                    print "0",
+                else:
+                    print self.world[i][j].get_elements()[0],
+            print "\n",
+            
 
     # Fills world with a population and returns new list of available
     # coordinates
@@ -47,7 +52,7 @@ class board:
             coord = coords[rand_val]
             x = coord[0]
             y = coord[1]
-            self.world[x][y] = name
+            self.world[x][y].set_element(name)
             del coords[rand_val]
         return coords 
     
@@ -56,7 +61,7 @@ class board:
         coords = []
         for i in xrange(0, self.size_x-1):
             for j in xrange(0, self.size_y-1):
-                if(self.world[i][j] == name):
+                if(name in self.world[i][j].get_elements):
                     coords.append((i,j))
         return coords
 
@@ -84,15 +89,31 @@ class board:
         # Check down
         if( y + 1 > self.size_y and (x, y + 1) not in all_musquitoes):
             possible_coords.append()
+
+        return possible_coords
         
 
+    # makes a musquito move to new position
     def __move_musquito(self, coord, all_musquitoes):
-            __possible_coords(coord, all_musquitoes)
+        possible_coords = __possible_coords(coord, all_musquitoes)
+        i = random.randint(0, len(possible_coords))
+        new_coord = possible_coords[i]
+        x = new_coord[0]
+        y = new_coord[1]
+        if( INFMU in  self.word[coord[1]][coord[2]].get_elements()):
+            musquito_kind = INFMU
+        else:
+            musquito_kind = SUSMU
+
+        self.world[x][y].set_element(musquito_kind)
+        self.world[coord[1]][coord[2]].remove_element(musquito_kind)
+
+          
 
     # make the musquitoes move in a random 
     def __move_musquitoes(self):
-        musquit1 = self.get_position(self.SUSMU)
-        musquit2 = self.getposition(self.INFMU)
+        musquit1 = self.__get_position(self.SUSMU)
+        musquit2 = self.__get_position(self.INFMU)
         all_musquitoes = musquit1 + musquit2
         # Let all musquitoes move
         for i in all_musquitoes:
@@ -101,14 +122,30 @@ class board:
 
     # The simulation loop that runs 
     def run():
-        while(True or not(all_dead())):
+        while(True):
             move_musquitoes()
             update_hunger()
             
 
+
+# Class for every cell of the world
+class Cell:
+
+    def __init__(self):
+        self.occupants = []
+
+    def get_elements(self):
+        return self.occupants
+
+    # Add some kind of instance to a cell
+    # and returns its content
+    def set_element(self, element):
+        self.occupants.append(element)
+        return self.occupants
+        
+
 def main():
     my_board = board(10, 10, 3, 5, 8, 1, 7)
-    print "hello"
     my_board.print_world()
 
 if __name__ == "__main__":
