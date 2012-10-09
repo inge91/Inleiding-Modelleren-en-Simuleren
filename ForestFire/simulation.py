@@ -16,6 +16,9 @@ class SimulationField():
         self.__field = [[initial_value] * x_size for _ in xrange(y_size)]
         self.size = (x_size, y_size)
 
+        self.top_row = 0
+        self.bottom_row = y_size - 1
+
     def pretty_print(self):
         """
         Pretty-print the array.
@@ -47,6 +50,21 @@ class SimulationField():
 
     def __repr__(self):
         return str(self.__field)
+
+    def row(self, index):
+        "Return the selected row, counted from the top."
+        return self.__field[index]
+
+    def count(self, symbol):
+        "Return how often a given symbol occurs in the array."
+
+        count = 0
+        for row in self.__field:
+            for elem in row:
+                if elem == symbol:
+                    count += 1
+
+        return count
 
 class Simulation():
     """
@@ -106,6 +124,7 @@ class Simulation():
 
     def __burning_neighbours(self, coords):
         "Returns the neighbours of a cell that will burn in the next step"
+
         x, y = coords
         x_max, y_max = self.field.size
 
@@ -148,9 +167,45 @@ class Simulation():
             for (x, y) in b:
                 self.__set_burning(x, y)
 
-    def run(self, n, delay=0.5):
-        "Runs the simulation for the specified amount of steps"
-        for _ in xrange(n):
+    def run(self):
+        """
+        Runs the simulation until nothing changes anymore.
+        Returns a dict indicating how many steps it took for the fire to reach
+        the other side (0 = not reached) and which percentage of the vegetation
+        has been burned.
+        """
+
+        steps = 0
+        return_dict = {"OtherSideReached" : 0,
+                       "PercentageBurned" : 0}
+
+        initial_vegetation = self.field.count(self.VEGETATED)
+
+        while len(self.__burning) > 0:
+            self.step()
+            steps += 1
+
+            # check whether the other side has been reached yet
+            if self.BURNT in self.field.row(self.field.top_row):
+                return_dict["OtherSideReached"] = steps
+
+        # check how much vegetation has been burned
+        final_vegetation = self.field.count(self.VEGETATED)
+        burn_percentage = ( (float(initial_vegetation - final_vegetation) /
+            initial_vegetation) * 100 )
+
+        return_dict["PercentageBurned"] = burn_percentage
+
+
+        return return_dict
+
+    def run_graphical(self, delay=0.5):
+        """
+        Runs the simulation until nothing changes anymore.
+        the output.
+        """
+
+        while len(self.__burning) > 0:
             os.system('clear')
             self.field.pretty_print()
             self.step()
