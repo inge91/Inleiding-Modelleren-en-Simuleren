@@ -1,3 +1,6 @@
+/* Assignment 3
+ * Maarten de Jonge, Inge Becht
+ */
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

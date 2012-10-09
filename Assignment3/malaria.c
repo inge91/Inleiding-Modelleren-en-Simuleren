@@ -1,3 +1,6 @@
+/* Assignment 3
+ * Maarten de Jonge, Inge Becht
+ */
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -173,7 +176,7 @@ int main(int argc, const char *argv[])
     char *labels[ARRAY_SIZE] = {"Susceptible humans", "Infected humans",
         "Resistant humans", "Uninfected mosquitos", "Infected mosquitos"};
 
-    RungeKutta4_plot_labels(0, 500, 1, y0, y1, ARRAY_SIZE, &malaria,
+    RungeKutta4_plot_labels(0, 5000, 1, y0, y1, ARRAY_SIZE, &malaria,
                             (void *)(&params), labels);
 
     return 0;
