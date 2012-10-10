@@ -1,3 +1,6 @@
+/* Assignment 3
+ * Maarten de Jonge, Inge Becht
+ * */
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
