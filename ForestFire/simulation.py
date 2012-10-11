@@ -177,7 +177,7 @@ class Simulation():
 
         steps = 0
         return_dict = {"OtherSideReached" : 0,
-                       "PercentageBurned" : 0}
+                       "PercentageBurnt" : 0}
 
         initial_vegetation = self.field.count(self.VEGETATED)
 
