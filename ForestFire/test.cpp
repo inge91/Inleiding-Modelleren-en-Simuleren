@@ -7,25 +7,29 @@ using namespace std;
 
 int main(int argc, const char *argv[])
 {
-    //vector<int> sizes = {5, 10, 15, 20};
-    //vector<double> densities = {0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8};
-    vector<int> sizes = {20};
-    vector<double> densities = {0.8};
+    //Simulation s(20, 20, 0.7);
+    //s.run_graphical();
+
+    vector<int> sizes = {10, 15, 20, 25, 30};
+    vector<double> densities = {0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8};
+    int repeat = 10;
 
     // save the data
     ofstream file("data.txt");
 
     for (int &size : sizes) {
         for (double &density : densities) {
-            cout << "Size: " << size << endl;
-            cout << "Density: " << density << endl << endl;
+            for (int i = 0; i < repeat; ++i) {
+                cout << "Size: " << size << endl;
+                cout << "Density: " << density << endl << endl;
 
-            Simulation s(size, size, density);
-            SimulationResult result = s.run();
+                Simulation s(size, size, density);
+                SimulationResult result = s.run();
 
-            file << size << ", " << density << ", " << result.other_side_reached
-                 << ", " << result.steps_to_other_side << ", "
-                 << result.percentage_burnt << endl;
+                file << size << ", " << density << ", " << result.other_side_reached
+                    << ", " << result.steps_to_other_side << ", "
+                    << result.percentage_burnt << endl;
+            }
         }
     }
 

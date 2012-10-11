@@ -11,6 +11,11 @@ struct Point
         y = yy;
     }
 
+    bool operator<(const Point &rhs) const
+    {
+        return (x < rhs.x);
+    }
+
     bool operator==(const Point &rhs) const
     {
         return (x == rhs.x) && (y == rhs.y);

@@ -5,6 +5,7 @@
 
 #include <vector>
 #include <map>
+#include <set>
 
 using namespace std;
 
@@ -41,8 +42,11 @@ class Simulation
         // lights a cell on fire
         void set_burning(int x, int y);
 
-        // returns the neighbours of a point that will burn in the next timestep
-        void burning_neighbours(int x, int y, vector<Point> &will_burn);
+        // returns the points that will burn in the next timestep
+        void future_burning(set<Point> &will_burn);
+
+        // checks if the given square is surrounded by a burning square
+        bool next_to_fire(int x, int y);
 
         // the underlying field class
         SimulationField m_field;
