@@ -126,6 +126,7 @@ class board:
     # makes a mosquito move to new position
     def __move_mosquito(self, coord, impossible_coords):
         possible_coords = self.__possible_coords(coord, impossible_coords)
+        # If the mosquito can go nowhere, keep it where it is
         if len(possible_coords) == 0:
             return [] 
         else: 
@@ -133,17 +134,15 @@ class board:
             new_coord = possible_coords[i]
             x = new_coord[0]
             y = new_coord[1]
-            if( INFMO in  self.world[coord[1]][coord[0]].get_elements()):
-                mosquito_kind = INFMO
-            else:
-                mosquito_kind = SUSMO
-
-            objects = self.world[coord[1]][coord[0]].get_objects()
-            for element in objects:
-                if isinstance(element, Mosquito):
-                    self.world[y][x].add_object(element)
+            objects =  self.world[coord[1]][coord[0]].get_objects()
+            for i in objects:
+                # The first mosquito is the one we want to remove
+                if isinstance(i, Mosquito):
+                    temp = i 
                     break
-            self.world[coord[1]][coord[0]].remove_element(mosquito_kind)
+
+            self.world[y][x].add_object(temp)
+            self.world[coord[1]][coord[0]].remove_object(temp)
 
         return [(x, y)]
 
@@ -346,6 +345,15 @@ class Cell:
                     break
         else:
             sys.exit(1)
+        return self.occupants
+
+    def remove_object(self, element):
+        j = 0
+        for i in self.occupants:
+            if i == element:
+                del self.occupants[j]
+                break
+            j += 1
         return self.occupants
     
     # Adds an object to occupants
