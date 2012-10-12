@@ -35,6 +35,13 @@ class Simulation
         // runs an entire simulation with pretty output
         void run_graphical(double delay=0.5);
 
+
+        // returns whether the simulation is still running
+        bool running();
+
+        // the underlying field class
+        SimulationField m_field;
+
     private:
         // initializes the field
         void initialize_field(double veggie_density);
@@ -47,9 +54,6 @@ class Simulation
 
         // checks if the given square is surrounded by a burning square
         bool next_to_fire(int x, int y);
-
-        // the underlying field class
-        SimulationField m_field;
 
         // vector of burning cells
         vector<Point> m_burning;

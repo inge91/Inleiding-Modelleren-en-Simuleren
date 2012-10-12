@@ -166,6 +166,11 @@ void Simulation::run_graphical(double delay)
     pretty_print();
 }
 
+bool Simulation::running()
+{
+    return !m_burning.empty();
+}
+
 void Simulation::pretty_print()
 {
     m_field.pretty_print();
