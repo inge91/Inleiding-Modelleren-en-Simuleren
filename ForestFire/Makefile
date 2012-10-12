@@ -10,5 +10,8 @@ forestfire: Simulation.cpp SimulationField.cpp test.cpp
 graphical: Simulation.cpp SimulationField.cpp test_graphical.cpp
 	$(CXX) $(CFLAGS) -o forestfire_g Simulation.cpp SimulationField.cpp test_graphical.cpp
 
+sdl: Simulation.cpp SimulationField.cpp test_sdl.cpp
+	$(CXX) $(CFLAGS) $(shell pkg-config --cflags --libs sdl) -o forestfire_sdl Simulation.cpp SimulationField.cpp test_sdl.cpp
+
 clean:
 	rm $(BIN) forestfire_g
