@@ -1,9 +1,15 @@
 import random
 import time
 import sys
+import copy
+import math
+import os
 from termcolor import colored
 
-random.seed(0)
+deaths = 0
+#random.seed(0)
+filename = "Test/"
+current = ""
 
 # Enums for communication between board and cell class
 SUSHU = 1
@@ -98,7 +104,8 @@ class board:
     #############TODO: Make world torus? #########################
     # -Not over the edge
     # -Not multiple mosquitoes same place 
-    def __possible_coords(self, coord, impossible_coords):
+    def __possible_coords(self, coord, imp_coords, mosquitoes):
+        impossible_coords = imp_coords + mosquitoes
         possible_coords = [] 
         x = coord[0]
         y = coord[1]
@@ -124,8 +131,9 @@ class board:
         
 
     # makes a mosquito move to new position
-    def __move_mosquito(self, coord, impossible_coords):
-        possible_coords = self.__possible_coords(coord, impossible_coords)
+    def __move_mosquito(self, coord, impossible_coords, mosquitoes):
+        possible_coords = self.__possible_coords(coord, impossible_coords,
+                mosquitoes)
         # If the mosquito can go nowhere, keep it where it is
         if len(possible_coords) == 0:
             return [ (coord[0], coord[1])] 
@@ -150,9 +158,11 @@ class board:
     # Mosquitoes make a random step
     def __move_mosquitoes(self):
         temp_list = []
+        mosquitoes = copy.deepcopy(self.all_mosquitoes)
         # Let all mosquitoes move
         for i in self.all_mosquitoes:
-            temp_list += self.__move_mosquito(i, temp_list)
+            temp_list += self.__move_mosquito(i, temp_list, mosquitoes)
+            mosquitoes.remove(i)
         self.all_mosquitoes = temp_list
 
     # all occupied cells are getting updated
@@ -173,7 +183,6 @@ class board:
         
         # Check all cells with both a human and a mosquito
         for coord in human_and_mosquito:
-            print coord
             objects = self.world[coord[1]][coord[0]].get_objects()
             if(isinstance(objects[0], Mosquito)):  
                 if(objects[0].is_hungry()):
@@ -189,6 +198,7 @@ class board:
                          objects[1].set_state(INFHU)
                          objects[0].set_hunger()
                     else:
+                        objects[0].set_hunger()
                         continue
                 else:
                     continue
@@ -206,6 +216,7 @@ class board:
                         objects[0].set_state(INFHU)
                         objects[1].set_hunger()
                     else:
+                        objects[1].set_hunger()
                         continue
                 else:
                     continue
@@ -213,6 +224,7 @@ class board:
 
     # Remove dead people from the world and all_human list
     def __cleanup_humans(self):
+        global deaths
         new_humans = []
         for coord in self.all_humans:
             objects = self.world[coord[1]][coord[0]].get_objects()
@@ -221,6 +233,7 @@ class board:
                     # In case the human is dead remove him from the field
                     # And add new uninfected human
                     if i.is_dead():
+                        deaths += 1
                         # Store the mosquito temporary
                         self.all_humans.remove(coord)
                         self.world[coord[1]][coord[0]] = Cell()
@@ -335,7 +348,7 @@ class board:
         return [newcoord]
 
     # The simulation loop that runs 
-    def run(self):
+    def run(self, counter):
         mosquit1 = self.__get_position(SUSMO)
         mosquit2 = self.__get_position(INFMO)
         # create field that keeps track of all mosquitoes
@@ -347,9 +360,8 @@ class board:
         self.all_humans = human1 + human2 + human3
         i = 0 
         
-        while(True):
+        while(i < 500):
             #raw_input("Press Enter to continue...\n")
-            print i
             self.__move_mosquitoes()
             for r in self.all_mosquitoes:
                 both = False
@@ -373,6 +385,7 @@ class board:
                         print "(1)Two mosquitos at space ",
                         print l,
                         print k
+                        sys.exit(1)
             # make mosquitoes hungry and change the state of people
             self.__update_population()    
             self.__cleanup_bodies()
@@ -400,17 +413,49 @@ class board:
                         print k
             # let mosquito bite
             self.__mosquito_bites()
-            print "\n" 
-            self.print_world() 
+            if(self.inventarise(counter, i)):
+                break
+            #self.print_world() 
             i+=1
-
-        
+        global deaths
+        deaths = 0
             #two things:
             #for every position of the board see if mosquito object and mosquito 
             #position match
             #see how often more than one mosquito is in a list
 
+    def inventarise(self, counter, b):
+        f_sus_humans = open(current + str(counter) + "_time.csv", "a")
+        sus_humans = 0
+        inf_humans = 0
+        imm_humans = 0
+        sus_mosquito = 0
+        inf_mosquito = 0
+        all_coords = list(set( self.all_mosquitoes +  self.all_humans))
+        for i in all_coords:
+            elements = self.world[i[1]][i[0]].get_elements()
+            for element in elements:
+                if element == SUSHU:
+                    sus_humans += 1
+                elif element == INFHU:
+                    inf_humans += 1
+                elif element == IMMHU:
+                    imm_humans += 1
+                elif element == SUSMO:
+                    sus_mosquito += 1
+                elif element == INFMO:
+                    inf_mosquito += 1
+                else:
+                    print "Something went wrong: could not find type",
+                    print element
+                    sys.exit(1)
 
+        f_sus_humans.write((str(sus_humans) + " " + str(inf_humans) +" " + 
+                str(imm_humans) + " " +  str(sus_mosquito) + " " + str(inf_mosquito)
+                + " " + str(deaths)+ " " +str(b)+ "\n"))
+        f_sus_humans.close()
+        if(inf_mosquito == 0 and inf_humans == 0):
+            return True
 
 
 # Class for every cell of the world
@@ -544,21 +589,21 @@ class Human:
     def update(self):
         # If a human is suceptible
         if self.state == SUSHU:
-            var = random.randint(0,20)
+            var = random.randint(0,30)
             if(var == 1):
                 self.dead = True
         # possibility of death and of susc
         # and immunity
         elif self.state == INFHU:
             var = random.randint(0, 10)
-            if(var < 1):
+            if(var == 1):
                 self.dead = True
             elif(var == 4):
                 self.state = SUSHU
             elif(var == 9 ):
                 self.state = IMMHU
         elif self.state == IMMHU:
-            var = random.randint(0,20)
+            var = random.randint(0,30)
             if(var<4):
                 self.state = SUSHU
             if(var == 5):
@@ -568,9 +613,55 @@ class Human:
 
 
 def main():
-    my_board = board(10, 10, 20, 50, 0, 20,10)
-    my_board.print_world()
-    my_board.run()
+    global filename
+    global current
+    board_n = 30
+    cells = board_n * board_n
+    human_density = [ 0.3, 0.5, 0.7, 0.9]
+    human_susceptible = [ 0.8, 0.6, 0.4, 0.2]
+    mosquito_density = [0.3, 0.4, 0.5, 0.6, 0.7]
+    mosquito_susceptible = [ 0.2, 0.4, 0.6, 0.8]
+    for i in human_density:
+        humans = int(math.ceil(cells * i))
+        print humans
+        for j in mosquito_density:
+            mosquitoes = int(math.ceil(cells*j))
+            print mosquitoes
+            if i + j > 1:
+                continue
+            else:
+                for k in human_susceptible:
+                    sus_humans = int(humans * k)
+                    inf_humans = int(humans * (1-k))
+                    for l in mosquito_susceptible:
+                        sus_mosquitoes = int(mosquitoes * l)
+                        inf_mosquitoes = int(mosquitoes * (1-l))
+                        for counter in xrange(0, 100):
+                            current = (filename + "human_density:" + 
+                            str(i) + "|human_susceptible:" + 
+                            str(k) + "|mosquito_density:" + 
+                            str(j) + "|mosquito_susceptible:"+
+                            str(l)) + "/"
+                            if not os.path.exists(current):
+                                os.makedirs(current)
+                            my_board = board(board_n, board_n, sus_humans,
+                                     inf_humans, 0, sus_mosquitoes,
+                                     inf_mosquitoes)
+                            my_board.run(counter)
+                        
+
+
+                    
+                
+    #my_board = board(30, 30, 400, 0, 0, 0,100)
+    directory = filename + temp
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    for i in xrange(0, 50):
+        print i
+        my_board = board(30, 30, 200, 300, 0, 400,0)
+        my_board.run()
     print "\n" 
     my_board.print_world()
 
