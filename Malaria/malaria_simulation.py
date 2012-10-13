@@ -126,24 +126,23 @@ class board:
     # makes a mosquito move to new position
     def __move_mosquito(self, coord, impossible_coords):
         possible_coords = self.__possible_coords(coord, impossible_coords)
+        # If the mosquito can go nowhere, keep it where it is
         if len(possible_coords) == 0:
-            return [] 
+            return [ (coord[0], coord[1])] 
         else: 
             i = random.randint(0, len(possible_coords) - 1)
             new_coord = possible_coords[i]
             x = new_coord[0]
             y = new_coord[1]
-            if( INFMO in  self.world[coord[1]][coord[0]].get_elements()):
-                mosquito_kind = INFMO
-            else:
-                mosquito_kind = SUSMO
-
-            objects = self.world[coord[1]][coord[0]].get_objects()
-            for element in objects:
-                if isinstance(element, Mosquito):
-                    self.world[y][x].add_object(element)
+            objects =  self.world[coord[1]][coord[0]].get_objects()
+            for i in objects:
+                # The first mosquito is the one we want to remove
+                if isinstance(i, Mosquito):
+                    temp = i 
                     break
-            self.world[coord[1]][coord[0]].remove_element(mosquito_kind)
+
+            self.world[y][x].add_object(temp)
+            self.world[coord[1]][coord[0]].remove_object(temp)
 
         return [(x, y)]
 
@@ -174,6 +173,7 @@ class board:
         
         # Check all cells with both a human and a mosquito
         for coord in human_and_mosquito:
+            print coord
             objects = self.world[coord[1]][coord[0]].get_objects()
             if(isinstance(objects[0], Mosquito)):  
                 if(objects[0].is_hungry()):
@@ -212,7 +212,7 @@ class board:
 
 
     # Remove dead people from the world and all_human list
-    def __cleanup_bodies(self):
+    def __cleanup_humans(self):
         new_humans = []
         for coord in self.all_humans:
             objects = self.world[coord[1]][coord[0]].get_objects()
@@ -231,8 +231,33 @@ class board:
                                 break
                         new_humans += self.__spawn_human(new_humans)
         self.all_humans += new_humans
-    
-    # Spawns a new human next to an already existing human
+
+    # Cleanup all people and mosquitoes with a death state
+    def __cleanup_bodies(self):
+        self.__cleanup_humans()
+        self.__cleanup_mosquitoes()
+
+    def __cleanup_mosquitoes(self):
+        new_mosquito = []
+        for coord in self.all_mosquitoes:
+            objects = self.world[coord[1]][coord[0]].get_objects()
+            for i in objects:
+                if isinstance(i, Mosquito):
+                    # In case the human is dead remove him from the field
+                    # And add new uninfected human
+                    if i.is_dead():
+                        # Store the human temporary
+                        self.all_mosquitoes.remove(coord)
+                        self.world[coord[1]][coord[0]] = Cell()
+                        #create new cell and add human
+                        for i in objects:
+                            if isinstance(i, Human):
+                                self.world[coord[1]][coord[0]].add_object(i)
+                                break
+                        new_mosquito += self.__spawn_mosquito(new_mosquito)
+        self.all_mosquitoes += new_mosquito
+
+    # Spawns a new mosquito next to an already existing mosquito
     def __spawn_human(self, new_humans):
         while(True):
 
@@ -270,6 +295,45 @@ class board:
         self.world[newcoord[1]][newcoord[0]].set_element(SUSHU)
         return [newcoord]
 
+    
+    # Spawns a new mosquito next to an already existing mosquito
+    def __spawn_mosquito(self, new_mosquitoes):
+        while(True):
+
+            forbidden = self.all_mosquitoes + new_mosquitoes
+            # Choose a random person to cling to
+            var = random.randint(0, len(self.all_mosquitoes)-1)
+            person = self.all_mosquitoes[var]
+            x = person[0]
+            y = person[1]
+
+            possible_coords = [] 
+            # Check left
+            if( (x - 1 > -1) and ((x - 1, y) not in forbidden)):
+                possible_coords.append((x - 1, y))
+
+            # Check right
+            if((x + 1 < self.size_x) and ((x + 1, y) not in forbidden)):
+                possible_coords.append((x + 1, y))
+            
+            # Check up
+            if((y - 1 > -1) and ((x, y - 1) not in forbidden)):
+                possible_coords.append((x, y - 1))
+
+            # Check down
+            if( (y + 1 < self.size_y) and ((x, y + 1) not in forbidden)):
+                possible_coords.append((x, y + 1))
+            
+            if(len(possible_coords) == 0):
+                continue
+            else:
+                rand = random.randint(0, len(possible_coords)-1)
+                newcoord = possible_coords[rand]
+                break
+        # TODO possible to add sick or anything?
+        self.world[newcoord[1]][newcoord[0]].set_element(SUSMO)
+        return [newcoord]
+
     # The simulation loop that runs 
     def run(self):
         mosquit1 = self.__get_position(SUSMO)
@@ -284,21 +348,67 @@ class board:
         i = 0 
         
         while(True):
+            #raw_input("Press Enter to continue...\n")
             print i
             self.__move_mosquitoes()
+            for r in self.all_mosquitoes:
+                both = False
+                objects = self.world[r[1]][r[0]].get_objects()
+                for obj in objects:
+                    if(isinstance(obj, Mosquito)):
+                        both = True
+                if both == False:
+                    print "(1)coord not object ", 
+                    print r
+                    sys.exit(1)
+
+            for k in xrange(0, self.size_y):
+                for l in xrange(0, self.size_x):
+                    objects = self.world[k][l].get_objects()
+                    o = 0
+                    for ob in objects:
+                        if(isinstance(ob, Mosquito)):
+                            o+=1
+                    if(o > 1):
+                        print "(1)Two mosquitos at space ",
+                        print l,
+                        print k
             # make mosquitoes hungry and change the state of people
             self.__update_population()    
             self.__cleanup_bodies()
+            for r in self.all_mosquitoes:
+                both = False
+                objects = self.world[r[1]][r[0]].get_objects()
+                for obj in objects:
+                    if(isinstance(obj, Mosquito)):
+                        both = True
+                if both == False:
+                    print "(2)coord not object ", 
+                    print r
+                    sys.exit(1)
+
+            for k in xrange(0, self.size_y):
+                for l in xrange(0, self.size_x):
+                    objects = self.world[k][l].get_objects()
+                    o = 0
+                    for ob in objects:
+                        if(isinstance(ob, Mosquito)):
+                            o+=1
+                    if(o > 1):
+                        print "(2)Two mosquitos at space ",
+                        print l,
+                        print k
             # let mosquito bite
             self.__mosquito_bites()
             print "\n" 
-            self.print_world()        
+            self.print_world() 
             i+=1
-            objects = self.world[2][2].get_objects()
-            if len(objects) > 1:
-                   if isinstance(objects[0], Mosquito) and isinstance(objects[1], Mosquito):
-                       print "help"
-            raw_input("Press Enter to continue...\n")
+
+        
+            #two things:
+            #for every position of the board see if mosquito object and mosquito 
+            #position match
+            #see how often more than one mosquito is in a list
 
 
 
@@ -347,6 +457,15 @@ class Cell:
         else:
             sys.exit(1)
         return self.occupants
+
+    def remove_object(self, element):
+        j = 0
+        for i in self.occupants:
+            if i == element:
+                del self.occupants[j]
+                break
+            j += 1
+        return self.occupants
     
     # Adds an object to occupants
     def add_object(self, element):
@@ -367,6 +486,7 @@ class Mosquito:
         self.state = state
         self.hungry = True
         self.count_hungry = 0
+        self.dead = False
 
     def set_state(self, state):
         self.state = state
@@ -378,6 +498,9 @@ class Mosquito:
         else:
             self.hungry = True
 
+    def is_dead(self):
+        return self.dead
+
     def is_hungry(self):
         return self.hungry
 
@@ -385,6 +508,7 @@ class Mosquito:
         return self.state
     
     def update(self):
+        # Update hunger states
         if self.hungry:
             pass
         elif self.count_hungry == 2:
@@ -392,6 +516,10 @@ class Mosquito:
             self.count_hungry = 0
         else:
             self.count_hungry += 1
+        # Update dying states
+        rand = random.randint(0, 15)
+        if rand == 10:
+            self.dead = True
 
 
 # Class for a human instance
@@ -440,7 +568,7 @@ class Human:
 
 
 def main():
-    my_board = board(40,40, 200, 300, 0, 80,0)
+    my_board = board(10, 10, 20, 50, 0, 20,10)
     my_board.print_world()
     my_board.run()
     print "\n" 
