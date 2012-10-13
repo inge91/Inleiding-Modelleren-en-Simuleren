@@ -129,7 +129,11 @@ SimulationResult Simulation::run()
     // has been burned.
 
     int steps = 0;
+
+    // initialize the result struct
     SimulationResult result;
+    result.other_side_reached = false;
+    result.steps_to_other_side = 0;
 
     int initial_vegetation = m_field.count(VEGETATED);
 

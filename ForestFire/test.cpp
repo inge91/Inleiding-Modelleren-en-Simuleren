@@ -7,12 +7,9 @@ using namespace std;
 
 int main(int argc, const char *argv[])
 {
-    //Simulation s(20, 20, 0.7);
-    //s.run_graphical();
-
-    vector<int> sizes = {10, 15, 20, 25, 30};
-    vector<double> densities = {0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8};
-    int repeat = 10;
+    vector<int> sizes = {10, 15, 20, 25, 30, 35};
+    vector<double> densities = {0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.8};
+    int repeat = 50;
 
     // save the data
     ofstream file("data.txt");
@@ -20,9 +17,6 @@ int main(int argc, const char *argv[])
     for (int &size : sizes) {
         for (double &density : densities) {
             for (int i = 0; i < repeat; ++i) {
-                cout << "Size: " << size << endl;
-                cout << "Density: " << density << endl << endl;
-
                 Simulation s(size, size, density);
                 SimulationResult result = s.run();
 
