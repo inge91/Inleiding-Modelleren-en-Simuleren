@@ -562,7 +562,7 @@ class Mosquito:
         else:
             self.count_hungry += 1
         # Update dying states
-        rand = random.randint(0, 15)
+        rand = random.randint(0, 22)
         if rand == 10:
             self.dead = True
 
@@ -589,22 +589,22 @@ class Human:
     def update(self):
         # If a human is suceptible
         if self.state == SUSHU:
-            var = random.randint(0,30)
+            var = random.randint(0,300)
             if(var == 1):
                 self.dead = True
         # possibility of death and of susc
         # and immunity
         elif self.state == INFHU:
-            var = random.randint(0, 10)
-            if(var == 1):
+            var = random.randint(0, 30)
+            if(var == 10):
                 self.dead = True
-            elif(var == 4):
+            elif(var >28):
                 self.state = SUSHU
-            elif(var == 9 ):
+            elif(var <7 ):
                 self.state = IMMHU
         elif self.state == IMMHU:
-            var = random.randint(0,30)
-            if(var<4):
+            var = random.randint(0,300)
+            if(var<20):
                 self.state = SUSHU
             if(var == 5):
                 self.dead = True
@@ -617,10 +617,10 @@ def main():
     global current
     board_n = 30
     cells = board_n * board_n
-    human_density = [ 0.3, 0.5, 0.7, 0.9]
-    human_susceptible = [ 0.8, 0.6, 0.4, 0.2]
-    mosquito_density = [0.3, 0.4, 0.5, 0.6, 0.7]
-    mosquito_susceptible = [ 0.2, 0.4, 0.6, 0.8]
+    human_density = [ 0.5, 0.7, 0.9]
+    human_susceptible = [ 0.8, 0.6, 0.4]
+    mosquito_density = [0.3, 0.5,  0.7]
+    mosquito_susceptible = [ 0.2, 0.5, 0.8]
     for i in human_density:
         humans = int(math.ceil(cells * i))
         print humans
@@ -654,16 +654,6 @@ def main():
                     
                 
     #my_board = board(30, 30, 400, 0, 0, 0,100)
-    directory = filename + temp
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-    for i in xrange(0, 50):
-        print i
-        my_board = board(30, 30, 200, 300, 0, 400,0)
-        my_board.run()
-    print "\n" 
-    my_board.print_world()
 
 if __name__ == "__main__":
     main()
