@@ -1,0 +1,55 @@
+\documentclass[a4paper]{report}
+
+\usepackage[english]{babel}
+\usepackage{amsmath}
+
+\author{Maarten de Jonge \\
+        Inge Becht}
+\date{\today}
+\title{Various Models and Simulations}
+
+\begin{document}
+\maketitle
+
+\chapter{Simulating a forest fire with a cellular automaton}
+\label{cha:ff}
+
+\section{Implementation} 
+\label{sec:ff_impl}
+
+The simulation is implemented as a cellular automaton using the following simple
+rules:
+\begin{enumerate}
+    \item A cell can be empty, vegetated, burning, or burnt.
+    \item A vegetated cell will become burning if one of it's neighbours is
+          burning.
+    \item A burning cell will become burnt.
+\end{enumerate}
+where "neighbour" is defined as being in the 8-cell Moore neighbourhood of a
+cell.
+
+% section ff_impl (end)
+
+\section{Experimentation} 
+\label{sec:ff_exp}
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
+vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
+no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+% section ff_exp (end)
+
+% chapter ff (end)
+
+\chapter{A grid-simulation of Africa}
+\label{cha:mlaria}
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
+tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
+vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
+no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+% chapter mlaria (end)
+
+\end{document}
