@@ -8,31 +8,38 @@ import sys, os, os.path
 if len(sys.argv) < 4:
     print "Parameters: {folder to use}, {column of the matrix to use}"
     sys.exit(0)
-s
 
 mpl.rcParams['legend.fontsize'] = 10
 fig = plt.figure()
 ax = fig.gca(projection='3d')
-number_of_folders = (len(sys.argv) - 2)/2
 folders = [] 
 i = 1
-while i <= number_of_folders:
+while( sys.argv[i] != "stop"):
     folders.append(sys.argv[i])
-    i+=1
-print folders
-column = sys.argv[i]
-print column
+    i += 1
+i += 1
 
-folder = folders[0]
+columns = []
+while(sys.argv[i] != "stop"):
+    columns.append(int(sys.argv[i]))
+    i+=1
+
+i += 1
 
 rates = []
-i+=1
-while i < len(sys.argv):
+while(i < len(sys.argv)):
     rates.append(double(sys.argv[i]))
     i+=1
 
+print folders
+print "\n"
+print columns
+print "\n"
 print rates
+
 i = 0
+print "len folders"
+print len(folders)
 for folder in folders:
     measurements = []
     for filename in os.listdir(folder):
@@ -49,20 +56,21 @@ for folder in folders:
 
     # collect average and standard deviation for the wanted statistic (infected
     # humans in this case) at teach time
-    stddev   = []
-    averages = []
-
-    for t in time:
-        ms = []
-        for measurement in measurements:
-            ms.append(measurement[t, column])
-
-        stddev.append( std(ms) )
-        averages.append( average(ms) )
-
-
-    #ax.hold(True)
-    ax.plot(time, len(time) * [rates[i]], averages)
+    for column in columns:
+        stddev   = []
+        averages = []
+        for t in time:
+            ms = []
+            for measurement in measurements:
+                ms.append(measurement[t, column])
+        
+            stddev.append( std(ms) )
+            averages.append( average(ms) )
+        
+        print averages
+        print i
+        print rates
+        ax.plot(time, len(time) * [rates[i]], averages)
     i+=1
 
 ax.legend()
