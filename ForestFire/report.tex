@@ -2,6 +2,8 @@
 
 \usepackage[english]{babel}
 \usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subcaption}
 
 \author{Maarten de Jonge \\
         Inge Becht}
@@ -28,17 +30,91 @@ rules:
 where "neighbour" is defined as being in the 8-cell Moore neighbourhood of a
 cell.
 
+The playing field gets initialised with a certain vegetation density, which
+gives the probability of each individual cell starting out in the vegetated
+state (a cell gets vegetated if $Q <= D$ where $D$ is the vegetation density and
+$Q$ is a random number between 0 and 1). The entire bottom row will be set on
+fire initially (regardless of the content of the cells). The simulation runs
+until there are no more burning cells.
+
 % section ff_impl (end)
 
 \section{Experimentation} 
 \label{sec:ff_exp}
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-no sea takimata sanctus est Lorem ipsum dolor sit amet.
+After each run of the simulation, the following data was collected:
+\begin{itemize}
+    \item Whether the top of the field had been reached.
+    \item How many steps it took to the other side (0 if it wasn't reached).
+    \item The percentage of vegetation that was burnt.
+\end{itemize}
+
+The simulation has been run 250 times with the parameter tuples $(FieldSize,
+Density)$, where $FieldSize \in \{10, 15, 20, 25, 30, 35\}$ and \\
+$Density \in \{0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9\}$, leading to
+$6 \times 10$ trials being run 250 times each. The field
+was chosen to be square, leading to a $FieldSize \times FieldSize$ sized field.
+
+The results were plotted as heatmaps because of the large amount of overlapping
+points, and are shown in figures \ref{fig:reached}, \ref{fig:steps} and
+\ref{fig:burnt}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./density_vs_reached.png}
+    \label{fig:reached}
+    \caption{A boolean plot showing whether the other side was reached (1 =
+             reached, 0 = not reached)}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./density_vs_steps.png}
+    \label{fig:steps}
+    \caption{Number of steps to reach the other side as function of the density.
+             A value of 0 means the other side wasn't reached.}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./density_vs_burnt.png}
+    \label{fig:burnt}
+    \caption{Percentage of burnt trees as function of the density.}
+\end{figure}
+
 
 % section ff_exp (end)
+
+\section{Results} 
+\label{sec:ff_results}
+
+Looking at the reaching of the other side, there's clearly a hard threshold
+around a density of $0.4$. Below $0.4$ none of trials reach the other side, while
+above it 100\% of the trials reach it. At $0.4$ it varies, with a majority of
+trials not reaching the other side.
+
+The steps required to reach the other side looks to be roughly evenly divided
+between 10 and 40 steps at densities of $0.6$ and up, with a slightly higher
+boundary (45) at a density of $0.5$.
+
+The percentage of burnt trees increases with a roughly S-shaped curve, with the
+percentage quickly increasing with the middle densities, and more slowly at the
+extremes, culminating at a (practically) 100\% burn rate at a density of $0.9$.
+
+% section ff_results (end)
+
+\section{Conclusion} 
+\label{sec:ff_conc}
+
+The act of fire reaching the other side displays a threshold effect around a
+density of $0.4$ - $0.5$. A density of $0.5$ is enough for the fire to reach the
+other side in every trial, while the number of steps required to do so is rather
+consistent past the $0.6$ mark.
+
+The percentage of burnt trees acts a bit more sigmoid-like, displaying an
+S-shaped curve from 0\% to 100\%.
+
+% section ff_conc (end)
 
 % chapter ff (end)
 
