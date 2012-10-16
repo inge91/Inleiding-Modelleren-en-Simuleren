@@ -8,7 +8,11 @@ import sys, os, os.path
 if len(sys.argv) < 4:
     print "Parameters: {folder to use}, {column of the matrix to use}"
     sys.exit(0)
+s
 
+mpl.rcParams['legend.fontsize'] = 10
+fig = plt.figure()
+ax = fig.gca(projection='3d')
 number_of_folders = (len(sys.argv) - 2)/2
 folders = [] 
 i = 1
@@ -19,23 +23,27 @@ print folders
 column = sys.argv[i]
 print column
 
+folder = folders[0]
+
 rates = []
+i+=1
 while i < len(sys.argv):
-    rates.append(sys.argv[i])
+    rates.append(double(sys.argv[i]))
     i+=1
 
+print rates
+i = 0
 for folder in folders:
-    i = 0
     measurements = []
     for filename in os.listdir(folder):
-        print filename
+    #    print filename
         fpath = os.path.join(folder, filename)
         measurements.append( loadtxt(fpath) )
 
-    print measurements
+    #print measurements
     # for simplicity, just truncate the graph to the shortest of the runs
     time = min(measurements, key=lambda x: x.shape[0])[:, 6]
-    print time
+    #print time
     # convert the time to ints for convenience
     time = [int(t) for t in time]
 
@@ -53,21 +61,11 @@ for folder in folders:
         averages.append( average(ms) )
 
 
-    mpl.rcParams['legend.fontsize'] = 10
-
-    fig = plt.figure()
-    ax = fig.gca(projection='3d')
-    theta = np.linspace(-4 * np.pi, 4 * np.pi, 100)
-    z = np.linspace(-2, 2, 100)
-    r = z**2 + 1
-    x = r * np.sin(theta)
-    y = r * np.cos(theta)
-
+    #ax.hold(True)
     ax.plot(time, len(time) * [rates[i]], averages)
-    plt.show()
-    raw_input("Press Enter...\n")
     i+=1
-ax.legend()
 
+ax.legend()
 plt.show()
+raw_input("Press Enter...\n")
 
