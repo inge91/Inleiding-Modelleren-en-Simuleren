@@ -31,6 +31,20 @@ while(i < len(sys.argv)):
     rates.append(double(sys.argv[i]))
     i+=1
 
+
+if(len(columns) == 1):
+    colors = ['r']
+elif(len(columns) == 2):
+    colors = ['r', 'g']
+elif(len(columns) == 3):
+    colors = ['r', 'g', 'b']
+elif(len(columns) == 4):
+    colors = ['r', 'g', 'b', 'c']
+
+ax.set_color_cycle(colors )
+
+
+
 print folders
 print "\n"
 print columns
