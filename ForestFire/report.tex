@@ -64,31 +64,31 @@ points, and are shown in figures \ref{fig:reached}, \ref{fig:steps} and
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.7\textwidth]{./density_vs_reached.png}
-    \label{fig:reached}
     \caption{A boolean plot showing whether the other side was reached (1 =
              reached, 0 = not reached)}
+    \label{fig:reached}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.7\textwidth]{./density_vs_steps.png}
-    \label{fig:steps}
     \caption{Number of steps to reach the other side as function of the density.
              A value of 0 means the other side wasn't reached.}
+    \label{fig:steps}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.7\textwidth]{./density_vs_burnt.png}
-    \label{fig:burnt}
     \caption{Percentage of burnt trees as function of the density.}
+    \label{fig:burnt}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.7\textwidth]{./size_vs_steps.png}
-    \label{fig:steps}
     \caption{Field size vs steps to other side, restricted to densities of [0.6,
+    \label{fig:size}
 0.9]}
 \end{figure}
 
@@ -109,7 +109,7 @@ boundary (45) at a density of $0.5$. Keeping in mind that the simulation was run
 at various different sizes for the field, it is reasonable to suspect that this
 has an influence on the required steps to reach the other side. To be sure of
 this, the fieldsize has been plotted against the required steps, filtered for
-densities from 0.6 to 0.9 (figure \ref{fig:steps}). This shows that in general,
+densities from 0.6 to 0.9 (figure \ref{fig:size}). This shows that in general,
 it takes about $n$ steps for the fire to get to the other side of an $n \times
 n$ field, sometimes slightly more.
 
