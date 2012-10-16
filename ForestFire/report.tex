@@ -42,13 +42,39 @@ no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
 % chapter ff (end)
 
-\chapter{A grid-simulation of Africa}
+\chapter{A grid-simulation of the spread of malaria}
 \label{cha:mlaria}
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
-tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
-vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
-no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+In this grid-simulation a representation is made of how malaria can spread
+through populations, and what the conditions are for malaria to die out or to
+be succesful on a lot of iteration
+
+
+To model such a complicated problem a few simplifying assumptions were made:
+
+\begin{itemize}
+    \item Every time iteration a mosquito moves to a neighboring cell when
+        there is an vacant cell (the possible directions are up, down, left and
+        right)
+    \item Humans are stoic.
+    \item Only one mosquito can occupy a cell at a time iteration, but both a
+        human and a mosquito can be in the same cell
+    \item Both humans and mosquitoes can die and for every died person or
+        mosquito a new uninfected is born
+    \item Humans will spawn next to already existing humans, and the same for
+        mosquitoes
+\end{itemize}
+
+The chance of a human becoming infected or immune, or to become susceptible or
+die is all determined by some rates.
+The rates ar eused as follows:
+o
+
+For the following experiments a 30 X 30 grid was used in which experimentations
+were made with the human density and mosquito density and the amount of
+susceptible and unsusceptible humans that were started with
+
 
 % chapter mlaria (end)
 
