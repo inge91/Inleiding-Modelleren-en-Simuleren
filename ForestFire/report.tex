@@ -23,19 +23,20 @@ The simulation is implemented as a cellular automaton using the following simple
 rules:
 \begin{enumerate}
     \item A cell can be empty, vegetated, burning, or burnt.
-    \item A vegetated cell will become burning if one of it's neighbours is
+    \item A vegetated cell will become burning if one of its neighbours is
           burning.
     \item A burning cell will become burnt.
 \end{enumerate}
-where "neighbour" is defined as being in the 8-cell Moore neighbourhood of a
-cell.
+where ``neighbour'' is defined as being in the 8-cell Moore-neighbourhood of a
+cell and rules 2 and 3 govern the transition from one moment in time to the
+next.
 
 The playing field gets initialised with a certain vegetation density, which
 gives the probability of each individual cell starting out in the vegetated
-state (a cell gets vegetated if $Q <= D$ where $D$ is the vegetation density and
-$Q$ is a random number between 0 and 1). The entire bottom row will be set on
-fire initially (regardless of the content of the cells). The simulation runs
-until there are no more burning cells.
+state (a cell starts out vegetated if $Q <= D$ where $D$ is the vegetation
+density and $Q$ is a random float between 0 and 1). The entire bottom row will
+be set on fire initially (regardless of the content of the cells). The
+simulation runs until there are no more burning cells.
 
 % section ff_impl (end)
 
@@ -44,7 +45,8 @@ until there are no more burning cells.
 
 After each run of the simulation, the following data was collected:
 \begin{itemize}
-    \item Whether the top of the field had been reached.
+    \item Whether the other side of the field (the top-side, since the fire
+        starts at the bottom) had been reached.
     \item How many steps it took to the other side (0 if it wasn't reached).
     \item The percentage of vegetation that was burnt.
 \end{itemize}
@@ -82,6 +84,14 @@ points, and are shown in figures \ref{fig:reached}, \ref{fig:steps} and
     \caption{Percentage of burnt trees as function of the density.}
 \end{figure}
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./size_vs_steps.png}
+    \label{fig:steps}
+    \caption{Field size vs steps to other side, restricted to densities of [0.6,
+0.9]}
+\end{figure}
+
 
 % section ff_exp (end)
 
@@ -95,7 +105,13 @@ trials not reaching the other side.
 
 The steps required to reach the other side looks to be roughly evenly divided
 between 10 and 40 steps at densities of $0.6$ and up, with a slightly higher
-boundary (45) at a density of $0.5$.
+boundary (45) at a density of $0.5$. Keeping in mind that the simulation was run
+at various different sizes for the field, it is reasonable to suspect that this
+has an influence on the required steps to reach the other side. To be sure of
+this, the fieldsize has been plotted against the required steps, filtered for
+densities from 0.6 to 0.9 (figure \ref{fig:steps}). This shows that in general,
+it takes about $n$ steps for the fire to get to the other side of an $n \times
+n$ field, sometimes slightly more.
 
 The percentage of burnt trees increases with a roughly S-shaped curve, with the
 percentage quickly increasing with the middle densities, and more slowly at the
@@ -108,8 +124,8 @@ extremes, culminating at a (practically) 100\% burn rate at a density of $0.9$.
 
 The act of fire reaching the other side displays a threshold effect around a
 density of $0.4$ - $0.5$. A density of $0.5$ is enough for the fire to reach the
-other side in every trial, while the number of steps required to do so is rather
-consistent past the $0.6$ mark.
+other side in every trial, and from $0.6$ on it is generally reached in the
+minimum possible amount of steps.
 
 The percentage of burnt trees acts a bit more sigmoid-like, displaying an
 S-shaped curve from 0\% to 100\%.
@@ -119,13 +135,13 @@ S-shaped curve from 0\% to 100\%.
 % chapter ff (end)
 
 \chapter{A grid-simulation of Africa}
-\label{cha:mlaria}
+\label{cha:malaria}
 
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod
 tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At
 vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren,
 no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
-% chapter mlaria (end)
+% chapter malaria (end)
 
 \end{document}
