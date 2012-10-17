@@ -143,29 +143,81 @@ with the highest density.
 \label{cha:malaria}
 
 In this grid-simulation a representation is made of how malaria can spread
-through populations, and what the conditions are for malaria to die out or to
-be succesful on a lot of iteration
+throughout a small population of humans and how well it can flourish
+depending on human and mosquito density. 
 
-
-To model such a complicated problem a few simplifying assumptions were made:
+The spread of malaria is quite complex and is simplified for this
+grid-simulation. The following assumptions are made for this simulation:
 
 \begin{itemize}
-    \item Every time iteration a mosquito moves to a neighboring cell when
-        there is an vacant cell (the possible directions are up, down, left and
-        right)
+    \item A human can be susceptible, infected, immune or dead. None of the states are
+        permanent except for death.
+    \item A mosquito can be susceptible, infected or dead. 
+    \item Mosquitoes can move to neighbouring cells. All mosquitoes make a
+        random move if possible, and else stay where they are.
     \item Humans are stoic.
     \item Only one mosquito can occupy a cell at a time iteration, but both a
-        human and a mosquito can be in the same cell
+        human and a mosquito can be in the same cell.
     \item Both humans and mosquitoes can die and for every died person or
-        mosquito a new uninfected is born
-    \item Humans will spawn next to already existing humans, and the same for
-        mosquitoes
+        mosquito a new uninfected one is born.
+    \item Humans will spawn next to an already existing human, and the same for
+        mosquitoes (creating clusters).
+    \item If a susceptible mosquito bites an infected human it changes to the
+        infected state. If a infected mosquito bites an uninfected human it
+        changes the human to the infected state. All other cases won't change
+        the states.
+    \item In the first state all cells contain exactly one or none elements. So
+    if a simulation has dimension $n \times m$, than the amount of elments can
+    at max be $n \times m$
+    \item Each time iretation the mosquitoes move one space, people change state
+        (new ones spawn)
+        and people can get bitten.
+    \item The grid is not a torus but a bounded rectangle. This because of
+        implementation simplicitity, but seems more like real life as well.
 \end{itemize}
 
-The chance of a human becoming infected or immune, or to become susceptible or
-die is all determined by some rates.
-The rates ar eused as follows:
-o
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{malaria_ascii.png}
+    \caption{A visualtion of the initial state of the grid simulation. }
+    \label{fig:ascii}
+\end{figure}
+
+Every iteration all mosquitoes make a random move towards a neighbouring cell,
+the state of humans is updated to
+
+The grid is not implemented as a thorus due to ease of implementation and not
+making things easier to simulate
+
+Table \ref{tab:rates} shows the rates used while the experimentations were made
+with the malaria grid. Some experimentations were made to come to these values,
+but is not the subject of the experimentation
+
+
+\begin{table}
+\centering
+\begin{tabular}{|l|l|r|}
+        \hline
+        variable&for&rate\\
+        \hline
+        deathrate&susceptible humans &0.003\\
+        deathrate&infected humans&0.03\\
+        deathrate&immune humans&0.003\\
+        deathrate&susceptible mosquitoes&0.045\\
+        deathrate&infected mosquitoes&0.045\\
+        turning susceptible&immune humans& 0.06\\
+        hungry&infected mosquito  & 0.3\\
+        hungry&uninfected mosquito& 0.3\\
+        infectionrate&infected mosquito& 1\\
+        \hline
+\end{tabular}
+\caption{Rates used for experimentations }
+\label{tab:rates}
+\end{table}
+
+
+
+
 
 For the following experiments a 30 X 30 grid was used in which experimentations
 were made with the human density and mosquito density and the amount of

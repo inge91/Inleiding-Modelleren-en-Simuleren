@@ -349,6 +349,7 @@ class board:
 
     # The simulation loop that runs 
     def run(self, counter):
+         
         mosquit1 = self.__get_position(SUSMO)
         mosquit2 = self.__get_position(INFMO)
         # create field that keeps track of all mosquitoes
@@ -361,7 +362,6 @@ class board:
         i = 0 
         
         while(i < 500):
-            #raw_input("Press Enter to continue...\n")
             self.__move_mosquitoes()
             for r in self.all_mosquitoes:
                 both = False
@@ -415,7 +415,6 @@ class board:
             self.__mosquito_bites()
             if(self.inventarise(counter, i)):
                 break
-            #self.print_world() 
             i+=1
         global deaths
         deaths = 0
@@ -617,10 +616,10 @@ def main():
     global current
     board_n = 30
     cells = board_n * board_n
-    human_density = [ 0.5, 0.7, 0.9]
-    human_susceptible = [ 0.8, 0.6, 0.4]
-    mosquito_density = [0.3, 0.5,  0.7]
-    mosquito_susceptible = [ 0.2, 0.5, 0.8]
+    human_density = [0.5]
+    human_susceptible = [ 0.2]
+    mosquito_density = [0.5]
+    mosquito_susceptible = [ 0.2, 0.4, 0.6, 0.8]
     for i in human_density:
         humans = int(math.ceil(cells * i))
         print humans
@@ -648,12 +647,12 @@ def main():
                                      inf_humans, 0, sus_mosquitoes,
                                      inf_mosquitoes)
                             my_board.run(counter)
+                            print counter
                         
 
 
                     
                 
-    #my_board = board(30, 30, 400, 0, 0, 0,100)
 
 if __name__ == "__main__":
     main()
