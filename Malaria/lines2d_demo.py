@@ -54,7 +54,18 @@ rcParams['axes.color_cycle'] = colors
 
 hold(True)
 
+# lookup table to use as plotting labels
+column_meanings = {
+    '0': 'susceptible humans',
+    '1': 'infected humans',
+    '2': 'immune humans',
+    '3': 'susceptible mosquitoes',
+    '4': 'infected mosquitoes',
+    '5': 'dead people',
+}
+
 i = 0
+plots = []
 for folder in folders:
     measurements = []
     for filename in os.listdir(folder):
@@ -72,18 +83,30 @@ for folder in folders:
     # collect average and standard deviation for the wanted statistic (infected
     # humans in this case) at teach time
     for column in columns:
-        stddev   = []
         averages = []
         for t in time:
             ms = []
             for measurement in measurements:
                 ms.append(measurement[t, column])
         
-            stddev.append( std(ms) )
             averages.append( average(ms) )
         
-        plot(time, averages)
-    i+=1
+        # append the first element of the tuple returned by 'plot' to the plots
+        # list, for drawing the legend later
+        plots.append( plot(time, averages, label=column_meanings[column])[0] )
+    i += 1
 
-legend()
+xlabel('time')
+ylabel('value')
+
+# construct the legend, making sure every color is only displayed once
+unique_plots = []
+used_labels = []
+for pl in plots:
+    if pl.get_label() not in used_labels:
+        used_labels.append(pl.get_label())
+        unique_plots.append(pl)
+
+legend(unique_plots, [p.get_label() for p in unique_plots])
+
 show()
