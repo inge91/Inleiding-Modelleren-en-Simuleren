@@ -616,7 +616,7 @@ def main():
     global current
     board_n = 30
     cells = board_n * board_n
-    human_density = [0.1, 0.2,0.3,0.4]
+    human_density = [0.1]
     human_susceptible = [ 0.2]
     mosquito_density = [0.5]
     mosquito_susceptible = [0.8]
