@@ -20,7 +20,7 @@ columns = sys.argv[8:]
 constants = dict( zip(constants[::2], constants[1::2]))
 
 # parse the folders
-for folder in os.listdir('Test'):
+for folder in os.listdir('Test2'):
     reject = False
     for key, val in constants.iteritems():
         if '%s:%s' % (key, val) not in folder:

@@ -361,7 +361,7 @@ class board:
         self.all_humans = human1 + human2 + human3
         i = 0 
         
-        while(i < 500):
+        while(i < 1500):
             self.__move_mosquitoes()
             for r in self.all_mosquitoes:
                 both = False
@@ -616,10 +616,10 @@ def main():
     global current
     board_n = 30
     cells = board_n * board_n
-    human_density = [0.1]
-    human_susceptible = [ 0.2]
+    human_density = [0.5]
+    human_susceptible = [ 0.8]
     mosquito_density = [0.5]
-    mosquito_susceptible = [0.8]
+    mosquito_susceptible = [0.0, 0.4, 0.6, 1.0]
     for i in human_density:
         humans = int(math.ceil(cells * i))
         print humans
