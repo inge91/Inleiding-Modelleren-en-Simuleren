@@ -161,7 +161,7 @@ grid-simulation. The following assumptions are made for this simulation:
     \item Both humans and mosquitoes can die and for every died person or
         mosquito a new uninfected one is born.
     \item Humans will spawn next to an already existing human, and the same for
-        mosquitoes (creating clusters).
+        mosquitoes (creating clusters, as is shown in figure \ref{fig:clustering}).
     \item If a susceptible mosquito bites an infected human it changes to the
         infected state. If a infected mosquito bites an uninfected human it
         changes the human to the infected state. All other cases won't change
@@ -176,6 +176,14 @@ grid-simulation. The following assumptions are made for this simulation:
         implementation simplicitity, but seems more like real life as well.
 \end{itemize}
 
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{population_clusters.png}
+    \caption{A visualtion of cluster forming (around 300 runs)}
+    \label{fig:clustering}
+\end{figure}
+
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1\textwidth]{malaria_ascii.png}
@@ -183,16 +191,29 @@ grid-simulation. The following assumptions are made for this simulation:
     \label{fig:ascii}
 \end{figure}
 
-Every iteration all mosquitoes make a random move towards a neighbouring cell,
-the state of humans is updated to
 
-The grid is not implemented as a thorus due to ease of implementation and not
-making things easier to simulate
 
-Table \ref{tab:rates} shows the rates used while the experimentations were made
-with the malaria grid. Some experimentations were made to come to these values,
-but is not the subject of the experimentation
 
+
+
+\section{Experimentation} 
+For the following experiments a $30 \times 30$ grid was used. Every simulation ran exactly
+500 times, or until no longer any infected humans or mosquitoes were present on
+the board (i.e. when  malaria became extinct). If more than 500 runs
+were used this is stated so explicitly in the results.
+Because every board instance is random, each choice of combination density ran
+a hundred times so that the random factor would be excluded as much as possible
+from the output (while still making the execution times manageable).
+
+For these experimentations the rates from table \ref{tab:rates} were used in all
+cases, if not explicitly told otherwhise. These rates are not the basis of the
+experimentation, but the rates if  density for both
+mosquitoes and mosquitoes is, as well as the starting percentage of susceptible
+humans and mosquitoes. A good intuition is tried to be given for the cohesion
+between population density and how well maleria can live in these conditions.
+When experimentations are made with the rates in table \ref{tab:rates} this is
+done with the purpose of showing how much population density itself is a factor
+instead of these rates.
 
 \begin{table}
 \centering
@@ -215,13 +236,39 @@ but is not the subject of the experimentation
 \label{tab:rates}
 \end{table}
 
+\section{Results}
+W
+
+\begin{figure}[ht]
+
+    \begin{minipage}[b]
+
+        \centering
+
+        \includegraphics[scale=0.7]{var_mosquito_suscept_05_02_05.png}
 
 
+        \caption{Experimentations with 450 humans, of which 90 susceptible and 450
+        mosquitoes. The amount of susceptible mosquitoes varied between 90 and }
+        \label{fig:figure1}
 
+    \end{minipage}
 
-For the following experiments a 30 X 30 grid was used in which experimentations
-were made with the human density and mosquito density and the amount of
-susceptible and unsusceptible humans that were started with
+    \begin{minipage}[b]{width=\textwidth}
+
+        \centering
+
+        \includegraphics[scale=0.7]{var_mosquito_suscept_05_08_05.png}
+
+        \caption{Experimentations with 450 humans, of which 396 susceptible and 450
+        mosquitoes. The amount of susceptible mosquito was varied between 90 and
+        396}
+
+        \label{fig:figure2}
+
+    \end{minipage}
+
+\end{figure}
 
 
 % chapter malaria (end)

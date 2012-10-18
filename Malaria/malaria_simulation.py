@@ -616,10 +616,10 @@ def main():
     global current
     board_n = 30
     cells = board_n * board_n
-    human_density = [0.5]
+    human_density = [0.1, 0.2,0.3,0.4]
     human_susceptible = [ 0.2]
     mosquito_density = [0.5]
-    mosquito_susceptible = [ 0.2, 0.4, 0.6, 0.8]
+    mosquito_susceptible = [0.8]
     for i in human_density:
         humans = int(math.ceil(cells * i))
         print humans
@@ -635,7 +635,7 @@ def main():
                     for l in mosquito_susceptible:
                         sus_mosquitoes = int(mosquitoes * l)
                         inf_mosquitoes = int(mosquitoes * (1-l))
-                        for counter in xrange(0, 100):
+                        for counter in xrange(0, 50):
                             current = (filename + "human_density:" + 
                             str(i) + "|human_susceptible:" + 
                             str(k) + "|mosquito_density:" + 
