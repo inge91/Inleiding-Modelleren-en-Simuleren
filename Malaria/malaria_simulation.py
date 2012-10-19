@@ -8,7 +8,7 @@ from termcolor import colored
 
 deaths = 0
 #random.seed(0)
-filename = "Test4/"
+filename = "Test6/"
 current = ""
 
 # Enums for communication between board and cell class
@@ -351,7 +351,9 @@ class board:
     def run(self, counter):
          
         mosquit1 = self.__get_position(SUSMO)
+        print mosquit1
         mosquit2 = self.__get_position(INFMO)
+        print len(mosquit2)
         # create field that keeps track of all mosquitoes
         self.all_mosquitoes = mosquit1 + mosquit2
         human1 = self.__get_position(SUSHU)
@@ -619,10 +621,10 @@ def main():
     global current
     board_n = 30
     cells = board_n * board_n
-    human_density = [0.3]
-    human_susceptible = [ 0.8]
-    mosquito_density = [0.7]
-    mosquito_susceptible = [0.2]
+    human_density = [0.5]
+    human_susceptible = [ 0.2]
+    mosquito_density = [0.5]
+    mosquito_susceptible = [0.0, 0.2, 1.0]
     for i in human_density:
         humans = int(math.ceil(cells * i))
         print humans

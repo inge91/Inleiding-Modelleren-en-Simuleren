@@ -320,7 +320,11 @@ In figure \ref{fig:figure1} and figure \ref{fig:figure2} the amount of 450
 humans and 450 mosquitoes is used, and for both the amount of susceptible mosquitoes
 $\in \{0, 90, 180, 270 360, 450\}$. In figure \ref{fig:figure1} however the
 amount of susceptible humans is set to 0.1, and those in ref{figure2} is set to
-0.4.
+0.4.  The starting conditions seem to matter very little in both cases.
+Intuitively a case where there are many uninfected moswquitoes and many infected
+humans would seem to work better than when almost all mosquitoes and humans are
+infected from the beginning. This probably has to do with the high deathrate of
+a mosquito (roughly dying every 30th iteration)
 
 \begin{figure}[ht]
     \begin{minipage}[b]{0.8\linewidth} 
@@ -339,6 +343,9 @@ amount of susceptible humans is set to 0.1, and those in ref{figure2} is set to
         \label{fig:figure2}
     \end{minipage}
 \end{figure}
+
+\subsection{Experimenting with deathrate}
+Changing the deathrate has the following effect
 
 
 \section{Conclusion}
