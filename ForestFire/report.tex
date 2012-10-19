@@ -191,11 +191,6 @@ grid-simulation. The following assumptions are made for this simulation:
     \label{fig:ascii}
 \end{figure}
 
-
-
-
-
-
 \section{Experimentation} 
 For the following experiments a $30 \times 30$ grid was used. Every simulation ran exactly
 500 times, or until no longer any infected humans or mosquitoes were present on
@@ -237,8 +232,10 @@ instead of these rates.
 \end{table}
 
 \section{Results}
+
+\subsection{Varying densities} 
 Intuitively the most important criterium for the sustainability of malaria would
-seem to be te amount of humans on the grid that would be able to catch the
+seem to be the amount of humans on the grid that would be able to catch the
 disease. The more humans, the more uninfected mosquitoes might possibly get
 infected as well and the longer the disease will probably survive. Figure
 \ref{fig:var_human} shows the statistics. The
@@ -246,14 +243,27 @@ experimentation was conducted  with 450 mosquitoes (half of the grid) from which
 396 were susceptible.  For every run the amount of humans $x \in \{90, 180,
 270, 360, 450\}$ (note that 450 is the max as the amount of mosquitoes is 450 as
 well). The amount of susceptible humans is 0.2 of the total amount of humans.
-Figure \ref{fig:var_humans} shows that malaria in smaller populations, those
+Figure \ref{fig:var_human} shows that malaria in smaller populations, those
 with 90 and 180 humans, will go extinct in 150 and 210 time iterations
 respectively. In the case of 360 and 450 humans a stabilisaion point seems to
 develop, with the most infected mosquito at a time in case of a 1 to 1 ratio of
-mosquitoes and humans. Figure \ref{var_human_1500} shows the development towards 1500
+mosquitoes and humans. Figure \ref{fig:var_human_1500} shows the development towards 1500
 iterations, for both 360 en 450 humans. Both having a stabilised infected
-mosquito population of around 30 and 45 mosquitoes respectively, without much
-variation after stabilising.
+mosquito population of aroun 0.16 and 0.2 of the total mosquito population
+respectively. The rate of infected humans stabilises around 0.083 and  0.111,
+making the case of a 1:1 ratio (450 mosquitoes and 450 humans) the best
+combination for spreading malaria.
+
+Also a test is done in the case of more mosquitoes than humans. In figure
+\ref{fig:more_mosquitoes}
+the effect of having 630 mosquitoes next to 270 humans is shown with a human
+susceptibility rate of 0.8 and those of mosquitoes of 0.2. Although the amount
+of infected mosquitoes after the $500$th iteration lays around 100, or a rate
+of 0.2 of the total mosquito population. The amount of infected humans however
+is about 0.1 of the total amount of mosquitoes, performing about as good as the
+1:1 ratio.
+
+Table \ref{tab:rates_density} shows all results in table format.
 
 \begin{figure}[htbp]
     \centering
@@ -274,50 +284,68 @@ variation after stabilising.
 
 %TODO: Show 0.6 humans and variety of mosquitoes?
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{03_08_07_02.png}
+    \caption{In case of a rate of 0.7 mosquitoes against a rate of 0.3 humans
+    }
+    \label{fig:more_mosquitoes}
+\end{figure}
 
+
+\begin{table}
+\centering
+\begin{tabular}{|l|l|l|l|r|r|}
+        \hline
+        humandensity&human susceptible&mosquito density&mosquito
+        susceptible&inf. humans 500 it& inf. mosquito 500 it. \\
+        %a&a&a&a&a&a\\
+        \hline
+        0.1&0.8&0.5&0.2&0&0\\
+        0.2&0.8&0.5&0.2&0&0\\
+        0.3&0.8&0.5&0.2&0.05&0.09 \\
+        0.4&0.8&0.5&0.2&0.08&0.16\\
+        0.5&0.8&0.5&0.2&0.11&0.2\\
+        0.3&0.8&0.7&0.2&0.1&0.2\\
+        \hline
+\end{tabular}
+\caption{Rates used for density experimentation}
+\label{tab:rates_density}
+\end{table}
+
+\subsection{Experimenting with initial conditions}
 Now that possibly the best ratio between humans and mosquitoes is found, 
 the initial amount of susceptible humans and mosquitoes is researched.
-In figure \ref{fig:figure1} and figure \ref{fig:figure2} the ideal amount of 450
+In figure \ref{fig:figure1} and figure \ref{fig:figure2} the amount of 450
 humans and 450 mosquitoes is used, and for both the amount of susceptible mosquitoes
 $\in \{0, 90, 180, 270 360, 450\}$. In figure \ref{fig:figure1} however the
-amount of susceptible humans is set to 90, and those in ref{figure2} is set to
-360.
+amount of susceptible humans is set to 0.1, and those in ref{figure2} is set to
+0.4.
 
 \begin{figure}[ht]
     \begin{minipage}[b]{0.8\linewidth} 
         \centering
-
         \includegraphics[scale=0.7]{var_mosquito_suscept_05_02_05.png}
-
-
         \caption{Experimentations with 450 humans, of which 90 susceptible and 450
         mosquitoes. The amount of susceptible mosquitoes varied between 90 and }
         \label{fig:figure1}
-
     \end{minipage}
-
     \begin{minipage}[b]{0.8\linewidth}
-
         \centering
-
         \includegraphics[scale=0.7]{var_mosquito_suscept_05_08_05.png}
-
         \caption{Experimentations with 450 humans, of which 396 susceptible and 450
         mosquitoes. The amount of susceptible mosquito was varied between 90 and
         396}
-
         \label{fig:figure2}
-
     \end{minipage}
-
 \end{figure}
 
 
-\section{Results}
+\section{Conclusion}
 When figuring out the best conditions for malaria to be kept in existence the
 ratio between humans and mosquitoes is quite important
 
-The starting amount of both susceptible humand and mosquitoes can be around the
+The starting amount of both susceptible humans and mosquitoes can be around the
 same without making much difference for the entire development of the mosquito.
 This might seem counterintuitive as both having many susceptible mosquitoes as
 well as susceptible humans would seem to mean those mosquitoes won't often
