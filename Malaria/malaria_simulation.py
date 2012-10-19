@@ -1,3 +1,5 @@
+##### See main for example of how to run the code###
+
 import random
 import time
 import sys
@@ -349,11 +351,8 @@ class board:
 
     # The simulation loop that runs 
     def run(self, counter):
-         
         mosquit1 = self.__get_position(SUSMO)
-        print mosquit1
         mosquit2 = self.__get_position(INFMO)
-        print len(mosquit2)
         # create field that keeps track of all mosquitoes
         self.all_mosquitoes = mosquit1 + mosquit2
         human1 = self.__get_position(SUSHU)
@@ -364,6 +363,8 @@ class board:
         i = 0 
         
         while(i < 1500):
+            raw_input("Press Enter")
+            self.print_world()
             self.__move_mosquitoes()
             for r in self.all_mosquitoes:
                 both = False
@@ -619,43 +620,11 @@ class Human:
 
 
 def main():
-    global filename
-    global current
-    board_n = 30
-    cells = board_n * board_n
-    human_density = [0.3]
-    human_susceptible = [ 0.2]
-    mosquito_density = [0.7]
-    mosquito_susceptible = [0.8]
-    for i in human_density:
-        humans = int(math.ceil(cells * i))
-        print humans
-        for j in mosquito_density:
-            mosquitoes = int(math.ceil(cells*j))
-            print mosquitoes
-            if i + j > 1:
-                continue
-            else:
-                for k in human_susceptible:
-                    sus_humans = int(humans * k)
-                    inf_humans = int(humans * (1-k))
-                    for l in mosquito_susceptible:
-                        sus_mosquitoes = int(mosquitoes * l)
-                        inf_mosquitoes = int(mosquitoes * (1-l))
-                        for counter in xrange(0, 20):
-                            current = (filename + "human_density:" + 
-                            str(i) + "|human_susceptible:" + 
-                            str(k) + "|mosquito_density:" + 
-                            str(j) + "|mosquito_susceptible:"+
-                            str(l)) + "/"
-                            if not os.path.exists(current):
-                                os.makedirs(current)
-                            my_board = board(board_n, board_n, sus_humans,
-                                     inf_humans, 0, sus_mosquitoes,
-                                     inf_mosquitoes)
-                            my_board.run(counter)
-                            print counter
-                        
+    # arguments for object: board_size x, board_size y, susceptible humans,
+    # infected humans, immune humans, susceptible mosquitoes,
+    # infected mosquitoes
+    my_board = board(30,30, 400, 200, 0, 200, 0)
+    my_board.run(0)
 
 
                     

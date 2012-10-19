@@ -1,5 +1,4 @@
 \documentclass[a4paper]{report}
-
 \usepackage[english]{babel}
 \usepackage{amsmath}
 \usepackage{graphicx}
@@ -213,7 +212,7 @@ For the following experiments a $30 \times 30$ grid was used. Every simulation r
 the board (i.e. when  malaria became extinct). If more than 500 runs
 were used this is stated so explicitly in the results.
 Because every board instance is random, each choice of combination density ran
-a hundred times so that the random factor would be excluded as much as possible
+twenty times so that the random factor would be excluded as much as possible
 from the output (while still making the execution times manageable).
 
 For these experimentations the rates from table \ref{tab:rates} were used in all
@@ -257,36 +256,39 @@ seem to be the amount of humans on the grid that would be able to catch the
 disease. The more humans, the more uninfected mosquitoes might possibly get
 infected as well and the longer the disease will probably survive. Figure
 \ref{fig:var_human} shows the statistics. The
-experimentation was conducted  with 450 mosquitoes (half of the grid) from which
+experimentation was conducted with 450 mosquitoes (half of the grid) from which
 396 were susceptible.  For every run the rate of humans (in relation to total
 grid size) was 0.1, 0.2, 0.3, 0.4
 and 0.5 (note that 0.5 is the max as the amount of mosquitoes is 450, or 0.5, as
 well). The amount of susceptible humans is 0.2 of the total amount of humans.
-Figure \ref{fig:var_human} shows that malaria in smaller populations, those
-with a rate of 0.1 and 0.2, will go extinct in 150 and 210 time iterations
-respectively. In the case of 0.4 and 0.5, a stabilisaion point seems to
+Figure \ref{fig:var_human} shows that malaria in a smaller population doesn't
+flourish so well. In case of 0.1 ratio of human population malaria dies out
+after around 350 iterations. In case of 0.2, the amount of infected mosquitoes
+is quite low and seems to go down still after 500 iterations.
+ In the case of the 0.4 and 0.5 ratio, a stabilisaion point seems to
 develop, with the most infected mosquito at a time in case of a 1 to 1 ratio of
 mosquitoes and humans. Figure \ref{fig:var_human_1500} shows the development towards 1500
 iterations, for both 360 en 450 humans. Both having a stabilised infected
-mosquito population of aroun 0.16 and 0.2 of the total mosquito population
-respectively. The rate of infected humans stabilises around 0.083 and  0.111,
+mosquito population of around 0.4 and 0.5 of the total mosquito population
+respectively. The rate of infected humans stabilises around 0.1 and  0.2,
 making the case of a 1:1 ratio (450 mosquitoes and 450 humans) the best
-combination for spreading malaria.
+combination for spreading malaria in these given cases.
 
-An experiment with more mosqutoes than humans is conduxted as well. In figure
+An experiment with more mosquitoes than humans is conducted as well. In figure
 \ref{fig:more_mosquitoes}
 the effect of having 630 mosquitoes next to 270 humans is shown with a human
 susceptibility rate of 0.8 and those of mosquitoes of 0.2. The amount
-of infected mosquitoes after the $500$th iteration lays around 100, or a rate
-of 0.2 of the total mosquito population. The amount of infected humans
-is about 0.1 of the total amount of mosquitoes, performing about as good as the
-1:1 ratio.
+of infected mosquitoes after the $500$th iteration lays around 246, or a rate
+of 0.39 of the total mosquito population. The amount of infected humans
+is about 0.33 of the total amount of humans, performing about as good as the
+1:1 ratio. the ratio of infected humans is higher but because the lower
+population it is less nuanced as in the previous case and can be neglected
 
 Table \ref{tab:rates_density} shows all results in table format.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.9\textwidth]{var_human_density_02_05_08.png}
+    \includegraphics[width=0.9\textwidth]{var_human_density_02_05_08_SECOND.png}
     \caption{The result of varying human density between 90 humans and 450 humans.}
     \label{fig:var_human}
 \end{figure}
@@ -295,7 +297,7 @@ Table \ref{tab:rates_density} shows all results in table format.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.9\textwidth]{var_human_1500.png}
+    \includegraphics[width=0.9\textwidth]{var_human_1500_SECOND.png}
     \caption{Extended towards 1500 iterations for population of 360 and 450
     humans}
     \label{fig:var_human_1500}
@@ -323,11 +325,11 @@ Table \ref{tab:rates_density} shows all results in table format.
         %a&a&a&a&a&a\\
         \hline
         0.1&0.8&0.5&0.2&0&0\\
-        0.2&0.8&0.5&0.2&0&0\\
-        0.3&0.8&0.5&0.2&0.05&0.09 \\
-        0.4&0.8&0.5&0.2&0.08&0.16\\
-        0.5&0.8&0.5&0.2&0.11&0.2\\
-        0.3&0.8&0.7&0.2&0.1&0.2\\
+        0.2&0.8&0.5&0.2&0.07&0.23\\
+        0.3&0.8&0.5&0.2&0.12&0.38 \\
+        0.4&0.8&0.5&0.2&0.15&0.45\\
+        0.5&0.8&0.5&0.2&0.23&0.51\\
+        0.3&0.8&0.7&0.2&0.33&0.39\\
         \hline
 \end{tabular}
 }
@@ -353,7 +355,7 @@ human population. The same in a somewhat slower rate happens to the mosquitoes.
 \begin{figure}[ht]
     \begin{minipage}[b]{0.8\linewidth} 
         \centering
-        \includegraphics[scale=0.5]{var_mosquito_suscept_05_02_05.png}
+        \includegraphics[scale=0.5]{var_mosquito_suscept_05_02_05_SECOND.png}
         \caption{Experimentations with 450 humans, of which 90 susceptible and 450
         mosquitoes. The amount of susceptible mosquitoes varied between 0 and
     450 }
@@ -361,7 +363,7 @@ human population. The same in a somewhat slower rate happens to the mosquitoes.
     \end{minipage}
     \begin{minipage}[b]{0.8\linewidth}
         \centering
-        \includegraphics[scale=0.5]{var_mosquito_suscept_05_08_05.png}
+        \includegraphics[scale=0.5]{var_mosquito_suscept_05_08_05_SECOND.png}
         \caption{Experimentations with 450 humans, of which 396 susceptible and 450
         mosquitoes. The amount of susceptible mosquito was varied between 0 and
         450}
@@ -405,8 +407,8 @@ happens, which doesn't encourage to variate the deathrate any more
 
 In all the previous plots the amount of immune humans has been left out to make
 the plots more coherent (and because the viewer can calculate himself the amount
-of immune people using the plot at any given time), but in case of figure
-\ref{sub:figure1} and \ref{sub:figure2} the immunity rate is a steady 0.11
+of immune people using the plot at any given time), but in case of the previous
+plots the immunity rate is a steady 0.11
 percent. What happens if immunity is three times less likely to happen? Figure
 \ref{fig:less_immunity_05_08_05_08} shows some variation from previous plots.
 The amount of susceptible humansbecomes much lower as before, and the amount of
@@ -440,18 +442,26 @@ in \ref{fig:less_immunity_05_08_05_02}.
 When figuring out the best conditions for malaria to be kept in existence the
 ratio between humans and mosquitoes is quite important. A ration of 1 mosquito
 to 1 human in this 30 $\times$ 30 grid seemed to work the best with keeping
-malaria in existince. It kept the highest ratio for both infected humans as for
-infected mosquitoes.
+malaria in existince. It kept the highest ratio for both infected humans as well
+as for infected mosquitoes, and kept for at least 1500 iterations. It seems safe
+to say that malaria wouldn't die out with these conditions, but should be
+experimented with more. In case of having more mosquitoes than humans this also
+has a positive effect on mosquitoes, but some extreme values should still be
+tested.
 
 The starting amount of both susceptible humans and mosquitoes can be anything
-without mattering too much. 
-same without making much difference for the entire development of the mosquito.
-This might seem counterintuitive as both having many susceptible mosquitoes as
+without mattering too much. At least not for the broad range of values what were
+tested, but might need to be checked still for some extreme cases. The idea that
+the initial susceptibility doesnt matters might seem counterintuitive as both having many susceptible mosquitoes as
 well as susceptible humans would seem to mean those mosquitoes won't often
-encounter an infected human. As long as \dots
+encounter an infected human, especially with the random walk that is
+implemented. Although highering the mortality rate and lowering immunity 
+seemed to , all of those experiments didn't confirm this intuition.
 
-There are some small things that could be changed to give more reliable results:
-Making mosquitoes somewhat more intelligent could help
+Malaria as implemented in this grid-simulation is quite a robust disease, and in
+the right cases even an epidemic. Some more experimentations with elements like
+moratlity rate and the immunity rate could maybe explain some of this robustness, which wasn't found with
+just experimenting with the rates of density unfortunately.
 
 % chapter malaria (end)
 

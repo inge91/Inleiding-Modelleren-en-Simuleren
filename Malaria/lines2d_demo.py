@@ -2,6 +2,7 @@ import matplotlib as mpl
 import numpy as np
 from pylab import *
 import sys, os, os.path, subprocess, re
+pipo = "human variable_07 03"
 
 # some argument parsing
 if len(sys.argv) < 4:
@@ -20,7 +21,7 @@ columns = sys.argv[8:]
 constants = dict( zip(constants[::2], constants[1::2]))
 
 # parse the folders
-for folder in os.listdir('deathrate_05_08_05_08_again'):
+for folder in os.listdir(pipo):
     reject = False
     for key, val in constants.iteritems():
         if '%s:%s' % (key, val) not in folder:
@@ -29,7 +30,7 @@ for folder in os.listdir('deathrate_05_08_05_08_again'):
 
     # add the folder relative to the current directory
     if not reject:
-        folders.append(os.path.join('deathrate_05_08_05_08_again', folder))
+        folders.append(os.path.join(pipo, folder))
 
 # get the values for variable parameter in the same order as in the folders list
 for folder in folders:
