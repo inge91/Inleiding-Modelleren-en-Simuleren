@@ -1,0 +1,4 @@
+Required python library: termcolor (Sorry windows users!)
+To use the grid-simulator you have to run malaria_simulations.py further
+instructions are given in the file
+

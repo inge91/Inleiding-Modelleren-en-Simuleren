@@ -1,5 +1,4 @@
-##### See main for example of how to run the code###
-
+##### See main at the bottom for example of how to run the code###
 import random
 import time
 import sys
@@ -620,7 +619,7 @@ class Human:
 
 
 def main():
-    # arguments for object: board_size x, board_size y, susceptible humans,
+    # arguments for creating board object: board_size x, board_size y, susceptible humans,
     # infected humans, immune humans, susceptible mosquitoes,
     # infected mosquitoes
     my_board = board(30,30, 400, 200, 0, 200, 0)
