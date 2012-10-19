@@ -8,7 +8,7 @@ from termcolor import colored
 
 deaths = 0
 #random.seed(0)
-filename = "Higher_Deathrate/"
+filename = "Higher_Deathrate_6x/"
 current = ""
 
 # Enums for communication between board and cell class
@@ -591,7 +591,7 @@ class Human:
         # If a human is suceptible
         if self.state == SUSHU:
             #var = random.randint(0,300)
-            var = random.randint(0,100)
+            var = random.randint(0,50)
             if(var == 1):
                 self.dead = True
         # possibility of death and of susc
@@ -607,9 +607,9 @@ class Human:
                 self.state = IMMHU
         elif self.state == IMMHU:
             #var = random.randint(0,300)
-            var = random.randint(0,100)
+            var = random.randint(0,50)
             #if(var<20):
-            if(var<10):
+            if(var<5):
                 self.state = SUSHU
             if(var == 5):
                 self.dead = True

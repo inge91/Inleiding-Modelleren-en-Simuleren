@@ -323,9 +323,7 @@ amount of susceptible humans is set to 0.1, and those in ref{figure2} is set to
 0.4.  The starting conditions seem to matter very little in both cases.
 Intuitively a case where there are many uninfected moswquitoes and many infected
 humans would seem to work better than when almost all mosquitoes and humans are
-infected from the beginning. This probably has to do with the high deathrate of
-a mosquito (roughly dying every 30th iteration), creating new susceptible
-mosquitoes in a matter of just 10 iterations. Note that in all cases the amount
+infected from the beginning. Note that in all cases the amount
 of infected humans drops rapidly until only being $\frac{1}{9}$ of the total
 human population. The same in a somewhat slower rate happens to the mosquitoes.
 
@@ -348,8 +346,25 @@ human population. The same in a somewhat slower rate happens to the mosquitoes.
 \end{figure}
 
 \subsection{Experimenting with deathrate}
-Experimenting with the deathrate has the following effect on the mosquitoes:
+The fact that the initial susceptibility does not seem to matter and in a matter
+of 20 iteration the amount of infected mosquitoes stabilises towards a rate of
+$\frac{1}{9}$ might have to do with some of the rates used in. The most likely
+candidates are tested here.
 
+When making humans 3 times more likely to die each iteration, it does not effect
+the outcome of 500 iterations that much, as can be seen in figure
+\ref{fig:3x_deathrate}.
+
+When making humans 6 times more likely to die eacht iteration.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{05_08_05_08.png}
+    \caption{3 times higher deathrate for humans as before, with human density =
+        0.5, human susceptibility = 0.8 and the same for mosquitoes
+    }
+    \label{fig:more_mosquitoes}
+\end{figure}
 
 
 \section{Conclusion}
