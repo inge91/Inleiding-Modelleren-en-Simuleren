@@ -171,38 +171,39 @@ a grid-simulation, hence the following assumptions were made:
     \item Humans are stoic.
     \item Only one mosquito can occupy a cell at a time iteration, but both a
         human and a mosquito can be in the same cell.
-    \item Both humans and mosquitoes can die and for every died person or
-        mosquito a new uninfected one is born.
+    \item Both humans and mosquitoes can die and for every person or
+        mosquito death a new uninfected one is born.
     \item Humans will spawn next to an already existing human, and the same for
-        mosquitoes (creating clusters, as is shown in figure \ref{fig:clustering}).
+        mosquitoes (creating clusters, as is shown in figure
+        \ref{fig:clustering}). This mimics the way babies spawn in real life.
     \item If a susceptible mosquito bites an infected human, it changes to the
         infected state. If an infected mosquito bites an uninfected human it
         changes the human to the infected state. All other cases won't change
         the states. Biting only happens when a mosquito and a human are on the
         same cell.
     \item In the first state each cell contains one or no elements. So
-    if a simulation has dimension $n \times m$, than the amount of elments can
-    at max be $n \times m$. Figure \ref{ascii} gives a visual representation of
+    if a simulation has dimension $n \times m$, than the amount of elements can
+    at max be $n \times m$. Figure \ref{fig:ascii} gives a visual representation of
     such a starting grid to give a better idea of how it looks.
-    \item Each time iretation the mosquitoes move one space, people change state
+    \item Each time iteration the mosquitoes move one space, people change state
         (new ones spawn)
         and people can get bitten.
-    \item The grid is not a torus but a bounded rectangle. This because of
-        implementation simplicitity, but seems more like real life as well.
+    \item The grid is not a torus but a bounded rectangle. This both because of
+        implementation simplicity, and correspondence to the real world.
 \end{itemize}
 
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1\textwidth]{population_clusters.png}
-    \caption{A visualtion of cluster forming (around 300 runs)}
+    \caption{A visualisation of cluster forming (around 300 runs)}
     \label{fig:clustering}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1\textwidth]{malaria_ascii.png}
-    \caption{A visualtion of the initial state of the grid simulation. }
+    \caption{A visualisation of the initial state of the grid simulation. }
     \label{fig:ascii}
 \end{figure}
 
@@ -210,22 +211,21 @@ a grid-simulation, hence the following assumptions were made:
 For the following experiments a $30 \times 30$ grid was used. Every simulation ran exactly
 500 times, or until no longer any infected humans or mosquitoes were present on
 the board (i.e. when  malaria became extinct). If more than 500 runs
-were used this is stated so explicitly in the results.
+were used this is stated explicitly in the results.
 Because every board instance is random, each choice of combination density ran
 twenty times so that the random factor would be excluded as much as possible
 from the output (while still making the execution times manageable).
 
-For these experimentations the rates from table \ref{tab:rates} were used in all
-cases, if not explicitly told otherwhise. These rates are not the basis of the
-experiments, but are just used to initialise the world in some manner (that is
-plausible). The real experiment lies in the rates of density for both
-humans and mosquitoes, as well as the starting percentage of susceptible
-humans and mosquitoes and their e fect on the spread of malaria. A good
-explanation  is 
-tried to be given for the cohesion between population density and how well maleria can live in these conditions.
-When experimentations do deviate from the rates of table \ref{tab:rates} this is
-done with the purpose of showing the cohesion between these rates and the
-densities..
+For these experiments the rates from table \ref{tab:rates} were used in all
+cases, unless explicitly told otherwise. These rates are not the basis of the
+experiments, but are just used to initialise the world in some (plausible) manner.
+The real experiment lies in the ratio between human and mosquito density, as
+well as the starting percentage of susceptible humans and mosquitoes and their
+effect on the spread of malaria. A good
+explanation attempted for the cohesion between population density
+and how well malaria can live in these conditions.  When experiments do
+deviate from the rates of table \ref{tab:rates} this is done with the purpose of
+showing the cohesion between these rates and the densities.
 
 \begin{table}
 \centering
@@ -265,7 +265,7 @@ Figure \ref{fig:var_human} shows that malaria in a smaller population doesn't
 flourish so well. In case of 0.1 ratio of human population malaria dies out
 after around 350 iterations. In case of 0.2, the amount of infected mosquitoes
 is quite low and seems to go down still after 500 iterations.
- In the case of the 0.4 and 0.5 ratio, a stabilisaion point seems to
+ In the case of the 0.4 and 0.5 ratio, a stabilisation point seems to
 develop, with the most infected mosquito at a time in case of a 1 to 1 ratio of
 mosquitoes and humans. Figure \ref{fig:var_human_1500} shows the development towards 1500
 iterations, for both 360 en 450 humans. Both having a stabilised infected
@@ -372,7 +372,7 @@ human population. The same in a somewhat slower rate happens to the mosquitoes.
 \end{figure}
 
 \FloatBarrier
-\subsection{Experimenting with other ratese}
+\subsection{Experimenting with other rates}
 The fact that the initial susceptibility does not seem to matter and in a matter
 of 20 iteration the amount of infected mosquitoes stabilises towards a rate of
 $\frac{1}{9}$th probably has to do with some of the predetermined rates. The most likely
@@ -411,9 +411,9 @@ of immune people using the plot at any given time), but in case of the previous
 plots the immunity rate is a steady 0.11
 percent. What happens if immunity is three times less likely to happen? Figure
 \ref{fig:less_immunity_05_08_05_08} shows some variation from previous plots.
-The amount of susceptible humansbecomes much lower as before, and the amount of
+The amount of susceptible humans becomes much lower as before, and the amount of
 infected humans and mosquitoes by about a half higher than before. Varying the
-starting susceptibility rate howerver does not give a varying outcome, as shown
+starting susceptibility rate however does not give a varying outcome, as shown
 in \ref{fig:less_immunity_05_08_05_02}.
 
 
@@ -442,7 +442,7 @@ in \ref{fig:less_immunity_05_08_05_02}.
 When figuring out the best conditions for malaria to be kept in existence the
 ratio between humans and mosquitoes is quite important. A ration of 1 mosquito
 to 1 human in this 30 $\times$ 30 grid seemed to work the best with keeping
-malaria in existince. It kept the highest ratio for both infected humans as well
+malaria in existence. It kept the highest ratio for both infected humans as well
 as for infected mosquitoes, and kept for at least 1500 iterations. It seems safe
 to say that malaria wouldn't die out with these conditions, but should be
 experimented with more. In case of having more mosquitoes than humans this also
@@ -452,15 +452,15 @@ tested.
 The starting amount of both susceptible humans and mosquitoes can be anything
 without mattering too much. At least not for the broad range of values what were
 tested, but might need to be checked still for some extreme cases. The idea that
-the initial susceptibility doesnt matters might seem counterintuitive as both having many susceptible mosquitoes as
+the initial susceptibility doesn't matters might seem counterintuitive as both having many susceptible mosquitoes as
 well as susceptible humans would seem to mean those mosquitoes won't often
 encounter an infected human, especially with the random walk that is
-implemented. Although highering the mortality rate and lowering immunity 
-seemed to , all of those experiments didn't confirm this intuition.
+implemented. Although increasing the mortality rate and lowering immunity 
+seemed to, none of those experiments confirmed this intuition.
 
 Malaria as implemented in this grid-simulation is quite a robust disease, and in
-the right cases even an epidemic. Some more experimentations with elements like
-moratlity rate and the immunity rate could maybe explain some of this robustness, which wasn't found with
+the right cases even an epidemic. Some more experimentation with elements like
+mortality rate and the immunity rate could maybe explain some of this robustness, which wasn't found with
 just experimenting with the rates of density unfortunately.
 
 % chapter malaria (end)
