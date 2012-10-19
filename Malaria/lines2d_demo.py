@@ -20,7 +20,7 @@ columns = sys.argv[8:]
 constants = dict( zip(constants[::2], constants[1::2]))
 
 # parse the folders
-for folder in os.listdir('Test'):
+for folder in os.listdir('Higher_Deathrate'):
     reject = False
     for key, val in constants.iteritems():
         if '%s:%s' % (key, val) not in folder:
@@ -29,7 +29,7 @@ for folder in os.listdir('Test'):
 
     # add the folder relative to the current directory
     if not reject:
-        folders.append(os.path.join('Test', folder))
+        folders.append(os.path.join('Higher_Deathrate', folder))
 
 # get the values for variable parameter in the same order as in the folders list
 for folder in folders:
@@ -75,7 +75,6 @@ for folder in folders:
 
     #print measurements
     # for simplicity, just truncate the graph to the shortest of the runs
-    print measurements
     time = min(measurements, key=lambda x: x.shape[0])[:, 6]
     #print time
     # convert the time to ints for convenience
@@ -94,7 +93,6 @@ for folder in folders:
         
         # append the first element of the tuple returned by 'plot' to the plots
         # list, for drawing the legend later
-        print len(time)
         plots.append( plot(time, averages, label=column_meanings[column])[0] )
     i += 1
 
