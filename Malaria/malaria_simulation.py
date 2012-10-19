@@ -8,7 +8,7 @@ from termcolor import colored
 
 deaths = 0
 #random.seed(0)
-filename = "overnieuw/"
+filename = "im_scaaaaared/"
 current = ""
 
 # Enums for communication between board and cell class
@@ -590,7 +590,7 @@ class Human:
     def update(self):
         # If a human is suceptible
         if self.state == SUSHU:
-            var = random.randint(0,100)
+            var = random.randint(0,300)
             #var = random.randint(0,50)
             if(var == 1):
                 self.dead = True
@@ -608,7 +608,7 @@ class Human:
                 self.state = IMMHU
         elif self.state == IMMHU:
             var = random.randint(0,300)
-            #var = random.randint(0,300)
+            #var = random.randint(0,100)
             if(var<20):
             #if(var<60):
                 self.state = SUSHU
@@ -624,9 +624,9 @@ def main():
     board_n = 30
     cells = board_n * board_n
     human_density = [0.5]
-    human_susceptible = [ 0.8]
+    human_susceptible = [ 0.8,0.2]
     mosquito_density = [0.5]
-    mosquito_susceptible = [0.0,0.2, 0.4, 0.6, 0.8, 1.0]
+    mosquito_susceptible = [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
     for i in human_density:
         humans = int(math.ceil(cells * i))
         print humans
@@ -642,7 +642,7 @@ def main():
                     for l in mosquito_susceptible:
                         sus_mosquitoes = int(mosquitoes * l)
                         inf_mosquitoes = int(mosquitoes * (1-l))
-                        for counter in xrange(0, 50):
+                        for counter in xrange(0, 20):
                             current = (filename + "human_density:" + 
                             str(i) + "|human_susceptible:" + 
                             str(k) + "|mosquito_density:" + 
