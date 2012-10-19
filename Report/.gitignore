@@ -1,0 +1,11 @@
+*.pyc
+*.*.swp
+forestfire
+forestfire_g
+forestfire_sdl
+data.txt
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.pdf
