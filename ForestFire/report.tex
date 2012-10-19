@@ -39,6 +39,16 @@ density and $Q$ is a random float between 0 and 1). The entire bottom row will
 be set on fire initially (regardless of the content of the cells). The
 simulation runs until there are no more burning cells.
 
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.7\textwidth]{./sdl.png}
+    \caption{a visualisation of the forestfire automaton}
+    \label{fig:sdl}
+\end{figure}
+
+Just for fun, a visualisation has been made using the SDL library (figure
+\ref{fig:sdl}).
+
 % section ff_impl (end)
 
 \section{Experimentation} 
@@ -131,10 +141,13 @@ minimum possible amount of steps.
 The percentage of burnt trees acts a bit more sigmoid-like, displaying an
 S-shaped curve from 0\% to 100\%.
 
-Thus, if you want to burn down a forest and get the fire to the other side, the
+Thus if you want to burn down a forest and get the fire to the other side, the
 density of the forest doesn't matter as long it's over $0.5$. However if you
 hate nature and want to burn down as much forest as possible, pick the forest
-with the highest density.
+with the highest density. Conversely, if you're planning to construct a new
+forest and are scared of potential evildoers, keeping the vegetation density
+below $0.4$ will generally prevent a fire from going all the way across your
+forest.
 
 % section ff_conc (end)
 
