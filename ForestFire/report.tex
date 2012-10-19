@@ -221,11 +221,11 @@ densities..
         \hline
         variable&for&rate\\
         \hline
-        deathrate&susceptible humans &0.003\\
-        deathrate&infected humans&0.03\\
-        deathrate&immune humans&0.003\\
-        deathrate&susceptible mosquitoes&0.045\\
-        deathrate&infected mosquitoes&0.045\\
+        mortality rate&susceptible humans &0.003\\
+        mortality rate&infected humans&0.03\\
+        mortality rate&immune humans&0.003\\
+        mortality rate&susceptible mosquitoes&0.045\\
+        mortality rate&infected mosquitoes&0.045\\
         turning susceptible&immune humans& 0.06\\
         hungry&infected mosquito  & 0.3\\
         hungry&uninfected mosquito& 0.3\\
@@ -327,8 +327,8 @@ Table \ref{tab:rates_density} shows all results in table format.
 Now that possibly the best ratio between humans and mosquitoes is found, 
 the consequence of the initial amount of susceptible humans and mosquitoes is researched.
 In figure \ref{fig:figure1} and figure \ref{fig:figure2} the amount of 450
-humans and 450 mosquitoes is used, and for both the amount of susceptible mosquitoes
-$\in \{0, 0.2, 0.4, 0.6 0.8, 1\}$. In figure \ref{fig:figure1} however the
+humans and 450 mosquitoes is used, and for both the amount of susceptible $mosquitoes
+\in \{0, 0.2, 0.4, 0.6 0.8, 1\}$. In figure \ref{fig:figure1} however the
 amount of susceptible humans is set to 0.1, and those in ref{fig:figure2} is set to
 0.4.  The starting conditions seem to matter very little in both cases.
 Intuitively a case where there are many uninfected mosquitoes and many infected
@@ -360,19 +360,21 @@ human population. The same in a somewhat slower rate happens to the mosquitoes.
 \subsection{Experimenting with other ratese}
 The fact that the initial susceptibility does not seem to matter and in a matter
 of 20 iteration the amount of infected mosquitoes stabilises towards a rate of
-$\frac{1}{9}$ might have to do with some of the rates used in. The most likely
-candidates seem to be the deathrate.
+$\frac{1}{9}$th probably has to do with some of the predetermined rates. The most likely
+candidates seem to be the mortality rate and immunity rate, and now will be shown if
+varying the mortality rate and immunity rate increase variation in result when
+choosing different susceptibility rates.
 
 When making humans 3 times more likely to die each iteration, it does not effect
-the outcome of 500 iterations that much, as can be seen in figure
-\ref{fig:3x_deathrate}. When making humans 6 times more likely to die each iteration
+the outcome of 500 iterations at all in the case of  figure
+\ref{fig:3x_mortality rate}. When making humans 6 times more likely to die each iteration
 (see\ref{fig:2_more_mosquitoes}) the same thing
-happens.
+happens, not encouraging to look for different possible values to use.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth]{05_08_05_08_higher_deathrate.png}
-    \caption{3 times higher deathrate for humans as before, with human density =
+    \includegraphics[width=0.7\textwidth]{05_08_05_08_higher_mortality rate.png}
+    \caption{3 times higher mortality rate for humans as before, with human density =
         0.5, human susceptibility = 0.8 and the same for mosquitoes
     }
     \label{fig:more_mosquitoes}
@@ -380,14 +382,39 @@ happens.
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.7\textwidth]{05_08_05_08_higher_deathrate_6x.png}
-    \caption{6 times higher deathrate for humans as before, with human density =
+    \includegraphics[width=0.7\textwidth]{05_08_05_08_higher_mortality rate_6x.png}
+    \caption{6 times higher mortality rate for humans as before, with human density =
         0.5, human susceptibility = 0.8 and the same for mosquitoes
     }
     \label{fig:2_more_mosquitoes}
 \end{figure}
 
-In all the 
+In all the previous plots the amount of immune humans has been left out to make
+the plots more coherent (and because the viewer can calculate himself the amount
+of immune people using the plot at any given time), but in case of figure
+\ref{sub:figure1} and \ref{sub:figure2} the immunity rate is a steady 0.11
+percent. What happens if immunity is three times less likely to happen? Figure
+\ref{fig:less_immunity_05_08_05_02} shows some variation from previous plots.
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{less_immunity_05_08_05_08.png}
+    \caption{3 times less likely immunity, with 450 humans of which 0.8
+        susceptible and with 450 mosquitoes of which 0.8 susceptible.
+    }
+    \label{fig:less_immunity_05_08_05_02}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{less_immunity_05_08_05_02.png}
+    \caption{3 times less likely immunity, with 450 humans of which 0.8
+        susceptible and with 450 mosquitoes of which 0.2 susceptible.
+    }
+    \label{fig:2_more_mosquitoes}
+\end{figure}
+
 
 \section{Conclusion}
 When figuring out the best conditions for malaria to be kept in existence the
@@ -396,7 +423,7 @@ to 1 human in this 30 $\times$ 30 grid seemed to work the best with keeping
 malaria in existince. It kept the highest ratio for both infected humans as for
 infected mosquitoes.
 
-The starting amount of both susceptible humans and mosquitoes can be anythin
+The starting amount of both susceptible humans and mosquitoes can be anything
 without mattering too much. 
 same without making much difference for the entire development of the mosquito.
 This might seem counterintuitive as both having many susceptible mosquitoes as
