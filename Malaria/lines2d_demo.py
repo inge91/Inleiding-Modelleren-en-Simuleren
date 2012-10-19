@@ -20,7 +20,7 @@ columns = sys.argv[8:]
 constants = dict( zip(constants[::2], constants[1::2]))
 
 # parse the folders
-for folder in os.listdir('Less_immunity3x_05_02_05_08'):
+for folder in os.listdir('deathrate_05_08_05_08_again'):
     reject = False
     for key, val in constants.iteritems():
         if '%s:%s' % (key, val) not in folder:
@@ -29,7 +29,7 @@ for folder in os.listdir('Less_immunity3x_05_02_05_08'):
 
     # add the folder relative to the current directory
     if not reject:
-        folders.append(os.path.join('Less_immunity3x_05_02_05_08', folder))
+        folders.append(os.path.join('deathrate_05_08_05_08_again', folder))
 
 # get the values for variable parameter in the same order as in the folders list
 for folder in folders:
