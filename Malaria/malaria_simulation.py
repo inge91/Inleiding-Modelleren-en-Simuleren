@@ -8,7 +8,7 @@ from termcolor import colored
 
 deaths = 0
 #random.seed(0)
-filename = "human variable_1500/"
+filename = "human variable_07 03/"
 current = ""
 
 # Enums for communication between board and cell class
@@ -623,9 +623,9 @@ def main():
     global current
     board_n = 30
     cells = board_n * board_n
-    human_density = [0.4, 0.5]
+    human_density = [0.3]
     human_susceptible = [ 0.2]
-    mosquito_density = [0.5]
+    mosquito_density = [0.7]
     mosquito_susceptible = [0.8]
     for i in human_density:
         humans = int(math.ceil(cells * i))
