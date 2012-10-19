@@ -1,0 +1,18 @@
+ForestFire simulation
+
+Compilation requirements:
+- make and pkg-config
+- A C++11-compatible compiler (specifically, the keyword 'auto' and range-based
+  for-loops)
+- For the visualisation: the SDL development library
+
+Compilation instructions:
+
+There are 3 makefile targets:
+- 'make forestfire' will compile the binary 'forestfire', which is used for
+  collecting data
+- 'make graphical' will compile the binary 'forestfire_g', which runs a single
+  trial of he simulation with text-based graphical output
+- 'make sdl' will compile the binary 'forestfire_sdl', which also runs a single
+  trial, but uses SDL for its graphics
+
